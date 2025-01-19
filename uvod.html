@@ -20,7 +20,6 @@
             background-image: url('1.avif');
             background-size: cover;
             background-position: center;
-            
         }
 
         .overlay {
@@ -43,17 +42,22 @@
             width: 100%;
             background-color: rgba(0, 0, 0, 0.8);
             display: flex;
-            justify-content: flex-end; /* Zarovnat doprava */
+            justify-content: space-between; /* Zarovnat vlevo a vpravo */
             padding: 10px 0;
             z-index: 1000;
+        }
+
+        nav .auth-links {
+            display: flex;
+            justify-content: flex-start; /* Zarovnat vlevo */
         }
 
         nav a {
             color: white;
             text-decoration: none;
             margin: 0 20px;
-            font-size: 1.2em;
-            font-weight: bold;
+            font-size: 1em;
+           
             position: relative;
         }
 
@@ -94,31 +98,36 @@
         }
 
         footer {
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             font-size: 0.9em;
             color: #bbb;
             padding: 20px;
+            margin-top: 20px;
         }
 
         footer a {
             color: #bbb;
             text-decoration: none;
         }
-        
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="auth-links"></div>
+        <div class="auth-links">
             <a href="reg.html" class="login-btn">Přihlásit se</a>
             <a href="reg.html" class="register-btn">Registrovat se</a>
         </div>
-        <a href="uvod.html" class="active">Úvod</a>
-        <a href="obchod.html" >Obchod</a>
-        <a href="kontakt.html">Kontakt</a>
-        <span class="divider"></span>
-        <a href="kosik.html">Košík</a>
+        <div>
+            <a href="uvod.html" class="active">Úvod</a>
+            <a href="obchod.html">Obchod</a>
+            <a href="kontakt.html">Kontakt</a>
+            <span class="divider"></span>
+            <a href="kosik.html">Košík 🛒</a>
+        </div>
     </nav>
 
     <div class="background">
@@ -136,4 +145,7 @@
 
 </body>
 </html>
+
+
+
 

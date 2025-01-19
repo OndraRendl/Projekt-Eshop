@@ -161,25 +161,19 @@
     </style>
 </head>
 <body>
-    <nav>
-        <a href="uvod.html">Úvod</a>
-        <a href="obchod.html" >Obchod</a>
-        <a href="kontakt.html">Kontakt</a>
-        <span class="divider"></span>
-        <a href="kosik.html">Košík</a>
-    </nav>
     <div class="container" id="auth-container">
         <h2>Registrace</h2>
-        <form id="register-form">
-            <input type="text" placeholder="Uživatelské jméno" required>
-            <input type="email" placeholder="Email" required>
-            <input type="password" placeholder="Heslo" required>
-            <button type="submit">Registrovat</button>
+        <form id="register-form" method="POST" action="server.php">
+            <input type="text" name="username" placeholder="Uživatelské jméno" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Heslo" required>
+            <button type="submit" name="action" value="register">Registrovat</button>
         </form>
         <div class="toggle">
             <span>Již máte účet? <a href="#" onclick="toggleForms()">Přihlaste se</a></span>
         </div>
     </div>
+
     <script>
         function toggleForms() {
             const container = document.getElementById('auth-container');
@@ -188,10 +182,10 @@
             if (isRegister) {
                 container.innerHTML = `
                     <h2>Přihlášení</h2>
-                    <form id="login-form">
-                        <input type="text" placeholder="Uživatelské jméno nebo Email" required>
-                        <input type="password" placeholder="Heslo" required>
-                        <button type="submit">Přihlásit</button>
+                    <form id="login-form" method="POST" action="server.php">
+                        <input type="text" name="username" placeholder="Uživatelské jméno nebo Email" required>
+                        <input type="password" name="password" placeholder="Heslo" required>
+                        <button type="submit" name="action" value="login">Přihlásit</button>
                     </form>
                     <div class="toggle">
                         <span>Nemáte účet? <a href="#" onclick="toggleForms()">Registrujte se</a></span>
@@ -200,11 +194,11 @@
             } else {
                 container.innerHTML = `
                     <h2>Registrace</h2>
-                    <form id="register-form">
-                        <input type="text" placeholder="Uživatelské jméno" required>
-                        <input type="email" placeholder="Email" required>
-                        <input type="password" placeholder="Heslo" required>
-                        <button type="submit">Registrovat</button>
+                    <form id="register-form" method="POST" action="server.php">
+                        <input type="text" name="username" placeholder="Uživatelské jméno" required>
+                        <input type="email" name="email" placeholder="Email" required>
+                        <input type="password" name="password" placeholder="Heslo" required>
+                        <button type="submit" name="action" value="register">Registrovat</button>
                     </form>
                     <div class="toggle">
                         <span>Již máte účet? <a href="#" onclick="toggleForms()">Přihlaste se</a></span>
@@ -213,6 +207,5 @@
             }
         }
     </script>
-    
 </body>
 </html>

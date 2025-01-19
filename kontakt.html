@@ -20,7 +20,6 @@
             background-image: url('1.avif');
             background-size: cover;
             background-position: center;
-            
         }
 
         .overlay {
@@ -41,17 +40,30 @@
             width: 100%;
             background-color: rgba(0, 0, 0, 0.8);
             display: flex;
-            justify-content: flex-end; /* Zarovnat doprava */
+            justify-content: space-between;
             padding: 10px 0;
             z-index: 1000;
+        }
+
+        nav .auth-links {
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        nav .auth-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 1em;
+            
         }
 
         nav a {
             color: white;
             text-decoration: none;
             margin: 0 20px;
-            font-size: 1.2em;
-            font-weight: bold;
+            font-size: 1em;
+            
             position: relative;
         }
 
@@ -75,6 +87,7 @@
             font-size: 3em;
             margin-bottom: 40px;
             text-align: left;
+            padding-left: 3cm;
         }
 
         .contact-info {
@@ -82,6 +95,7 @@
             text-align: left;
             font-size: 1.2em;
             margin-bottom: 30px;
+            padding-left: 3cm;
         }
 
         .button {
@@ -94,41 +108,45 @@
         }
 
         footer {
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             font-size: 0.9em;
             color: #bbb;
             padding: 20px;
+            margin-top: 20px;
         }
 
         footer a {
             color: #bbb;
             text-decoration: none;
         }
-        
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="auth-links"></div>
+        <div class="auth-links">
             <a href="reg.html" class="login-btn">Přihlásit se</a>
             <a href="reg.html" class="register-btn">Registrovat se</a>
         </div>
-        <a href="uvod.html">Úvod</a>
-        <a href="obchod.html" >Obchod</a>
-        <a href="kontakt.html"class="active">Kontakt</a>
-        <span class="divider"></span>
-        <a href="kosik.html">Košík</a>
+        <div>
+            <a href="uvod.html">Úvod</a>
+            <a href="obchod.html">Obchod</a>
+            <a href="kontakt.html" class="active">Kontakt</a>
+            <span class="divider"></span>
+            <a href="kosik.html">Košík 🛒</a>
+        </div>
     </nav>
 
     <div class="background">
         <div class="overlay">
-            <h1>Kontaktujte nás</h1>
+            <br><br><h1>Kontaktujte nás</h1>
             <div class="contact-info">
-                <p><strong>Adresa:</strong><br>adresa </p>
+                <p><strong>Adresa:</strong><br>Milevská 2094/3, 140 00 Praha 4 - Krč</p>
                 <p><strong>Telefon:</strong><br>777 555 444</p>
                 <p><strong>E-mail:</strong><br>info@store.cz</p>
-                
             </div>
         </div>
     </div>
@@ -140,3 +158,5 @@
 
 </body>
 </html>
+
+
