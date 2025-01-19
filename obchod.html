@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-shop - obchod</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+            background-color: black;
+            text-align: center;
+        }
+
+        .background {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background-image: url('1.avif');
+            background-size: cover;
+            background-position: center;
+            
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+        }
+
+        nav {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: flex-end;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            position: relative;
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            bottom: -5px;
+            left: 0;
+        }
+
+        .divider {
+            border-left: 2px solid white;
+            height: 24px;
+            margin: 0 10px;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Tři produkty vedle sebe */
+            gap: 20px;
+            padding: 40px 20px;
+        }
+
+        .product {
+            background-color: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .product img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .product-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .product-price {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: green;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.9em;
+            color: #bbb;
+            padding: 20px;
+        }
+
+        footer a {
+            color: #bbb;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="auth-links"></div>
+            <a href="reg.html" class="login-btn">Přihlásit se</a>
+            <a href="reg.html" class="register-btn">Registrovat se</a>
+        </div>
+        <a href="uvod.html">Úvod</a>
+        <a href="obchod.html" class="active">Obchod</a>
+        <a href="kontakt.html">Kontakt</a>
+        <span class="divider"></span>
+        <a href="kosik.html">Košík</a>
+    </nav>
+
+    <div class="background">
+        <div class="overlay">
+            <h1>Náš Obchod</h1>
+            
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 | <a href="obchodnipodminky.html">Obchodní podmínky</a> | <a href="pravidla.html">Pravidla ochrany soukromí</a></p>
+        <p>Email: info@store.cz | Telefon: 777 555 444</p>
+    </footer>
+
+</body>
+</html>
+
+

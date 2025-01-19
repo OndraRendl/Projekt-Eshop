@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrace a Přihlášení</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        input {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .toggle {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .toggle a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .toggle a:hover {
+            text-decoration: underline;
+        }
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+            background-color: black;
+            text-align: center;
+        }
+
+        .background {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background-image: url('1.avif');
+            background-size: cover;
+            background-position: center;
+            
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        nav {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: flex-end; /* Zarovnat doprava */
+            padding: 10px 0;
+            z-index: 1000;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            position: relative;
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            bottom: -5px;
+            left: 0;
+        }
+
+        .divider {
+            border-left: 2px solid white;
+            height: 24px;
+            margin: 0 10px;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        p {
+            max-width: 800px;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .button {
+            padding: 10px 30px;
+            background-color: white;
+            color: black;
+            text-decoration: none;
+            font-size: 1.2em;
+            border-radius: 5px;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.9em;
+            color: #bbb;
+            padding: 20px;
+        }
+
+        footer a {
+            color: #bbb;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="uvod.html">Úvod</a>
+        <a href="obchod.html" >Obchod</a>
+        <a href="kontakt.html">Kontakt</a>
+        <span class="divider"></span>
+        <a href="kosik.html">Košík</a>
+    </nav>
+    <div class="container" id="auth-container">
+        <h2>Registrace</h2>
+        <form id="register-form">
+            <input type="text" placeholder="Uživatelské jméno" required>
+            <input type="email" placeholder="Email" required>
+            <input type="password" placeholder="Heslo" required>
+            <button type="submit">Registrovat</button>
+        </form>
+        <div class="toggle">
+            <span>Již máte účet? <a href="#" onclick="toggleForms()">Přihlaste se</a></span>
+        </div>
+    </div>
+    <script>
+        function toggleForms() {
+            const container = document.getElementById('auth-container');
+            const isRegister = container.querySelector('h2').textContent === 'Registrace';
+
+            if (isRegister) {
+                container.innerHTML = `
+                    <h2>Přihlášení</h2>
+                    <form id="login-form">
+                        <input type="text" placeholder="Uživatelské jméno nebo Email" required>
+                        <input type="password" placeholder="Heslo" required>
+                        <button type="submit">Přihlásit</button>
+                    </form>
+                    <div class="toggle">
+                        <span>Nemáte účet? <a href="#" onclick="toggleForms()">Registrujte se</a></span>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <h2>Registrace</h2>
+                    <form id="register-form">
+                        <input type="text" placeholder="Uživatelské jméno" required>
+                        <input type="email" placeholder="Email" required>
+                        <input type="password" placeholder="Heslo" required>
+                        <button type="submit">Registrovat</button>
+                    </form>
+                    <div class="toggle">
+                        <span>Již máte účet? <a href="#" onclick="toggleForms()">Přihlaste se</a></span>
+                    </div>
+                `;
+            }
+        }
+    </script>
+    
+</body>
+</html>
