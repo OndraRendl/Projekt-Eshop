@@ -1,7 +1,9 @@
 <?php
+// Zapnutí zobrazování chyb pro lepší debugování
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
+// Startování session na začátku skriptu
 session_start();
 
 // Cesta k souboru pro ukládání uživatelských dat
@@ -28,7 +30,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Uložení nového uživatele do souboru
         file_put_contents($file, "$username,$email,$password\n", FILE_APPEND);
-        echo "Úspěšná registrace!";
+
+        // Přesměrování na obchod.html
+        echo "<html>
+                <body>
+                    <div style='color: green; font-size: 18px; margin-top: 20px; text-align: center;'>
+                        Úspěšná registrace! Budete přesměrováni na stránku Obchod...
+                    </div>
+                    <script>
+                        setTimeout(function() {
+                            window.location.href = 'obchod.html';
+                        }, 2000);
+                    </script>
+                </body>
+              </html>";
+        exit;
     }
 
     // Zpracování přihlášení
@@ -42,7 +58,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             list($saved_username, $saved_email, $saved_password) = explode(',', $user);
             if (($saved_username === $username_or_email || $saved_email === $username_or_email) && $saved_password === $password) {
                 $_SESSION['username'] = $saved_username;
-                header('Location: obchod.html');
+
+                // Přesměrování na obchod.html
+                echo "<html>
+                        <body>
+                            <div style='color: green; font-size: 18px; margin-top: 20px; text-align: center;'>
+                                Úspěšné přihlášení! Budete přesměrováni na stránku Obchod...
+                            </div>
+                            <script>
+                                setTimeout(function() {
+                                    window.location.href = 'obchod.html';
+                                }, 2000);
+                            </script>
+                        </body>
+                      </html>";
                 exit;
             }
         }
@@ -50,7 +79,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Nesprávné uživatelské jméno nebo heslo.";
     }
 }
+
+// Zpracování akcí přes GET parametry
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    if (isset($_GET['action'])) {
+        $action = $_GET['action'];
+
+        // Odhlášení uživatele
+        if ($action === 'logout') {
+            session_destroy();
+            header('Location: uvod.html');
+            exit;
+        }
+
+        // Odstranění účtu
+        if ($action === 'delete_account' && isset($_SESSION['username'])) {
+            $username = $_SESSION['username'];
+            $users = file($file, FILE_IGNORE_NEW_LINES);
+            $updated_users = array_filter($users, function ($user) use ($username) {
+                list($saved_username) = explode(',', $user);
+                return $saved_username !== $username;
+            });
+
+            // Uložení aktualizovaného seznamu uživatelů
+            file_put_contents($file, implode("\n", $updated_users));
+
+            // Odhlášení uživatele po odstranění účtu
+            session_destroy();
+            header('Location: uvod.html');
+            exit;
+        }
+    }
+}
 ?>
-
-
-

@@ -99,8 +99,13 @@
 
     <nav>
         <div class="auth-links">
-            <a href="reg.html" class="login-btn">Přihlásit se</a>
-            <a href="reg.html" class="register-btn">Registrovat se</a>
+            <?php if (isset($_SESSION['username'])): ?>
+                <a href="server.php?action=logout" class="logout-btn">Odhlásit se</a>
+                <a href="server.php?action=delete_account" class="delete-account-btn">Odstranit účet</a>
+            <?php else: ?>
+                <a href="login.html" class="login-btn">Přihlásit se</a>
+                <a href="register.html" class="register-btn">Registrovat se</a>
+            <?php endif; ?>
         </div>
         <div>
             <a href="uvod.html">Úvod</a>
@@ -110,6 +115,9 @@
             <a href="kosik.html">Košík 🛒</a>
         </div>
     </nav>
+    
+    
+    
 
     <div class="background">
         <div class="overlay">
