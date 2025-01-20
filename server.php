@@ -21,29 +21,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Kontrola, zda už uživatel existuje
         $users = file($file, FILE_IGNORE_NEW_LINES);
         foreach ($users as $user) {
-            list($saved_username, $saved_email) = explode(',', $user);
-            if ($saved_username === $username || $saved_email === $email) {
-                echo "Uživatelské jméno nebo email je již zaregistrován.";
-                exit;
+            $user_data = explode(',', $user);
+
+            // Ověření, zda řádek obsahuje alespoň dvě položky (username, email)
+            if (count($user_data) >= 2) {
+                list($saved_username, $saved_email) = $user_data;
+
+                if ($saved_username === $username || $saved_email === $email) {
+                    echo "Uživatelské jméno nebo email je již zaregistrován.";
+                    exit;
+                }
             }
         }
 
-        // Uložení nového uživatele do souboru
+        // Uložení nového uživatele do souboru (každý uživatel na jednom řádku)
         file_put_contents($file, "$username,$email,$password\n", FILE_APPEND);
 
+        // Uložení uživatele do session
+        $_SESSION['username'] = $username;
+
         // Přesměrování na obchod.html
-        echo "<html>
-                <body>
-                    <div style='color: green; font-size: 18px; margin-top: 20px; text-align: center;'>
-                        Úspěšná registrace! Budete přesměrováni na stránku Obchod...
-                    </div>
-                    <script>
-                        setTimeout(function() {
-                            window.location.href = 'obchod.html';
-                        }, 2000);
-                    </script>
-                </body>
-              </html>";
+        header('Location: obchod.html');
         exit;
     }
 
@@ -55,24 +53,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Kontrola, zda uživatel existuje a porovnání hesla
         $users = file($file, FILE_IGNORE_NEW_LINES);
         foreach ($users as $user) {
-            list($saved_username, $saved_email, $saved_password) = explode(',', $user);
-            if (($saved_username === $username_or_email || $saved_email === $username_or_email) && $saved_password === $password) {
-                $_SESSION['username'] = $saved_username;
+            $user_data = explode(',', $user);
 
-                // Přesměrování na obchod.html
-                echo "<html>
-                        <body>
-                            <div style='color: green; font-size: 18px; margin-top: 20px; text-align: center;'>
-                                Úspěšné přihlášení! Budete přesměrováni na stránku Obchod...
-                            </div>
-                            <script>
-                                setTimeout(function() {
-                                    window.location.href = 'obchod.html';
-                                }, 2000);
-                            </script>
-                        </body>
-                      </html>";
-                exit;
+            // Ověření, že řádek obsahuje správný počet položek (username, email, password)
+            if (count($user_data) == 3) {
+                list($saved_username, $saved_email, $saved_password) = $user_data;
+
+                if (($saved_username === $username_or_email || $saved_email === $username_or_email) && $saved_password === $password) {
+                    $_SESSION['username'] = $saved_username;
+
+                    // Přesměrování na obchod.html
+                    header('Location: obchod.html');
+                    exit;
+                }
             }
         }
 
@@ -102,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             });
 
             // Uložení aktualizovaného seznamu uživatelů
-            file_put_contents($file, implode("\n", $updated_users));
+            file_put_contents($file, implode("\n", $updated_users) . "\n");
 
             // Odhlášení uživatele po odstranění účtu
             session_destroy();
@@ -112,3 +105,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
 }
 ?>
+
+
+

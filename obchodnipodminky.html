@@ -10,6 +10,7 @@
             line-height: 1.6;
             margin: 20px;
             padding: 0;
+            position: relative;
         }
         h1, h2 {
             color: #333;
@@ -17,20 +18,33 @@
         p {
             margin: 0 0 10px;
         }
-        .background {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            background-color: white;
-            background-size: cover;
-            background-position: center;
-            
+        /* Tlačítko v pravém horním rohu */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .back-button:hover {
+            background-color: #45a049;
         }
     </style>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
 </head>
 <body>
-    <nav>
-        <div class="auth-links"></div>
+
+    <!-- Tlačítko pro návrat na předchozí stránku -->
+    <button class="back-button" onclick="goBack()">ZPĚT NA ESHOP</button>
+
     <h1>Obchodní podmínky e-shopu</h1>
 
     <h2>1. Úvod a Identifikace Provozovatele</h2>
@@ -58,7 +72,7 @@
     <p>8.1. Zákazník má právo na reklamaci vadného zboží v souladu s platnými právními předpisy. V případě vracení zboží je třeba nás kontaktovat do 14 dnů od obdržení zboží. Všechny vrácené produkty musí být v původním stavu a obalu.</p>
 
     <h2>9. Ochrana Osobních Údajů</h2>
-    <p>9.1. Vaše osobní údaje jsou zpracovávány v souladu s platnými zákony o ochraně osobních údajů.</a>.</p>
+    <p>9.1. Vaše osobní údaje jsou zpracovávány v souladu s platnými zákony o ochraně osobních údajů.</p>
 
     <h2>10. Právní Ujednání</h2>
     <p>10.1. Všechny právní vztahy se řídí právním řádem České republiky. Případné spory budou řešeny příslušnými soudy v České republice.</p>

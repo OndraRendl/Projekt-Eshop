@@ -41,7 +41,7 @@
             background-color: rgba(0, 0, 0, 0.8);
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
+            padding: 20px 0;
             z-index: 1000;
         }
 
@@ -55,7 +55,6 @@
             text-decoration: none;
             margin: 0 20px;
             font-size: 1em;
-            
         }
 
         nav a {
@@ -63,7 +62,6 @@
             text-decoration: none;
             margin: 0 20px;
             font-size: 1em;
-            
             position: relative;
         }
 
@@ -88,6 +86,9 @@
             margin-bottom: 40px;
             text-align: left;
             padding-left: 3cm;
+            width: 50%;
+            float: right;
+            margin-top: 80px;
         }
 
         .contact-info {
@@ -96,6 +97,14 @@
             font-size: 1.2em;
             margin-bottom: 30px;
             padding-left: 3cm;
+            width: 50%;
+            float: left;
+        }
+
+        .map-container {
+            width: 50%;
+            float: right;
+            padding-right: 4.5cm;
         }
 
         .button {
@@ -143,10 +152,15 @@
     <div class="background">
         <div class="overlay">
             <br><br><h1>Kontaktujte nás</h1>
-            <div class="contact-info">
-                <p><strong>Adresa:</strong><br>Milevská 2094/3, 140 00 Praha 4 - Krč</p>
-                <p><strong>Telefon:</strong><br>777 555 444</p>
-                <p><strong>E-mail:</strong><br>info@store.cz</p>
+            <div style="display: flex; justify-content: space-between; width: 100%;">
+                <div class="contact-info">
+                    <p><strong>Adresa:</strong><br>V TOVER Prague<br>Milevská 2094/3, 140 00 Praha 4 - Krč</p>
+                    <p><strong>Telefon:</strong><br>777 555 444</p>
+                    <p><strong>E-mail:</strong><br>info@store.cz</p>
+                </div>
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3046.7248667868666!2d14.438922264153241!3d50.04920560588697!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470b94751e16c6a1%3a0x740b067895ad75cf!2sv%20tower%2c%20prague!5e0!3m2!1scs!2scz!4v1737381294216!5m2!1scs!2scz" width="1000" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
             </div>
         </div>
     </div>
@@ -158,5 +172,7 @@
 
 </body>
 </html>
+
+
 
 
