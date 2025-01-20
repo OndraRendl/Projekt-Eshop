@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['username'] = $username;
 
         // Přesměrování na obchod.html
-        header('Location: obchod.html');
+        header('Location: obchod.php');
         exit;
     }
 
@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['username'] = $saved_username;
 
                     // Přesměrování na obchod.html
-                    header('Location: obchod.html');
+                    header('Location: obchod.php');
                     exit;
                 }
             }
@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         // Odhlášení uživatele
         if ($action === 'logout') {
             session_destroy();
-            header('Location: uvod.html');
+            header('Location: uvod.php');
             exit;
         }
 
@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
             // Odhlášení uživatele po odstranění účtu
             session_destroy();
-            header('Location: uvod.html');
+            header('Location: uvod.php');
             exit;
         }
     }
