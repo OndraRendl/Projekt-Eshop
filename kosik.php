@@ -32,7 +32,7 @@ session_start(); // Start session, abychom mohli pracovat s proměnnými session
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6);
+        
             display: flex;
             justify-content: center;
             align-items: center;
@@ -148,7 +148,7 @@ session_start(); // Start session, abychom mohli pracovat s proměnnými session
 
     <footer>
         <p>© 2025 | <a href="obchodnipodminky.html">Obchodní podmínky</a> | <a href="pravidla.html">Pravidla ochrany soukromí</a></p>
-        <p>Email: info@store.cz | Telefon: 777 555 444</p>
+        <p>Email: info@store.cz | Telefon: 777 666 555</p>
     </footer>
 
 </body>

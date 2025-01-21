@@ -32,7 +32,7 @@ session_start(); // Start session, abychom mohli pracovat s proměnnými session
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6);
+            
             display: flex;
             flex-direction: column;
             padding: 20px;
@@ -173,7 +173,7 @@ session_start(); // Start session, abychom mohli pracovat s proměnnými session
             <div style="display: flex; justify-content: space-between; width: 100%;">
                 <div class="contact-info">
                     <p><strong>Adresa:</strong><br>V TOVER Prague<br>Milevská 2094/3, 140 00 Praha 4 - Krč</p>
-                    <p><strong>Telefon:</strong><br>777 555 444</p>
+                    <p><strong>Telefon:</strong><br>777 666 555</p>
                     <p><strong>E-mail:</strong><br>info@store.cz</p>
                 </div>
                 <div class="map-container">
@@ -185,7 +185,7 @@ session_start(); // Start session, abychom mohli pracovat s proměnnými session
 
     <footer>
         <p>© 2025 | <a href="obchodnipodminky.html">Obchodní podmínky</a> | <a href="pravidla.html">Pravidla ochrany soukromí</a></p>
-        <p>Email: info@store.cz | Telefon: 777 555 444</p>
+        <p>Email: info@store.cz | Telefon: 777 666 555</p>
     </footer>
 
 </body>

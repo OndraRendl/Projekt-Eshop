@@ -13,6 +13,23 @@ $conn = new mysqli($servername, $username, $password, $database);
 if ($conn->connect_error) {
     die("Připojení k databázi selhalo: " . $conn->connect_error);
 }
+
+// Získání ID produktu z URL
+$product_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
+if ($product_id > 0) {
+    // Načtení informací o produktu z databáze
+    $sql = "SELECT * FROM produkty WHERE id = $product_id";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $product = $result->fetch_assoc();
+    } else {
+        die("Produkt nebyl nalezen.");
+    }
+} else {
+    die("Neplatné ID produktu.");
+}
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +37,7 @@ if ($conn->connect_error) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-shop - obchod</title>
+    <title>E-shop - Produkt</title>
     <style>
         body {
             margin: 0;
@@ -30,12 +47,6 @@ if ($conn->connect_error) {
             text-align: center;
         }
 
-        .background {
-            position: relative;
-            width: 100%;
-            min-height: 100vh;
-            padding-bottom: 20px;
-        }
         .background {
             position: relative;
             width: 100%;
@@ -50,7 +61,6 @@ if ($conn->connect_error) {
             padding-top: 50px;
             box-sizing: border-box;
         }
-        
 
         nav {
             position: sticky;
@@ -105,43 +115,41 @@ if ($conn->connect_error) {
             margin-bottom: 20px;
         }
 
-        .products {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            padding: 20px;
-        }
-
-        .product {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
+        .product-details {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 30px;
             border-radius: 10px;
-            width: 250px;
-            text-align: center;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            width: 250px; /* Stejná šířka jako produktové rámečky */
+            height: 450px; /* Můžete upravit výšku podle potřeby */
+            text-align: center;
         }
 
-        .product img {
+        .product-details img {
             width: 100%;
             height: auto;
-            border-radius: 5px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            max-height: 200px; /* Limit výšky obrázku */
+            object-fit: contain;
         }
 
-        .product h3 {
+        .product-details h3 {
+            font-size: 2em;
             margin: 10px 0;
         }
 
-        .product p {
-            margin: 10px 0;
-            font-size: 0.9em;
+        .product-details p {
+            font-size: 1.1em;
             color: #ccc;
+            margin-bottom: 20px;
         }
 
-        .product .price {
-            font-size: 1.2em;
+        .product-details .price {
+            font-size: 1.5em;
             color: white;
             font-weight: bold;
+            margin-bottom: 20px;
         }
 
         footer {
@@ -181,40 +189,21 @@ if ($conn->connect_error) {
 
     <div class="background">
         <div class="overlay">
-            <h1>Náš Obchod</h1>
-
-            <div class="products">
-                <?php
-                // Načtení produktů z databáze
-                $sql = "SELECT * FROM produkty";
-                $result = $conn->query($sql);
-
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        // Každý produkt bude kliknutelný a povede na stránku s detaily
-                        echo '<div class="product">';
-                        echo '<a href="produkt.php?id=' . $row['id'] . '">';
-                        echo '<img src="' . htmlspecialchars($row['obrazek']) . '" alt="Produkt">';
-                        echo '<h3>' . htmlspecialchars($row['nazev']) . '</h3>';
-                        echo '<p>' . htmlspecialchars($row['popis']) . '</p>';
-                        echo '<div class="price">' . htmlspecialchars($row['cena']) . ' Kč</div>';
-                        echo '</a>';  // Odkaz končí zde
-                        echo '</div>';
-                    }
-                } else {
-                    echo '<p>Žádné produkty nebyly nalezeny.</p>';
-                }
-                ?>
+            <div class="product-details">
+                <img src="<?php echo htmlspecialchars($product['obrazek']); ?>" alt="Produkt">
+                <h3><?php echo htmlspecialchars($product['nazev']); ?></h3>
+                <p><?php echo htmlspecialchars($product['popis']); ?></p>
+                <div class="price"><?php echo htmlspecialchars($product['cena']); ?> Kč</div>
             </div>
         </div>
     </div>
 
     <footer>
         <p>© 2025 | <a href="obchodnipodminky.html">Obchodní podmínky</a> | <a href="pravidla.html">Pravidla ochrany soukromí</a></p>
-        <p>Email: info@store.cz | Telefon: 777 666 555</p>
     </footer>
 
 </body>
 </html>
+
 
 
