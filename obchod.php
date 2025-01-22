@@ -33,16 +33,18 @@ if ($conn->connect_error) {
         .background {
             position: relative;
             width: 100%;
-            min-height: 100vh;
+            min-height: calc(100vh - 100px); /* Zajistí, že pozadí se nevytáhne pod lištu */
             padding-bottom: 20px;
         }
+
         .background {
             position: relative;
             width: 100%;
-            height: 100vh;
+            height: auto;
             background-image: url('1.avif');
             background-size: cover;
             background-position: center;
+            margin-top: 100px; /* Posune obsah pod lištu */
         }
 
         .overlay {
@@ -50,10 +52,9 @@ if ($conn->connect_error) {
             padding-top: 50px;
             box-sizing: border-box;
         }
-        
 
         nav {
-            position: sticky;
+            position: absolute; /* Fixní pozice */
             top: 0;
             width: 100%;
             background-color: rgba(0, 0, 0, 0.8);
@@ -111,6 +112,7 @@ if ($conn->connect_error) {
             justify-content: center;
             gap: 20px;
             padding: 20px;
+            min-height: 100vh; /* Zajistí, že produkty zaplní dostupnou výšku */
         }
 
         .product {
@@ -120,6 +122,7 @@ if ($conn->connect_error) {
             width: 250px;
             text-align: center;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px; /* Přidá mezery mezi produkty */
         }
 
         .product img {
@@ -181,7 +184,7 @@ if ($conn->connect_error) {
 
     <div class="background">
         <div class="overlay">
-            <h1>Náš Obchod</h1>
+            <h1>Náš obchod</h1>
 
             <div class="products">
                 <?php
@@ -191,14 +194,13 @@ if ($conn->connect_error) {
 
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        // Každý produkt bude kliknutelný a povede na stránku s detaily
                         echo '<div class="product">';
                         echo '<a href="produkt.php?id=' . $row['id'] . '">';
                         echo '<img src="' . htmlspecialchars($row['obrazek']) . '" alt="Produkt">';
                         echo '<h3>' . htmlspecialchars($row['nazev']) . '</h3>';
                         echo '<p>' . htmlspecialchars($row['popis']) . '</p>';
                         echo '<div class="price">' . htmlspecialchars($row['cena']) . ' Kč</div>';
-                        echo '</a>';  // Odkaz končí zde
+                        echo '</a>';
                         echo '</div>';
                     }
                 } else {
@@ -216,5 +218,7 @@ if ($conn->connect_error) {
 
 </body>
 </html>
+
+
 
 

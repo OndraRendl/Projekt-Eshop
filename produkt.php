@@ -30,6 +30,25 @@ if ($product_id > 0) {
 } else {
     die("Neplatné ID produktu.");
 }
+
+// Přidání produktu do košíku
+if (isset($_POST['add_to_cart'])) {
+    $quantity = $_POST['quantity'];
+    if (isset($_SESSION['cart'][$product_id])) {
+        // Pokud už produkt je v košíku, přidej k existujícímu množství
+        $_SESSION['cart'][$product_id]['quantity'] += $quantity;
+    } else {
+        // Jinak přidej nový produkt do košíku
+        $_SESSION['cart'][$product_id] = [
+            'name' => $product['nazev'],
+            'price' => $product['cena'],
+            'quantity' => $quantity,
+            'image' => $product['obrazek']
+        ];
+    }
+    header('Location: kosik.php');
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -54,16 +73,23 @@ if ($product_id > 0) {
             background-image: url('1.avif');
             background-size: cover;
             background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
         }
 
         .overlay {
             padding: 20px;
             padding-top: 50px;
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         nav {
-            position: sticky;
+            position: absolute;
             top: 0;
             width: 100%;
             background-color: rgba(0, 0, 0, 0.8);
@@ -115,14 +141,24 @@ if ($product_id > 0) {
             margin-bottom: 20px;
         }
 
-        .product-details {
+        .product-title {
+            font-size: 2.5em;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .product-details,
+        .product-info {
             background: rgba(255, 255, 255, 0.2);
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            width: 250px; /* Stejná šířka jako produktové rámečky */
-            height: 450px; /* Můžete upravit výšku podle potřeby */
             text-align: center;
+        }
+
+        .product-details {
+            width: 250px;
+            height: 450px;
         }
 
         .product-details img {
@@ -130,26 +166,30 @@ if ($product_id > 0) {
             height: auto;
             border-radius: 10px;
             margin-bottom: 20px;
-            max-height: 200px; /* Limit výšky obrázku */
+            max-height: 200px;
             object-fit: contain;
         }
 
-        .product-details h3 {
-            font-size: 2em;
-            margin: 10px 0;
+        .product-info {
+            width: 300px;
+            text-align: left;
         }
 
-        .product-details p {
+        .product-info h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .product-info p {
             font-size: 1.1em;
             color: #ccc;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
-        .product-details .price {
+        .product-info .price {
             font-size: 1.5em;
             color: white;
             font-weight: bold;
-            margin-bottom: 20px;
         }
 
         footer {
@@ -162,6 +202,47 @@ if ($product_id > 0) {
         footer a {
             color: #bbb;
             text-decoration: none;
+        }
+
+        .product-container {
+            display: flex;
+            gap: 30px;
+        }
+
+        /* Základní styl pro tlačítka */
+        button, .button {
+            background-color: #ff6f61; /* Hezká barva pozadí */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Styl pro tlačítko při najetí myší */
+        button:hover, .button:hover {
+            background-color: #ff4f3b; /* Tmavší odstín pro hover */
+            transform: scale(1.05); /* Trochu zvětší tlačítko */
+        }
+
+        /* Styl pro vstupní pole množství */
+        input[type="number"] {
+            padding: 10px;
+            font-size: 1.2em;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            width: 60px;
+            text-align: center;
+            margin-top: 10px;
+            transition: border-color 0.3s ease;
+        }
+
+        /* Styl pro vstupní pole při najetí myší */
+        input[type="number"]:focus {
+            border-color: #ff6f61; /* Změna barvy rámečku */
+            outline: none; /* Odebrání defaultního ohraničení */
         }
     </style>
 </head>
@@ -189,11 +270,24 @@ if ($product_id > 0) {
 
     <div class="background">
         <div class="overlay">
-            <div class="product-details">
-                <img src="<?php echo htmlspecialchars($product['obrazek']); ?>" alt="Produkt">
-                <h3><?php echo htmlspecialchars($product['nazev']); ?></h3>
-                <p><?php echo htmlspecialchars($product['popis']); ?></p>
-                <div class="price"><?php echo htmlspecialchars($product['cena']); ?> Kč</div>
+            <h2 class="product-title"><?php echo htmlspecialchars($product['nazev']); ?></h2>
+
+            <div class="product-container">
+                <div class="product-details">
+                    <img src="<?php echo htmlspecialchars($product['obrazek']); ?>" alt="Produkt">
+                    <h3><?php echo htmlspecialchars($product['nazev']); ?></h3>
+                </div>
+
+                <div class="product-info">
+                    <h3>Podrobnosti o produktu</h3>
+                    <p><?php echo htmlspecialchars($product['popis']); ?></p>
+                    <div class="price">Cena: <?php echo htmlspecialchars($product['cena']); ?> Kč</div>
+                    <form method="POST">
+                        <label for="quantity">Množství:</label><br>
+                        <input type="number" id="quantity" name="quantity" value="1" min="1" required>
+                        <button type="submit" name="add_to_cart" class="button">Přidat do košíku</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -204,6 +298,4 @@ if ($product_id > 0) {
 
 </body>
 </html>
-
-
 
