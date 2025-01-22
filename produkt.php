@@ -281,7 +281,7 @@ if (isset($_POST['add_to_cart'])) {
                 <div class="product-info">
                     <h3>Podrobnosti o produktu</h3>
                     <p><?php echo htmlspecialchars($product['popis']); ?></p>
-                    <div class="price">Cena: <?php echo htmlspecialchars($product['cena']); ?> Kč</div>
+                    <div class="price">Cena: <?php echo number_format($product['cena'], 0, ',', ' ') . ' Kč'; ?></div>
                     <form method="POST">
                         <label for="quantity">Množství:</label><br>
                         <input type="number" id="quantity" name="quantity" value="1" min="1" required>
@@ -298,4 +298,5 @@ if (isset($_POST['add_to_cart'])) {
 
 </body>
 </html>
+
 

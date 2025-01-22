@@ -32,7 +32,6 @@ session_start(); // Start session, abychom mohli pracovat s proměnnými session
             left: 0;
             width: 100%;
             height: 100%;
-            
             display: flex;
             justify-content: center;
             align-items: center;

@@ -135,16 +135,11 @@ if ($conn->connect_error) {
             margin: 10px 0;
         }
 
-        .product p {
-            margin: 10px 0;
-            font-size: 0.9em;
-            color: #ccc;
-        }
-
         .product .price {
-            font-size: 1.2em;
+            font-size: 1.5em; /* Zvýšení velikosti písma pro cenu */
             color: white;
             font-weight: bold;
+            margin-top: 10px;
         }
 
         footer {
@@ -198,9 +193,9 @@ if ($conn->connect_error) {
                         echo '<a href="produkt.php?id=' . $row['id'] . '">';
                         echo '<img src="' . htmlspecialchars($row['obrazek']) . '" alt="Produkt">';
                         echo '<h3>' . htmlspecialchars($row['nazev']) . '</h3>';
-                        echo '<p>' . htmlspecialchars($row['popis']) . '</p>';
-                        echo '<div class="price">' . htmlspecialchars($row['cena']) . ' Kč</div>';
                         echo '</a>';
+                        // Formátování ceny
+                        echo '<div class="price">' . number_format($row['cena'], 0, ',', ' ') . ' Kč</div>';
                         echo '</div>';
                     }
                 } else {
@@ -218,6 +213,8 @@ if ($conn->connect_error) {
 
 </body>
 </html>
+
+
 
 
 

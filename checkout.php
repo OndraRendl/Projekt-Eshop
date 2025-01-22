@@ -167,7 +167,7 @@ foreach ($_SESSION['cart'] as $product_id => $product) {
             </div>
             <div class="input-field">
                 <label for="phone">Telefonní číslo</label>
-                <input type="tel" id="phone" name="phone" required>
+                <input type="tel" id="phone" name="phone" required pattern="[0-9]{9}" title="Telefonní číslo musí obsahovat 9 číslic">
             </div>
 
             <h2>Způsob platby</h2>

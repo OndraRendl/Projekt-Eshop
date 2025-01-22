@@ -346,7 +346,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'], $_POST[
                     <p>DPH 21 %: <?php echo number_format($totalVAT, 0, ',', ' ') . " Kč"; ?></p>
                     <p><strong>CELKEM: <?php echo number_format($totalPrice, 0, ',', ' ') . " Kč"; ?></strong></p><br>
 
-                    <a href="checkout.php" class="order-button">Objednat</a>
+                    <a href="obchod.php" class="order-button">Pokračovat v nákupu</a>
+                    <a href="checkout.php" class="order-button" >Objednat</a>
+                    
                 </div>
             <?php else: ?>
                 <p>Košík je zatím prázdný. <br>Vy to ale můžete změnit. Vyberte si z naší nabídky.</p><br>

@@ -32,7 +32,6 @@ session_start(); // Start session, abychom mohli pracovat s proměnnými session
             left: 0;
             width: 100%;
             height: 100%;
-            
             display: flex;
             flex-direction: column;
             padding: 20px;
@@ -111,6 +110,7 @@ session_start(); // Start session, abychom mohli pracovat s proměnnými session
             padding-left: 3cm;
             width: 50%;
             float: left;
+            line-height: 1.6;
         }
 
         .map-container {
@@ -143,6 +143,7 @@ session_start(); // Start session, abychom mohli pracovat s proměnnými session
             color: #bbb;
             text-decoration: none;
         }
+        
     </style>
 </head>
 <body>
