@@ -251,9 +251,12 @@ if (isset($_POST['add_to_cart'])) {
     <nav>
         <div class="auth-links">
             <?php if (isset($_SESSION['username'])): ?>
-                <span class="username">Uživatel: <?php echo htmlspecialchars($_SESSION['username']); ?></span>
+                <span class="username">Uživatel: <?php echo htmlspecialchars($_SESSION['username']); ?></span> <!-- Zobrazení uživatelského jména -->
+                <?php if ($_SESSION['username'] === 'admin'): ?> <!-- Pokud je přihlášen admin -->
+                    <a href="admin.php" class="admin-btn">Správa produktů</a> <!-- Odkaz pro správu produktů -->
+                <?php endif; ?>
                 <a href="server.php?action=logout" class="logout-btn">Odhlásit se</a>
-                <a href="server.php?action=delete_account" class="delete-account-btn">Odstranit účet</a>
+
             <?php else: ?>
                 <a href="login.html" class="login-btn">Přihlásit se</a>
                 <a href="register.html" class="register-btn">Registrovat se</a>
@@ -280,8 +283,8 @@ if (isset($_POST['add_to_cart'])) {
 
                 <div class="product-info">
                     <h3>Podrobnosti o produktu</h3>
-                    <p><?php echo htmlspecialchars($product['popis']); ?></p>
-                    <div class="price">Cena: <?php echo number_format($product['cena'], 0, ',', ' ') . ' Kč'; ?></div>
+                    <p><?php echo htmlspecialchars($product['popis']); ?></p><br>
+                    <div class="price">Cena: <?php echo number_format($product['cena'], 0, ',', ' ') . ' Kč'; ?></div><br>
                     <form method="POST">
                         <label for="quantity">Množství:</label><br>
                         <input type="number" id="quantity" name="quantity" value="1" min="1" required>

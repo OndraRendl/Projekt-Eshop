@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Uložení uživatele do session
         $_SESSION['username'] = $username;
 
-        // Přesměrování na obchod.html
+        // Přesměrování na obchod.php
         header('Location: obchod.php');
         exit;
     }
@@ -60,11 +60,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 list($saved_username, $saved_email, $saved_password) = $user_data;
 
                 if (($saved_username === $username_or_email || $saved_email === $username_or_email) && $saved_password === $password) {
-                    $_SESSION['username'] = $saved_username;
-
-                    // Přesměrování na obchod.html
-                    header('Location: obchod.php');
-                    exit;
+                    // Kontrola, zda je uživatel admin
+                    if ($saved_username === 'admin' && $saved_password === 'admin') {
+                        $_SESSION['username'] = $saved_username;
+                        // Přesměrování na admin stránku
+                        header('Location: admin.php');
+                        exit;
+                    } else {
+                        $_SESSION['username'] = $saved_username;
+                        // Přesměrování na běžnou stránku (obchod)
+                        header('Location: obchod.php');
+                        exit;
+                    }
                 }
             }
         }
@@ -105,6 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
 }
 ?>
+
 
 
 

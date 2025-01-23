@@ -265,10 +265,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'], $_POST[
         }
         .cart-summary {
             margin-top: 30px;
-            text-align: center; /* Zarovnání textu do prava */
+            text-align: right; /* Zarovnání textu do prava */
             font-size: 1.2em;
             color: white;
-            padding-right: 20px; /* Odsazení od pravého okraje */
+            padding-left: 1300px; /* Odsazení od pravého okraje */
         }
 
         .cart-summary p {
@@ -284,21 +284,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'], $_POST[
     <nav>
         <div class="auth-links">
             <?php if (isset($_SESSION['username'])): ?>
-                <span class="username">Uživatel: <?php echo htmlspecialchars($_SESSION['username']); ?></span>
+                <span class="username">Uživatel: <?php echo htmlspecialchars($_SESSION['username']); ?></span> <!-- Zobrazení uživatelského jména -->
+                <?php if ($_SESSION['username'] === 'admin'): ?> <!-- Pokud je přihlášen admin -->
+                    <a href="admin.php" class="admin-btn">Správa produktů</a> <!-- Odkaz pro správu produktů -->
+                <?php endif; ?>
                 <a href="server.php?action=logout" class="logout-btn">Odhlásit se</a>
-                <a href="server.php?action=delete_account" class="delete-account-btn">Odstranit účet</a>
+
             <?php else: ?>
                 <a href="login.html" class="login-btn">Přihlásit se</a>
                 <a href="register.html" class="register-btn">Registrovat se</a>
             <?php endif; ?>
-        </div>
-        <div>
-            <a href="uvod.php">Úvod</a>
-            <a href="obchod.php">Obchod</a>
-            <a href="kontakt.php">Kontakt</a>
-            <span class="divider"></span>
-            <a href="kosik.php" class="active">Košík 🛒</a>
-        </div>
+            </div>
+            <div>
+                <a href="uvod.php">Úvod</a>
+                <a href="obchod.php">Obchod</a>
+                <a href="kontakt.php">Kontakt</a>
+                <span class="divider"></span>
+                <a href="kosik.php" class="active">Košík 🛒</a>
+            </div>
     </nav>
 
     <div class="background">
@@ -341,11 +344,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'], $_POST[
                 </div>
 
                 <div class="cart-summary">
-                    <p>Včetně DPH: <?php echo number_format($totalPrice, 0, ',', ' ') . " Kč"; ?></p>
-                    <p>Bez DPH: <?php echo number_format($totalWithoutVAT, 0, ',', ' ') . " Kč"; ?></p>
-                    <p>DPH 21 %: <?php echo number_format($totalVAT, 0, ',', ' ') . " Kč"; ?></p>
-                    <p><strong>CELKEM: <?php echo number_format($totalPrice, 0, ',', ' ') . " Kč"; ?></strong></p><br>
+                <p>Včetně DPH: &nbsp&nbsp<?php echo number_format($totalPrice, 2, ',', ' ') . " Kč"; ?></p>
+                <p>Bez DPH: &nbsp&nbsp<?php echo number_format($totalWithoutVAT, 2, ',', ' ') . " Kč"; ?></p>
+                <p>DPH 21 %: &nbsp&nbsp<?php echo number_format($totalVAT, 2, ',', ' ') . " Kč"; ?></p>
+                <p><strong>CELKEM: &nbsp&nbsp<?php echo number_format($totalPrice, 2, ',', ' ') . " Kč"; ?></strong></p><br>
 
+                    
                     <a href="obchod.php" class="order-button">Pokračovat v nákupu</a>
                     <a href="checkout.php" class="order-button" >Objednat</a>
                     

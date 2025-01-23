@@ -1,2 +1,3 @@
 
 a,a@a.cz,a
+admin,admin@admin.cz,admin

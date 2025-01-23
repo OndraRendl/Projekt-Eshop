@@ -126,25 +126,28 @@ session_start(); // Start session, abychom mohli pracovat s proměnnými session
 </head>
 <body>
 
-    <nav>
-        <div class="auth-links">
-            <?php if (isset($_SESSION['username'])): ?>
-                <span class="username">Uživatel: <?php echo htmlspecialchars($_SESSION['username']); ?></span> <!-- Zobrazení uživatelského jména -->
-                <a href="server.php?action=logout" class="logout-btn">Odhlásit se</a>
-                <a href="server.php?action=delete_account" class="delete-account-btn">Odstranit účet</a>
-            <?php else: ?>
-                <a href="login.html" class="login-btn">Přihlásit se</a>
-                <a href="register.html" class="register-btn">Registrovat se</a>
+<nav>
+    <div class="auth-links">
+        <?php if (isset($_SESSION['username'])): ?>
+            <span class="username">Uživatel: <?php echo htmlspecialchars($_SESSION['username']); ?></span> <!-- Zobrazení uživatelského jména -->
+            <?php if ($_SESSION['username'] === 'admin'): ?> <!-- Pokud je přihlášen admin -->
+                <a href="admin.php" class="admin-btn">Správa produktů</a> <!-- Odkaz pro správu produktů -->
             <?php endif; ?>
-        </div>
-        <div>
-            <a href="uvod.php" class="active">Úvod</a>
-            <a href="obchod.php">Obchod</a>
-            <a href="kontakt.php">Kontakt</a>
-            <span class="divider"></span>
-            <a href="kosik.php">Košík 🛒</a>
-        </div>
-    </nav>
+            <a href="server.php?action=logout" class="logout-btn">Odhlásit se</a>
+
+        <?php else: ?>
+            <a href="login.html" class="login-btn">Přihlásit se</a>
+            <a href="register.html" class="register-btn">Registrovat se</a>
+        <?php endif; ?>
+    </div>
+    <div>
+        <a href="uvod.php" class="active">Úvod</a>
+        <a href="obchod.php">Obchod</a>
+        <a href="kontakt.php">Kontakt</a>
+        <span class="divider"></span>
+        <a href="kosik.php">Košík 🛒</a>
+    </div>
+</nav>
 
     <div class="background">
         <div class="overlay">
