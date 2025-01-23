@@ -78,7 +78,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         h1 {
             text-align: center;
-            color: #28a745;
+            color:rgb(0, 0, 0);
+        }
+
+        .order-progress {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
+
+        .order-progress div {
+            flex: 1;
+            text-align: center;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .order-progress div.active {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .order-progress div a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .order-progress div:not(.active) {
+            background-color: #f8f9fa;
         }
 
         .section {
@@ -145,6 +176,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <h1>Souhrn objednávky</h1>
 
+    <!-- Order Progress -->
+    <div class="order-progress">
+        <div><a href="kosik.php">Košík</a></div>
+        <div><a href="checkout.php">Kontaktní údaje, doprava, platba</a></div>
+        <div class="active">Potvrzení objednávky</div>
+    </div>
+
     <div class="section">
         <h2>Údaje o doručení</h2>
         <div class="order-details">
@@ -197,6 +235,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 </body>
 </html>
+
 
 
 

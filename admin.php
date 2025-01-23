@@ -123,7 +123,7 @@ $result = $conn->query($sql);
 <body>
 
     <header>
-        <h1>Admin Panel - Správa produktů</h1>
+        <h1>Správa produktů</h1>
     </header>
 
     <nav>

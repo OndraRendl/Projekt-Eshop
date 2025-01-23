@@ -31,7 +31,6 @@ foreach ($_SESSION['cart'] as $product_id => $product) {
     $totalPrice += $product['price'] * $product['quantity'];
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -57,20 +56,57 @@ foreach ($_SESSION['cart'] as $product_id => $product) {
             font-size: 2.5em;
         }
 
-        .section {
+        .order-progress {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
+
+        .order-progress div {
+            flex: 1;
+            text-align: center;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .order-progress div.active {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .order-progress div a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .order-progress div:not(.active) {
+            background-color: #f8f9fa;
+        }
+
+        .main-section {
+            display: flex;
+            gap: 20px;
             margin-top: 30px;
+        }
+
+        .form-section, .cart-section {
+            flex: 1;
             padding: 20px;
             background-color: white;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        .section h2 {
+        .form-section h2, .cart-section h2 {
             margin-bottom: 20px;
         }
 
         .input-field {
             margin-bottom: 15px;
-            width: 100%;
+            width: 98%;
         }
 
         .input-field input, .input-field select {
@@ -87,10 +123,6 @@ foreach ($_SESSION['cart'] as $product_id => $product) {
             margin-bottom: 5px;
         }
 
-        .cart-summary {
-            margin-top: 20px;
-        }
-
         .cart-summary table {
             width: 100%;
             border-collapse: collapse;
@@ -104,6 +136,12 @@ foreach ($_SESSION['cart'] as $product_id => $product) {
 
         .cart-summary th {
             background-color: #f4f4f4;
+        }
+
+        .product-image {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
         }
 
         .order-button {
@@ -142,48 +180,64 @@ foreach ($_SESSION['cart'] as $product_id => $product) {
 
     <h1>Potvrzení objednávky</h1>
 
-    <div class="section">
-        <h2>Údaje o doručení</h2>
-        <form action="checkout.php" method="POST">
-            <div class="input-field">
-                <label for="name">Jméno a příjmení</label>
-                <input type="text" id="name" name="name" required>
-            </div>
-            <div class="input-field">
-                <label for="address">Adresa</label>
-                <input type="text" id="address" name="address" required>
-            </div>
-            <div class="input-field">
-                <label for="city">Město</label>
-                <input type="text" id="city" name="city" required>
-            </div>
-            <div class="input-field">
-                <label for="zip">PSČ</label>
-                <input type="text" id="zip" name="zip" required>
-            </div>
-            <div class="input-field">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="input-field">
-                <label for="phone">Telefonní číslo</label>
-                <input type="tel" id="phone" name="phone" required pattern="[0-9]{9}" title="Telefonní číslo musí obsahovat 9 číslic">
-            </div>
+    <!-- Order Progress -->
+    <div class="order-progress">
+        <div><a href="kosik.php">Košík</a></div>
+        <div class="active">Kontaktní údaje, doprava, platba</div>
+        <div>Potvrzení objednávky</div>
+    </div>
 
-            <h2>Způsob platby</h2>
-            <div class="input-field">
-                <label for="payment_method">Vyberte způsob platby</label>
-                <select id="payment_method" name="payment_method" required>
-                    <option value="card">Platební karta</option>
-                    <option value="cash">Platba na dobírku</option>
-                </select>
-            </div>
+    <div class="main-section">
+        <!-- Form Section -->
+        <div class="form-section">
+            <h2>Údaje o doručení</h2>
+            <form action="checkout.php" method="POST">
+                <div class="input-field">
+                    <label for="name">Jméno a příjmení</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="input-field">
+                    <label for="address">Adresa</label>
+                    <input type="text" id="address" name="address" required>
+                </div>
+                <div class="input-field">
+                    <label for="city">Město</label>
+                    <input type="text" id="city" name="city" required>
+                </div>
+                <div class="input-field">
+                    <label for="zip">PSČ</label>
+                    <input type="text" id="zip" name="zip" required>
+                </div>
+                <div class="input-field">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="input-field">
+                    <label for="phone">Telefonní číslo</label>
+                    <input type="tel" id="phone" name="phone" required pattern="[0-9]{9}" title="Telefonní číslo musí obsahovat 9 číslic">
+                </div>
 
+                <h2>Způsob platby</h2>
+                <div class="input-field">
+                    <label for="payment_method">Vyberte způsob platby</label>
+                    <select id="payment_method" name="payment_method" required>
+                        <option value="card">Platební karta</option>
+                        <option value="cash">Platba na dobírku</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="order-button">Potvrdit objednávku</button>
+            </form>
+        </div>
+
+        <!-- Cart Section -->
+        <div class="cart-section">
             <h2>Souhrn objednávky</h2>
             <div class="cart-summary">
                 <table>
                     <tr>
                         <th>Produkt</th>
+                        <th>Obrázek</th>
                         <th>Cena</th>
                         <th>Množství</th>
                         <th>Celkem</th>
@@ -194,6 +248,7 @@ foreach ($_SESSION['cart'] as $product_id => $product) {
                     ?>
                     <tr>
                         <td><?php echo htmlspecialchars($product['name']); ?></td>
+                        <td><img src="<?php echo htmlspecialchars($product['image']); ?>" alt="Produkt" class="product-image"></td>
                         <td><?php echo number_format($product['price'], 0, ',', ' ') . " Kč"; ?></td>
                         <td><?php echo $product['quantity']; ?></td>
                         <td><?php echo number_format($productTotal, 0, ',', ' ') . " Kč"; ?></td>
@@ -202,9 +257,7 @@ foreach ($_SESSION['cart'] as $product_id => $product) {
                 </table>
                 <p><strong>Celková cena: <?php echo number_format($totalPrice, 0, ',', ' ') . " Kč"; ?></strong></p>
             </div>
-
-            <button type="submit" class="order-button">Potvrdit objednávku</button>
-        </form>
+        </div>
     </div>
 
 </div>
@@ -216,8 +269,3 @@ foreach ($_SESSION['cart'] as $product_id => $product) {
 
 </body>
 </html>
-
-
-
-
-

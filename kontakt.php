@@ -156,6 +156,7 @@ session_start(); // Start session, abychom mohli pracovat s proměnnými session
                 <a href="admin.php" class="admin-btn">Správa produktů</a> <!-- Odkaz pro správu produktů -->
             <?php endif; ?>
             <a href="server.php?action=logout" class="logout-btn">Odhlásit se</a>
+            <a href="server.php?action=delete_account" class="delete-account-btn">Odstranit účet</a>
 
         <?php else: ?>
             <a href="login.html" class="login-btn">Přihlásit se</a>
