@@ -11,7 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'zip' => $_POST['zip'],
         'email' => $_POST['email'],
         'phone' => $_POST['phone'],
-        'payment_method' => $_POST['payment_method']
+        'payment_method' => $_POST['payment_method'],
+        'shipping_method' => $_POST['shipping_method'] // Uložení dopravy
     ];
 
     // Přesměrování na stránku s přehledem objednávky
@@ -70,7 +71,7 @@ foreach ($_SESSION['cart'] as $product_id => $product) {
             text-align: center;
             font-weight: bold;
             padding: 10px;
-            border-radius: 5px;
+            border-radius: 50px;
         }
 
         .order-progress div.active {
@@ -217,6 +218,17 @@ foreach ($_SESSION['cart'] as $product_id => $product) {
                     <input type="tel" id="phone" name="phone" required pattern="[0-9]{9}" title="Telefonní číslo musí obsahovat 9 číslic">
                 </div>
 
+                <!-- Způsob dopravy -->
+                <h2>Způsob dopravy</h2>
+                <div class="input-field">
+                    <label for="shipping_method">Vyberte způsob dopravy</label>
+                    <select id="shipping_method" name="shipping_method" required>
+                        <option value="courier">Doručení kurýrem na adresu</option>
+                        <option value="pickup">Osobní odběr</option>
+                    </select>
+                </div>
+
+                <!-- Způsob platby -->
                 <h2>Způsob platby</h2>
                 <div class="input-field">
                     <label for="payment_method">Vyberte způsob platby</label>
@@ -261,11 +273,5 @@ foreach ($_SESSION['cart'] as $product_id => $product) {
     </div>
 
 </div>
-
-<footer class="footer">
-    <p>© 2025 | <a href="obchodnipodminky.html">Obchodní podmínky</a> | <a href="pravidla.html">Pravidla ochrany soukromí</a></p>
-    <p>Email: info@store.cz | Telefon: 777 666 555</p>
-</footer>
-
 </body>
 </html>

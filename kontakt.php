@@ -53,11 +53,13 @@ session_start(); // Start session, abychom mohli pracovat s proměnnými session
             justify-content: flex-start;
         }
 
-        nav .auth-links a {
+        nav .nav-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%); /* Uprostřed horizontálně */
+            font-size: 1.5em;
+            font-weight: bold;
             color: white;
-            text-decoration: none;
-            margin: 0 20px;
-            font-size: 1em;
         }
 
         nav a {
@@ -162,39 +164,44 @@ session_start(); // Start session, abychom mohli pracovat s proměnnými session
             <a href="login.html" class="login-btn">Přihlásit se</a>
             <a href="register.html" class="register-btn">Registrovat se</a>
         <?php endif; ?>
-        </div>
-        <div>
-            <a href="uvod.php">Úvod</a>
-            <a href="obchod.php">Obchod</a>
-            <a href="kontakt.php" class="active">Kontakt</a>
-            <span class="divider"></span>
-            <a href="kosik.php">Košík 🛒</a>
-        </div>
-    </nav>
+    </div>
+    <div class="nav-center">
+        <span class="site-title">E-shop Apple</span> <!-- Titul E-shop Apple -->
+    </div>
+    <div>
+        <a href="uvod.php">Úvod</a>
+        <a href="obchod.php">Obchod</a>
+        <a href="kontakt.php" class="active">Kontakt</a>
+        <span class="divider"></span>
+        <a href="kosik.php">Košík 🛒</a>
+    </div>
+</nav>
 
-    <div class="background">
-        <div class="overlay">
-            <br><br><h1>Kontaktujte nás</h1>
-            <div style="display: flex; justify-content: space-between; width: 100%;">
-                <div class="contact-info">
-                    <p><strong>Adresa:</strong><br>V TOVER Prague<br>Milevská 2094/3, 140 00 Praha 4 - Krč</p>
-                    <p><strong>Telefon:</strong><br>777 666 555</p>
-                    <p><strong>E-mail:</strong><br>info@store.cz</p>
-                </div>
-                <div class="map-container">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3046.7248667868666!2d14.438922264153241!3d50.04920560588697!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470b94751e16c6a1%3a0x740b067895ad75cf!2sv%20tower%2c%20prague!5e0!3m2!1scs!2scz!4v1737381294216!5m2!1scs!2scz" width="1000" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                </div>
+<div class="background">
+    <div class="overlay">
+        <br><br><h1>Kontaktujte nás</h1>
+        <div style="display: flex; justify-content: space-between; width: 100%;">
+            <div class="contact-info">
+                <p><strong>Adresa:</strong><br>V TOVER Prague<br>Milevská 2094/3, 140 00 Praha 4 - Krč</p>
+                <p><strong>Telefon:</strong><br>777 666 555</p>
+                <p><strong>E-mail:</strong><br>info@store.cz</p>
+                <p><strong>Provozní doba výdej objednávek:</strong><br>Po - Pá: 8:00 - 16:30<br>Sobota: 8:00 - 14:00<br>Neděle: Zavřeno</p> 
+            </div>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3046.7248667868666!2d14.438922264153241!3d50.04920560588697!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470b94751e16c6a1%3a0x740b067895ad75cf!2sv%20tower%2c%20prague!5e0!3m2!1scs!2scz!4v1737381294216!5m2!1scs!2scz" width="1000" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </div>
+</div>
 
-    <footer>
-        <p>© 2025 | <a href="obchodnipodminky.html">Obchodní podmínky</a> | <a href="pravidla.html">Pravidla ochrany soukromí</a></p>
-        <p>Email: info@store.cz | Telefon: 777 666 555</p>
-    </footer>
+<footer>
+    <p>© 2025 | <a href="obchodnipodminky.html">Obchodní podmínky</a> | <a href="pravidla.html">Pravidla ochrany soukromí</a></p>
+    <p>Email: info@store.cz | Telefon: 777 666 555</p>
+</footer>
 
 </body>
 </html>
+
 
 
 

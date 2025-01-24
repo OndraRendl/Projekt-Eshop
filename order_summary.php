@@ -32,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $orderDetails['email'];
     $phone = $orderDetails['phone'];
     $payment_method = $orderDetails['payment_method'];
+    $shipping_method = $orderDetails['shipping_method']; // Přidání dopravy
     $total_price = 0;
 
     // Výpočet celkové ceny
@@ -40,8 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // SQL dotaz pro vložení objednávky
-    $sql = "INSERT INTO orders (name, address, city, zip, email, phone, payment_method, total_price)
-            VALUES ('$name', '$address', '$city', '$zip', '$email', '$phone', '$payment_method', '$total_price')";
+    $sql = "INSERT INTO orders (name, address, city, zip, email, phone, payment_method, shipping_method, total_price)
+            VALUES ('$name', '$address', '$city', '$zip', '$email', '$phone', '$payment_method', '$shipping_method', '$total_price')";
 
     if ($conn->query($sql) === TRUE) {
         // Po úspěšném vložení objednávky přesměrujeme na stránku s poděkováním
@@ -69,18 +70,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background-color: #f4f4f4;
             color: #333;
         }
-
         .container {
             width: 80%;
             margin: 0 auto;
             padding: 20px;
         }
-
         h1 {
             text-align: center;
-            color:rgb(0, 0, 0);
+            color: black;
+            font-size: 2.5em;
         }
-
         .order-progress {
             display: flex;
             justify-content: space-between;
@@ -89,57 +88,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background-color: #e9ecef;
             border-radius: 5px;
         }
-
         .order-progress div {
             flex: 1;
             text-align: center;
             font-weight: bold;
             padding: 10px;
-            border-radius: 5px;
+            border-radius: 50px;
         }
-
         .order-progress div.active {
             background-color: #007bff;
             color: white;
         }
-
         .order-progress div a {
             text-decoration: none;
             color: inherit;
         }
-
         .order-progress div:not(.active) {
             background-color: #f8f9fa;
         }
-
         .section {
             margin-top: 30px;
             padding: 20px;
             background-color: white;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-
         .order-details p {
             font-size: 1.2em;
             line-height: 1.5;
         }
-
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
-
         th, td {
             padding: 10px;
             text-align: left;
             border: 1px solid #ccc;
         }
-
         th {
             background-color: #f4f4f4;
         }
-
         .order-button {
             background-color: #28a745;
             color: white;
@@ -151,23 +140,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             width: 100%;
             margin-top: 20px;
         }
-
         .order-button:hover {
             background-color: #218838;
         }
-
         .footer {
             text-align: center;
             margin-top: 40px;
             font-size: 0.8em;
             color: #777;
         }
-
         .footer a {
             text-decoration: none;
             color: #777;
         }
-
     </style>
 </head>
 <body>
@@ -178,7 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <!-- Order Progress -->
     <div class="order-progress">
-        <div><a href="kosik.php">Košík</a></div>
+        <div><a>Košík</a></div>
         <div><a href="checkout.php">Kontaktní údaje, doprava, platba</a></div>
         <div class="active">Potvrzení objednávky</div>
     </div>
@@ -192,6 +177,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p><strong>PSČ:</strong> <?php echo htmlspecialchars($orderDetails['zip']); ?></p>
             <p><strong>Email:</strong> <?php echo htmlspecialchars($orderDetails['email']); ?></p>
             <p><strong>Telefonní číslo:</strong> <?php echo htmlspecialchars($orderDetails['phone']); ?></p>
+            <p><strong>Způsob dopravy:</strong> 
+                <?php 
+                if ($orderDetails['shipping_method'] === 'courier') {
+                    echo 'Kurýr';
+                } elseif ($orderDetails['shipping_method'] === 'pickup') {
+                    echo 'Osobní odběr';
+                }
+                ?>
+            </p>
             <p><strong>Způsob platby:</strong> <?php echo $orderDetails['payment_method'] === 'card' ? 'Platební karta' : 'Platba na dobírku'; ?></p>
         </div>
 
@@ -223,7 +217,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form action="order_summary.php" method="POST">
             <button type="submit" class="order-button">Objednat</button>
         </form>
-
     </div>
 
 </div>
@@ -235,6 +228,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 </body>
 </html>
+
 
 
 

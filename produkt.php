@@ -244,6 +244,14 @@ if (isset($_POST['add_to_cart'])) {
             border-color: #ff6f61; /* Změna barvy rámečku */
             outline: none; /* Odebrání defaultního ohraničení */
         }
+        nav .nav-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%); /* Uprostřed horizontálně */
+            font-size: 1.5em;
+            font-weight: bold;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -262,6 +270,9 @@ if (isset($_POST['add_to_cart'])) {
                 <a href="login.html" class="login-btn">Přihlásit se</a>
                 <a href="register.html" class="register-btn">Registrovat se</a>
             <?php endif; ?>
+            <div class="nav-center">
+                <span class="site-title">E-shop Apple</span> <!-- Titul E-shop Apple -->
+            </div>
         </div>
         <div>
             <a href="uvod.php">Úvod</a>

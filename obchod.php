@@ -69,6 +69,15 @@ if ($conn->connect_error) {
             justify-content: flex-start;
         }
 
+        nav .nav-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%); /* Uprostřed horizontálně */
+            font-size: 1.5em;
+            font-weight: bold;
+            color: white;
+        }
+
         nav a {
             color: white;
             text-decoration: none;
@@ -171,52 +180,56 @@ if ($conn->connect_error) {
             <a href="login.html" class="login-btn">Přihlásit se</a>
             <a href="register.html" class="register-btn">Registrovat se</a>
         <?php endif; ?>
-        </div>
-        <div>
-            <a href="uvod.php">Úvod</a>
-            <a href="obchod.php" class="active">Obchod</a>
-            <a href="kontakt.php">Kontakt</a>
-            <span class="divider"></span>
-            <a href="kosik.php">Košík 🛒</a>
-        </div>
-    </nav>
+    </div>
+    <div class="nav-center">
+        <span class="site-title">E-shop Apple</span> <!-- Titul E-shop Apple -->
+    </div>
+    <div>
+        <a href="uvod.php">Úvod</a>
+        <a href="obchod.php" class="active">Obchod</a>
+        <a href="kontakt.php">Kontakt</a>
+        <span class="divider"></span>
+        <a href="kosik.php">Košík 🛒</a>
+    </div>
+</nav>
 
-    <div class="background">
-        <div class="overlay">
-            <h1>Náš obchod</h1>
+<div class="background">
+    <div class="overlay">
+        <h1>Náš obchod</h1>
 
-            <div class="products">
-                <?php
-                // Načtení produktů z databáze
-                $sql = "SELECT * FROM produkty";
-                $result = $conn->query($sql);
+        <div class="products">
+            <?php
+            // Načtení produktů z databáze
+            $sql = "SELECT * FROM produkty";
+            $result = $conn->query($sql);
 
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        echo '<div class="product">';
-                        echo '<a href="produkt.php?id=' . $row['id'] . '">';
-                        echo '<img src="' . htmlspecialchars($row['obrazek']) . '" alt="Produkt">';
-                        echo '<h3>' . htmlspecialchars($row['nazev']) . '</h3>';
-                        echo '</a>';
-                        // Formátování ceny
-                        echo '<div class="price">' . number_format($row['cena'], 0, ',', ' ') . ' Kč</div>';
-                        echo '</div>';
-                    }
-                } else {
-                    echo '<p>Žádné produkty nebyly nalezeny.</p>';
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo '<div class="product">';
+                    echo '<a href="produkt.php?id=' . $row['id'] . '">';
+                    echo '<img src="' . htmlspecialchars($row['obrazek']) . '" alt="Produkt">';
+                    echo '<h3>' . htmlspecialchars($row['nazev']) . '</h3>';
+                    echo '</a>';
+                    // Formátování ceny
+                    echo '<div class="price">' . number_format($row['cena'], 0, ',', ' ') . ' Kč</div>';
+                    echo '</div>';
                 }
-                ?>
-            </div>
+            } else {
+                echo '<p>Žádné produkty nebyly nalezeny.</p>';
+            }
+            ?>
         </div>
     </div>
+</div>
 
-    <footer>
-        <p>© 2025 | <a href="obchodnipodminky.html">Obchodní podmínky</a> | <a href="pravidla.html">Pravidla ochrany soukromí</a></p>
-        <p>Email: info@store.cz | Telefon: 777 666 555</p>
-    </footer>
+<footer>
+    <p>© 2025 | <a href="obchodnipodminky.html">Obchodní podmínky</a> | <a href="pravidla.html">Pravidla ochrany soukromí</a></p>
+    <p>Email: info@store.cz | Telefon: 777 666 555</p>
+</footer>
 
 </body>
 </html>
+
 
 
 
