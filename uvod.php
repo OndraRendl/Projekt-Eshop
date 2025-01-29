@@ -103,8 +103,16 @@ session_start(); // Start session, abychom mohli pracovat s proměnnými session
 
         p {
             max-width: 800px;
-            font-size: 1.2em;
+            font-size: 1.4em;
             margin-bottom: 30px;
+        }
+
+        p1 {
+            max-width: 800px;
+            font-size: 0.9em;
+            color: #bbb;
+            padding: 5px;
+            margin-top: 20px;
         }
 
         .button {
@@ -165,14 +173,14 @@ session_start(); // Start session, abychom mohli pracovat s proměnnými session
 <div class="background">
     <div class="overlay">
         <h1>E-SHOP S PRODUKTY FIRMY APPLE</h1>
-        <p>Vítejte na našem e-shopu, kde najdete špičkové produkty od společnosti Apple. Objevte nejnovější modely iPhone, iPad, MacBook a Apple Watch, které kombinují elegantní design s nejmodernějšími technologiemi. Ať už hledáte výkon pro práci, zábavu, nebo stylové příslušenství, u nás si vyberete. Nabízíme také širokou škálu originálního příslušenství a doplňků, které dokonale doplní vaše zařízení Apple. Využijte naše akční nabídky a užijte si rychlé a bezpečné doručení!</p>
+        <p>Vítejte na našem e-shopu, kde najdete špičkové produkty od společnosti Apple. Objevte nejnovější modely iPhone, iPad, MacBook a Apple Watch, které kombinují elegantní design s nejmodernějšími technologiemi. Ať už hledáte výkon pro práci, zábavu, nebo stylové příslušenství, u nás si vyberete. Nabízíme také širokou škálu originálního příslušenství a doplňků, které dokonale doplní vaše zařízení Apple. Využijte naše akční nabídky a užijte si rychlé a bezpečné doručení zdarma!</p>
         <a href="obchod.php" class="button">Obchod</a>
     </div>
 </div>
 
 <footer>
-    <p>© 2025 | <a href="obchodnipodminky.html">Obchodní podmínky</a> | <a href="pravidla.html">Pravidla ochrany soukromí</a></p>
-    <p>Email: info@store.cz | Telefon: 777 666 555</p>
+    <p1>© 2025 | <a href="obchodnipodminky.html">Obchodní podmínky</a> | <a href="pravidla.html">Pravidla ochrany soukromí</a></p1>
+    <p1>Email: info@store.cz | Telefon: 777 666 555</p1>
 </footer>
 
 </body>

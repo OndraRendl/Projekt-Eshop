@@ -9,22 +9,27 @@ if (!isset($_SESSION['order_details']) || empty($_SESSION['order_details'])) {
 
 $orderDetails = $_SESSION['order_details'];
 
-// Připojení k databázi (nezapomeňte změnit podle vašich údajů)
+// Připojení k databázi "objednavky" (pro ukládání objednávek)
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "objednavky"; // Změňte na název vaší databáze
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Zkontrolujeme připojení
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+// Připojení k databázi objednávek
+$dbnameOrders = "objednavky";
+$connOrders = new mysqli($servername, $username, $password, $dbnameOrders);
+if ($connOrders->connect_error) {
+    die("Connection to objednavky failed: " . $connOrders->connect_error);
 }
 
-// Odeslání objednávky do databáze po kliknutí na tlačítko "Objednat"
+// Připojení k databázi produktů
+$dbnameProducts = "e-shopapple";
+$connProducts = new mysqli($servername, $username, $password, $dbnameProducts);
+if ($connProducts->connect_error) {
+    die("Connection to e-shopapple failed: " . $connProducts->connect_error);
+}
+
+// Odeslání objednávky po kliknutí na tlačítko "Objednat"
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Vložení objednávky do tabulky
     $name = $orderDetails['name'];
     $address = $orderDetails['address'];
     $city = $orderDetails['city'];
@@ -32,31 +37,65 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $orderDetails['email'];
     $phone = $orderDetails['phone'];
     $payment_method = $orderDetails['payment_method'];
-    $shipping_method = $orderDetails['shipping_method']; // Přidání dopravy
+    $shipping_method = $orderDetails['shipping_method'];
     $total_price = 0;
 
-    // Výpočet celkové ceny
+    $productsList = []; // Pole pro seznam produktů a jejich množství
+
     foreach ($_SESSION['cart'] as $product_id => $product) {
+        $quantityOrdered = $product['quantity'];
+
+        // Kontrola dostupnosti skladu v databázi "e-shopapple"
+        $checkStockSql = "SELECT skladem FROM produkty WHERE id = $product_id";
+        $result = $connProducts->query($checkStockSql);
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+
+            // Ověření, zda je dostatek kusů na skladě
+            if ($row['skladem'] < $quantityOrdered) {
+                echo "Produkt " . htmlspecialchars($product['name']) . " není skladem v požadovaném množství.";
+                exit();
+            }
+        } else {
+            echo "Produkt s ID $product_id nebyl nalezen.";
+            exit();
+        }
+
+        // Aktualizace skladu (odečtení objednaných kusů)
+        $updateStockSql = "UPDATE produkty SET skladem = skladem - $quantityOrdered WHERE id = $product_id";
+        if (!$connProducts->query($updateStockSql)) {
+            echo "Chyba při aktualizaci skladu pro produkt " . htmlspecialchars($product['name']) . ": " . $connProducts->error;
+            exit();
+        }
+
+        // Přidání produktu do seznamu
+        $productsList[] = $product['name'] . " (" . $product['quantity'] . " ks)";
         $total_price += $product['price'] * $product['quantity'];
     }
 
-    // SQL dotaz pro vložení objednávky
-    $sql = "INSERT INTO orders (name, address, city, zip, email, phone, payment_method, shipping_method, total_price)
-            VALUES ('$name', '$address', '$city', '$zip', '$email', '$phone', '$payment_method', '$shipping_method', '$total_price')";
+    // Připravení seznamu produktů pro uložení do databáze objednávek
+    $products = implode(", ", $productsList);
 
-    if ($conn->query($sql) === TRUE) {
+    // Vložení objednávky do tabulky "orders" v databázi "objednavky"
+    $sqlOrder = "INSERT INTO orders (name, address, city, zip, email, phone, payment_method, shipping_method, total_price, products)
+                 VALUES ('$name', '$address', '$city', '$zip', '$email', '$phone', '$payment_method', '$shipping_method', '$total_price', '$products')";
+
+    if ($connOrders->query($sqlOrder) === TRUE) {
         // Po úspěšném vložení objednávky přesměrujeme na stránku s poděkováním
         unset($_SESSION['cart']); // Vyprázdnění košíku
         unset($_SESSION['order_details']); // Smazání údajů o objednávce
         header("Location: thank_you.php");
         exit();
     } else {
-        echo "Chyba při odesílání objednávky: " . $conn->error;
+        echo "Chyba při ukládání objednávky: " . $connOrders->error;
     }
 
-    $conn->close();
+    $connOrders->close();
+    $connProducts->close();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="cs">

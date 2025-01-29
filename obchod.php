@@ -210,8 +210,16 @@ if ($conn->connect_error) {
                     echo '<img src="' . htmlspecialchars($row['obrazek']) . '" alt="Produkt">';
                     echo '<h3>' . htmlspecialchars($row['nazev']) . '</h3>';
                     echo '</a>';
-                    // Formátování ceny
-                    echo '<div class="price">' . number_format($row['cena'], 0, ',', ' ') . ' Kč</div>';
+
+                    // Kontrola skladové dostupnosti
+                    if ($row['skladem'] > 0) {
+                        // Pokud je skladem více než 0 kusů, zobrazí se cena
+                        echo '<div class="price">' . number_format($row['cena'], 0, ',', ' ') . ' Kč</div>';
+                    } else {
+                        // Pokud je skladem 0 kusů, zobrazí se text "Vyprodáno"
+                        echo '<div class="price" style="color: red; font-weight: bold;">Vyprodáno</div>';
+                    }
+
                     echo '</div>';
                 }
             } else {
@@ -219,6 +227,7 @@ if ($conn->connect_error) {
             }
             ?>
         </div>
+
     </div>
 </div>
 

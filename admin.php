@@ -34,7 +34,7 @@ $result = $conn->query($sql);
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background: linear-gradient(to bottom, #f4f4f4, #eaeaea);
             color: #333;
             margin: 0;
             padding: 0;
@@ -43,19 +43,22 @@ $result = $conn->query($sql);
         header {
             background-color: #333;
             color: white;
-            padding: 15px;
+            padding: 20px 15px;
             text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         header h1 {
             margin: 0;
+            font-size: 2rem;
         }
 
         nav {
             display: flex;
             justify-content: center;
             background-color: #444;
-            padding: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         nav a {
@@ -64,15 +67,29 @@ $result = $conn->query($sql);
             padding: 10px 20px;
             margin: 0 10px;
             border-radius: 5px;
-            transition: background-color 0.3s;
+            background: linear-gradient(to right, #666, #444);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         nav a:hover {
-            background-color: #666;
+            background: linear-gradient(to right, #444, #222);
+            transform: translateY(-3px);
         }
 
         .container {
-            margin: 30px;
+            margin: 40px auto;
+            max-width: 1200px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
         }
 
         .product-table {
@@ -80,43 +97,61 @@ $result = $conn->query($sql);
             border-collapse: collapse;
             margin-top: 20px;
             background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border-radius: 10px;
         }
 
         .product-table th, .product-table td {
-            padding: 8px;
+            padding: 12px 15px;
             text-align: center;
             border: 1px solid #ddd;
         }
 
         .product-table th {
-            background-color: #333;
+            background: linear-gradient(to right, #333, #555);
             color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .product-table tr:hover {
+            background-color: #f4f4f4;
         }
 
         .product-table td img {
             width: 80px;
             height: auto;
             border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        .actions a {
-            color: #FF4136;
-            text-decoration: none;
-            margin: 0 5px;
+        .actions button {
+            background-color: #FF4136;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
             font-weight: bold;
+            transition: background-color 0.3s ease;
         }
 
-        .actions a:hover {
-            text-decoration: underline;
+        .actions button:hover {
+            background-color: #ff6347;
         }
 
         footer {
             text-align: center;
-            padding: 10px;
+            padding: 15px;
             background-color: #333;
             color: white;
             margin-top: 30px;
+            font-size: 0.9rem;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        footer p {
+            margin: 0;
         }
     </style>
 </head>
@@ -132,7 +167,7 @@ $result = $conn->query($sql);
     </nav>
 
     <div class="container">
-        <h2>Seznam produktů</h2>
+        <h2>Seznam produktů na skladě</h2>
 
         <?php
         if ($result->num_rows > 0) {
@@ -142,6 +177,7 @@ $result = $conn->query($sql);
                     <th>Název produktu</th>
                     <th>Obrázek</th>
                     <th>Cena</th>
+                    <th>Počet kusů na skladě</th>
                     <th>Akce</th>
                   </tr>';
 
@@ -151,8 +187,12 @@ $result = $conn->query($sql);
                 echo '<td>' . htmlspecialchars($row['nazev']) . '</td>';
                 echo '<td><img src="' . htmlspecialchars($row['obrazek']) . '" alt="Produkt"></td>';
                 echo '<td>' . number_format($row['cena'], 2, ',', ' ') . ' Kč</td>';
+                echo '<td>' . htmlspecialchars($row['skladem']) . ' ks</td>';
                 echo '<td class="actions">
-                        <a href="delete_product.php?id=' . $row['id'] . '">Odstranit</a>
+                        <form method="post" action="delete_product.php">
+                            <input type="hidden" name="id" value="' . htmlspecialchars($row['id']) . '">
+                            <button type="submit">Odstranit</button>
+                        </form>
                       </td>';
                 echo '</tr>';
             }
@@ -172,4 +212,5 @@ $result = $conn->query($sql);
 
 </body>
 </html>
+
 

@@ -294,15 +294,31 @@ if (isset($_POST['add_to_cart'])) {
                 </div>
 
                 <div class="product-info">
-                    <h3>Podrobnosti o produktu</h3>
+                    <h3>Popis produktu</h3>
                     <p><?php echo htmlspecialchars($product['popis']); ?></p><br>
-                    <div class="price">Cena: <?php echo number_format($product['cena'], 0, ',', ' ') . ' Kč'; ?></div><br>
-                    <form method="POST">
-                        <label for="quantity">Množství:</label><br>
-                        <input type="number" id="quantity" name="quantity" value="1" min="1" required>
-                        <button type="submit" name="add_to_cart" class="button">Přidat do košíku</button>
-                    </form>
+
+                    <?php if ($product['skladem'] > 0): ?>
+                        <p>Na skladě: 
+                            <?php 
+                                $quantity_text = ($product['skladem'] > 10) ? ">10 ks" : $product['skladem'] . " ks";
+                                echo $quantity_text;
+                            ?>
+                        </p>
+
+                        <div class="price">Cena: <?php echo number_format($product['cena'], 0, ',', ' ') . ' Kč'; ?></div><br>
+
+                        <form method="POST">
+                            <label for="quantity">Množství:</label><br>
+                            <input type="number" id="quantity" name="quantity" value="1" min="1" max="<?php echo $product['skladem']; ?>" required>
+                            <button type="submit" name="add_to_cart" class="button">Přidat do košíku</button>
+                        </form>
+                    <?php else: ?>
+                        <p><strong style="color: red;">Vyprodáno</strong></p>
+                    <?php endif; ?>
                 </div>
+
+
+
             </div>
         </div>
     </div>
