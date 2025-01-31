@@ -11,7 +11,7 @@ if (!isset($_SESSION['username']) || $_SESSION['username'] !== 'admin') {
 $servername = "localhost";
 $username = "root";
 $password = "";
-$database = "E-shopapple";
+$database = "e-shopapple";
 
 $conn = new mysqli($servername, $username, $password, $database);
 
@@ -20,17 +20,26 @@ if ($conn->connect_error) {
     die("Připojení k databázi selhalo: " . $conn->connect_error);
 }
 
-// Získání ID produktu z URL
-if (isset($_GET['id'])) {
-    $id = (int) $_GET['id'];
+// Získání ID produktu z POST
+if (isset($_POST['id'])) {
+    $id = (int) $_POST['id']; // Zajištění bezpečnosti hodnoty ID
 
-    // SQL dotaz pro odstranění produktu
-    $sql = "DELETE FROM produkty WHERE id = $id";
+    // SQL dotaz pro odstranění produktu s použitím prepared statement
+    $sql = "DELETE FROM produkty WHERE id = ?";
 
-    if ($conn->query($sql) === TRUE) {
-        echo "Produkt byl úspěšně odstraněn.";
+    if ($stmt = $conn->prepare($sql)) {
+        // Přiřazení hodnoty ID k parametru v dotazu
+        $stmt->bind_param("i", $id);
+
+        if ($stmt->execute()) {
+            echo "Produkt byl úspěšně odstraněn.";
+        } else {
+            echo "Chyba při odstraňování produktu: " . $stmt->error;
+        }
+
+        $stmt->close();
     } else {
-        echo "Chyba při odstraňování produktu: " . $conn->error;
+        echo "Chyba při přípravě dotazu: " . $conn->error;
     }
 } else {
     echo "Produkt ID není k dispozici.";

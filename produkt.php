@@ -313,7 +313,7 @@ if (isset($_POST['add_to_cart'])) {
                             <button type="submit" name="add_to_cart" class="button">Přidat do košíku</button>
                         </form>
                     <?php else: ?>
-                        <p><strong style="color: red;">Vyprodáno</strong></p>
+                        <p><strong style="color: red;" >Vyprodáno</strong></p>
                     <?php endif; ?>
                 </div>
 

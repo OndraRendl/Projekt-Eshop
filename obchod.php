@@ -13,6 +13,25 @@ $conn = new mysqli($servername, $username, $password, $database);
 if ($conn->connect_error) {
     die("Připojení k databázi selhalo: " . $conn->connect_error);
 }
+
+// Získání filtru, pokud je nastaven
+$filter = isset($_GET['filter']) ? $_GET['filter'] : 'doporucujeme'; // Defaultní filtr je doporučujeme
+
+// Určujeme SQL dotaz podle zvoleného filtru
+switch ($filter) {
+    case 'nejlevnejsi':
+        $sql = "SELECT * FROM produkty ORDER BY cena ASC";
+        break;
+    case 'nejdrazsi':
+        $sql = "SELECT * FROM produkty ORDER BY cena DESC";
+        break;
+    case 'doporucujeme':
+    default:
+        $sql = "SELECT * FROM produkty ORDER BY id ASC"; // Nejmenší ID pro doporučování
+        break;
+}
+
+$result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -22,6 +41,29 @@ if ($conn->connect_error) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-shop - obchod</title>
     <style>
+        /* Styl pro tlačítka */
+        .filter {
+            margin: 20px;
+            text-align: center;
+        }
+        .filter button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            transition: background-color 0.3s;
+        }
+        .filter button:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+        .filter button.active {
+            background-color: rgba(255, 255, 255, 0.6);
+        }
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -40,11 +82,13 @@ if ($conn->connect_error) {
         .background {
             position: relative;
             width: 100%;
-            height: auto;
+            min-height: 100vh;
             background-image: url('1.avif');
             background-size: cover;
             background-position: center;
-            margin-top: 100px; /* Posune obsah pod lištu */
+            padding-top: 80px;
+            padding-bottom: 80px;
+            box-sizing: border-box; 
         }
 
         .overlay {
@@ -197,12 +241,15 @@ if ($conn->connect_error) {
     <div class="overlay">
         <h1>Náš obchod</h1>
 
+        <!-- Filtr pro produkty (tlačítka) -->
+        <div class="filter">
+            <button onclick="window.location.href='obchod.php?filter=doporucujeme'" class="<?php echo ($filter == 'doporucujeme') ? 'active' : ''; ?>">Doporučujeme</button>
+            <button onclick="window.location.href='obchod.php?filter=nejlevnejsi'" class="<?php echo ($filter == 'nejlevnejsi') ? 'active' : ''; ?>">Nejlevnější</button>
+            <button onclick="window.location.href='obchod.php?filter=nejdrazsi'" class="<?php echo ($filter == 'nejdrazsi') ? 'active' : ''; ?>">Nejdražší</button>
+        </div>
+
         <div class="products">
             <?php
-            // Načtení produktů z databáze
-            $sql = "SELECT * FROM produkty";
-            $result = $conn->query($sql);
-
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     echo '<div class="product">';
@@ -213,10 +260,8 @@ if ($conn->connect_error) {
 
                     // Kontrola skladové dostupnosti
                     if ($row['skladem'] > 0) {
-                        // Pokud je skladem více než 0 kusů, zobrazí se cena
                         echo '<div class="price">' . number_format($row['cena'], 0, ',', ' ') . ' Kč</div>';
                     } else {
-                        // Pokud je skladem 0 kusů, zobrazí se text "Vyprodáno"
                         echo '<div class="price" style="color: red; font-weight: bold;">Vyprodáno</div>';
                     }
 
@@ -227,7 +272,6 @@ if ($conn->connect_error) {
             }
             ?>
         </div>
-
     </div>
 </div>
 
@@ -238,7 +282,6 @@ if ($conn->connect_error) {
 
 </body>
 </html>
-
 
 
 

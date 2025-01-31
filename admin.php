@@ -11,7 +11,7 @@ if (!isset($_SESSION['username']) || $_SESSION['username'] !== 'admin') {
 $servername = "localhost";
 $username = "root";
 $password = "";
-$database = "E-shopapple";
+$database = "e-shopapple";
 
 $conn = new mysqli($servername, $username, $password, $database);
 
