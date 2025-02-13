@@ -324,8 +324,9 @@ if (isset($_POST['add_to_cart'])) {
     </div>
 
     <footer>
-        <p>© 2025 | <a href="obchodnipodminky.html">Obchodní podmínky</a> | <a href="pravidla.html">Pravidla ochrany soukromí</a></p>
-    </footer>
+    <p>© 2025 | <a href="obchodnipodminky.html">Obchodní podmínky</a> | <a href="pravidla.html">Pravidla ochrany soukromí</a></p>
+    <p>Email: info@store.cz | Telefon: 777 666 555</p>
+</footer>
 
 </body>
 </html>

@@ -182,7 +182,7 @@ session_start(); // Start session, abychom mohli pracovat s proměnnými session
         <br><br><h1>Kontaktujte nás</h1>
         <div style="display: flex; justify-content: space-between; width: 100%;">
             <div class="contact-info">
-                <p><strong>Adresa:</strong><br>V TOVER Prague<br>Milevská 2094/3, 140 00 Praha 4 - Krč</p>
+                <p><strong>Adresa:</strong><br>V TOVER, Prague<br>Milevská 2094/3, 140 00 Praha 4 - Krč</p>
                 <p><strong>Telefon:</strong><br>777 666 555</p>
                 <p><strong>E-mail:</strong><br>info@store.cz</p>
                 <p><strong>Provozní doba výdej objednávek:</strong><br>Po - Pá: 8:00 - 16:30<br>Sobota: 8:00 - 14:00<br>Neděle: Zavřeno</p> 
