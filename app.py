@@ -118,7 +118,7 @@ class App(QWidget):
         # Nastavení timeru pro pravidelnou aktualizaci tabulky
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_table)  # Funkce pro aktualizaci tabulky produktů
-        self.timer.start(5000)  # Aktualizace každých 5 sekund (5000 ms)
+        self.timer.start(10000)  # Aktualizace každých 5 sekund (5000 ms)
 
         self.setLayout(self.layout)
 
