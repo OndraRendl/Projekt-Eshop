@@ -1,10 +1,29 @@
 <?php
-session_start(); // Start session, abychom mohli pracovat s proměnnými session
+session_start(); 
+
+$host = 'localhost';
+$db = 'e-shopapple';
+$user = 'root';
+$pass = '';  // Pokud nemáš heslo, nech prázdné
+
+$dsn = "mysql:host=$host;dbname=$db;charset=utf8mb4";  // Znakovou sadu nastavíš přímo v DSN
+
+$options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   => false,
+];
+
+try {
+    $pdo = new PDO($dsn, $user, $pass, $options);
+} catch (PDOException $e) {
+    die("Chyba připojení k databázi: " . $e->getMessage());
+}
 
 // Funkce pro odstranění položky z košíku
 if (isset($_GET['remove'])) {
     $product_id = $_GET['remove'];
-    unset($_SESSION['cart'][$product_id]); // Odstraní produkt z košíku
+    unset($_SESSION['cart'][$product_id]);
     header('Location: kosik.php');
     exit();
 }
@@ -15,7 +34,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'], $_POST[
     $quantity = (int) $_POST['quantity'];
 
     if ($quantity > 0 && isset($_SESSION['cart'][$product_id])) {
-        $_SESSION['cart'][$product_id]['quantity'] = $quantity;
+        // Kontrola dostupného množství na skladě
+        $stmt = $pdo->prepare("SELECT skladem FROM produkty WHERE id = ?");
+        $stmt->execute([$product_id]);
+        $product = $stmt->fetch();
+
+        if ($product && $quantity <= $product['skladem']) {
+            $_SESSION['cart'][$product_id]['quantity'] = $quantity;
+        } else {
+            $_SESSION['error_message'] = "Požadované množství není na skladě.";
+        }
     }
     header('Location: kosik.php');
     exit();
@@ -35,6 +63,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'], $_POST[
             color: white;
             background-color: black;
             text-align: center;
+        }
+        .error-message {
+            color: red;
+            font-weight: bold;
+            margin-bottom: 20px;
         }
 
         .background {
@@ -285,55 +318,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'], $_POST[
 
 
         
-    </style>
+        </style>
 </head>
 <body>
 
     <nav>
         <div class="auth-links">
             <?php if (isset($_SESSION['username'])): ?>
-                <span class="username">Uživatel: <?php echo htmlspecialchars($_SESSION['username']); ?></span> <!-- Zobrazení uživatelského jména -->
-                <?php if ($_SESSION['username'] === 'admin'): ?> <!-- Pokud je přihlášen admin -->
-                    <a href="admin.php" class="admin-btn">Správa produktů</a> <!-- Odkaz pro správu produktů -->
+                <span class="username">Uživatel: <?php echo htmlspecialchars($_SESSION['username']); ?></span>
+                <?php if ($_SESSION['username'] === 'admin'): ?>
+                    <a href="admin.php" class="admin-btn">Správa produktů</a>
                 <?php endif; ?>
-
                 <a href="server.php?action=logout" class="logout-btn">Odhlásit se</a>
                 <a href="server.php?action=delete_account" class="delete-account-btn">Odstranit účet</a>
-
             <?php else: ?>
                 <a href="login.html" class="login-btn">Přihlásit se</a>
                 <a href="register.html" class="register-btn">Registrovat se</a>
             <?php endif; ?>
-            </div>
-            <div class="nav-center">
-                <span class="site-title">E-shop Apple</span> <!-- Titul E-shop Apple -->
-            </div>
-            <div>
-                <a href="uvod.php">Úvod</a>
-                <a href="obchod.php">Obchod</a>
-                <a href="kontakt.php">Kontakt</a>
-                <span class="divider"></span>
-                <a href="kosik.php" class="active">Košík 🛒</a>
-            </div>
+        </div>
+        <div class="nav-center">
+            <span class="site-title">E-shop Apple</span>
+        </div>
+        <div>
+            <a href="uvod.php">Úvod</a>
+            <a href="obchod.php">Obchod</a>
+            <a href="kontakt.php">Kontakt</a>
+            <span class="divider"></span>
+            <a href="kosik.php" class="active">Košík 🛒</a>
+        </div>
     </nav>
 
     <div class="background">
         <div class="overlay">
             <h1>Nákupní košík</h1>
 
+            <?php if (isset($_SESSION['error_message'])): ?>
+                <div class="error-message"><?php echo $_SESSION['error_message']; unset($_SESSION['error_message']); ?></div>
+            <?php endif; ?>
+
             <?php if (!empty($_SESSION['cart'])): ?>
-                    <div class="cart-header">
-                        <span class="image-label1">Produkt</span>
-                        <span class="image-label2">Cena</span>
-                        <span class="image-label3">Množství</span>
-                        <span class="image-label4">Celkem</span>
-                        <span></span>
-                    </div>
+                <div class="cart-header">
+                    <span class="image-label1">Produkt</span>
+                    <span class="image-label2">Cena</span>
+                    <span class="image-label3">Množství</span>
+                    <span class="image-label4">Celkem</span>
+                </div>
                 <div class="cart-items">
                     <?php
-                    $totalPrice = 0; // Celková cena
-                    $totalWithoutVAT = 0; // Cena bez DPH
-                    $totalVAT = 0; // DPH
+                    $totalPrice = 0;
+                    $totalWithoutVAT = 0;
+                    $totalVAT = 0;
                     foreach ($_SESSION['cart'] as $product_id => $product):
                         $productTotal = $product['price'] * $product['quantity'];
                         $totalPrice += $productTotal;
@@ -357,18 +391,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'], $_POST[
                 </div>
 
                 <div class="cart-summary">
-                <p>Včetně DPH: &nbsp&nbsp<?php echo number_format($totalPrice, 2, ',', ' ') . " Kč"; ?></p>
-                <p>Bez DPH: &nbsp&nbsp<?php echo number_format($totalWithoutVAT, 2, ',', ' ') . " Kč"; ?></p>
-                <p>DPH 21 %: &nbsp&nbsp<?php echo number_format($totalVAT, 2, ',', ' ') . " Kč"; ?></p>
-                <p><strong>CELKEM: &nbsp&nbsp<?php echo number_format($totalPrice, 2, ',', ' ') . " Kč"; ?></strong></p><br>
-
-                    
+                    <p>Včetně DPH: <?php echo number_format($totalPrice, 2, ',', ' ') . " Kč"; ?></p>
+                    <p>Bez DPH: <?php echo number_format($totalWithoutVAT, 2, ',', ' ') . " Kč"; ?></p>
+                    <p>DPH 21 %: <?php echo number_format($totalVAT, 2, ',', ' ') . " Kč"; ?></p>
+                    <p><strong>CELKEM: <?php echo number_format($totalPrice, 2, ',', ' ') . " Kč"; ?></strong></p><br>
                     <a href="obchod.php" class="order-button">Pokračovat v nákupu</a>
-                    <a href="checkout.php" class="order-button" >Objednat</a>
-                    
+                    <a href="checkout.php" class="order-button">Objednat</a>
                 </div>
             <?php else: ?>
-                <p>Košík je zatím prázdný. <br><br>Vy to ale můžete změnit. Vyberte si z naší nabídky.</p><br>
+                <p>Košík je zatím prázdný.</p>
                 <a href="obchod.php" class="order-button continue-shopping">Pokračovat v nákupu</a>
             <?php endif; ?>
         </div>
@@ -402,6 +433,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'], $_POST[
             form.submit();
         }
     </script>
-
-</body>
-</html>

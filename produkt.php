@@ -33,21 +33,29 @@ if ($product_id > 0) {
 
 // Přidání produktu do košíku
 if (isset($_POST['add_to_cart'])) {
-    $quantity = $_POST['quantity'];
-    if (isset($_SESSION['cart'][$product_id])) {
-        // Pokud už produkt je v košíku, přidej k existujícímu množství
-        $_SESSION['cart'][$product_id]['quantity'] += $quantity;
+    $quantity = (int)$_POST['quantity'];
+    
+    // Zjisti, kolik kusů už je v košíku
+    $cart_quantity = isset($_SESSION['cart'][$product_id]['quantity']) ? $_SESSION['cart'][$product_id]['quantity'] : 0;
+    
+    // Zkontroluj, jestli by celkové množství nepřesáhlo dostupné množství na skladě
+    if ($cart_quantity + $quantity > $product['skladem']) {
+        echo "<script>alert('Není možné přidat více kusů, než je dostupné na skladě!');</script>";
     } else {
-        // Jinak přidej nový produkt do košíku
-        $_SESSION['cart'][$product_id] = [
-            'name' => $product['nazev'],
-            'price' => $product['cena'],
-            'quantity' => $quantity,
-            'image' => $product['obrazek']
-        ];
+        // Pokud je vše v pořádku, přidej do košíku
+        if (isset($_SESSION['cart'][$product_id])) {
+            $_SESSION['cart'][$product_id]['quantity'] += $quantity;
+        } else {
+            $_SESSION['cart'][$product_id] = [
+                'name' => $product['nazev'],
+                'price' => $product['cena'],
+                'quantity' => $quantity,
+                'image' => $product['obrazek']
+            ];
+        }
+        header('Location: kosik.php');
+        exit();
     }
-    header('Location: kosik.php');
-    exit();
 }
 ?>
 
