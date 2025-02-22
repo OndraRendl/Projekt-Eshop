@@ -5,7 +5,7 @@ session_start(); // Start session, abychom mohli pracovat s proměnnými session
 $servername = "localhost";
 $username = "root"; // Výchozí uživatelské jméno pro XAMPP
 $password = ""; // Výchozí heslo pro XAMPP (prázdné)
-$database = "e-shopapple"; // Název vaší databáze
+$database = "eshop"; // Název vaší databáze
 
 $conn = new mysqli($servername, $username, $password, $database);
 

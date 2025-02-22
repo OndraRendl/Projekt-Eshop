@@ -1,58 +1,74 @@
 <?php
 session_start();
 
-// Zkontrolujeme, jestli jsou k dispozici údaje o objednávce
+// Připojení k databázi
+require_once 'db_connection.php'; 
+
+// Pokud je uživatel přihlášen, načteme jeho údaje
+$username = NULL;  // Změněno z user_id na username
+$userFullName = '';
+
+if (isset($_SESSION['username'])) {
+    $username = $_SESSION['username'];  // Získáme přihlášené uživatelské jméno
+
+    // Načteme jméno a příjmení uživatele
+    $stmt = $pdo->prepare("SELECT first_name, last_name FROM users WHERE username = :username");
+    $stmt->execute(['username' => $username]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($user) {
+        $userFullName = htmlspecialchars($user['first_name'] . ' ' . $user['last_name']);
+    }
+}
+
+// Pokud nejsou dostupné údaje o objednávce, přesměrujeme na checkout
 if (!isset($_SESSION['order_details']) || empty($_SESSION['order_details'])) {
-    header('Location: checkout.php'); // Pokud neexistují, přesměrujeme zpět na checkout
+    header('Location: checkout.php');
     exit();
 }
 
 $orderDetails = $_SESSION['order_details'];
 
-// Připojení k databázi "objednavky" (pro ukládání objednávek)
+// Připojení k databázi objednávek a produktů
 $servername = "localhost";
-$username = "root";
+$username_db = "root";  // změněno na jiný název pro připojení k databázi
 $password = "";
 
-// Připojení k databázi objednávek
-$dbnameOrders = "objednavky";
-$connOrders = new mysqli($servername, $username, $password, $dbnameOrders);
+$connOrders = new mysqli($servername, $username_db, $password, "eshop");
 if ($connOrders->connect_error) {
     die("Connection to objednavky failed: " . $connOrders->connect_error);
 }
 
-// Připojení k databázi produktů
-$dbnameProducts = "e-shopapple";
-$connProducts = new mysqli($servername, $username, $password, $dbnameProducts);
+$connProducts = new mysqli($servername, $username_db, $password, "eshop");
 if ($connProducts->connect_error) {
     die("Connection to e-shopapple failed: " . $connProducts->connect_error);
 }
 
 // Odeslání objednávky po kliknutí na tlačítko "Objednat"
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = $orderDetails['name'];
-    $address = $orderDetails['address'];
-    $city = $orderDetails['city'];
-    $zip = $orderDetails['zip'];
-    $email = $orderDetails['email'];
-    $phone = $orderDetails['phone'];
-    $payment_method = $orderDetails['payment_method'];
-    $shipping_method = $orderDetails['shipping_method'];
+    // Zpracování objednávky
+    $name = $connOrders->real_escape_string($orderDetails['name']);
+    $address = $connOrders->real_escape_string($orderDetails['address']);
+    $city = $connOrders->real_escape_string($orderDetails['city']);
+    $zip = $connOrders->real_escape_string($orderDetails['zip']);
+    $email = $connOrders->real_escape_string($orderDetails['email']);
+    $phone = $connOrders->real_escape_string($orderDetails['phone']);
+    $payment_method = $connOrders->real_escape_string($orderDetails['payment_method']);
+    $shipping_method = $connOrders->real_escape_string($orderDetails['shipping_method']);
     $total_price = 0;
 
-    $productsList = []; // Pole pro seznam produktů a jejich množství
+    $productsList = [];
 
     foreach ($_SESSION['cart'] as $product_id => $product) {
         $quantityOrdered = $product['quantity'];
 
-        // Kontrola dostupnosti skladu v databázi "e-shopapple"
+        // Kontrola skladových zásob
         $checkStockSql = "SELECT skladem FROM produkty WHERE id = $product_id";
         $result = $connProducts->query($checkStockSql);
 
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
 
-            // Ověření, zda je dostatek kusů na skladě
             if ($row['skladem'] < $quantityOrdered) {
                 echo "Produkt " . htmlspecialchars($product['name']) . " není skladem v požadovaném množství.";
                 exit();
@@ -62,29 +78,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit();
         }
 
-        // Aktualizace skladu (odečtení objednaných kusů)
+        // Aktualizace skladu
         $updateStockSql = "UPDATE produkty SET skladem = skladem - $quantityOrdered WHERE id = $product_id";
         if (!$connProducts->query($updateStockSql)) {
             echo "Chyba při aktualizaci skladu pro produkt " . htmlspecialchars($product['name']) . ": " . $connProducts->error;
             exit();
         }
 
-        // Přidání produktu do seznamu
         $productsList[] = $product['name'] . " (" . $product['quantity'] . " ks)";
         $total_price += $product['price'] * $product['quantity'];
     }
 
-    // Připravení seznamu produktů pro uložení do databáze objednávek
     $products = implode(", ", $productsList);
 
-    // Vložení objednávky do tabulky "orders" v databázi "objednavky"
-    $sqlOrder = "INSERT INTO orders (name, address, city, zip, email, phone, payment_method, shipping_method, total_price, products)
-                 VALUES ('$name', '$address', '$city', '$zip', '$email', '$phone', '$payment_method', '$shipping_method', '$total_price', '$products')";
+    // SQL dotaz pro uložení objednávky
+    if ($username === NULL) {
+        // Pokud uživatel není přihlášen, objednávku uložíme bez username
+        $sqlOrder = "INSERT INTO orders (name, address, city, zip, email, phone, payment_method, total_price, shipping_method, products)
+                     VALUES ('$name', '$address', '$city', '$zip', '$email', '$phone', '$payment_method', '$total_price', '$shipping_method', '$products')";
+    } else {
+        // Pokud uživatel je přihlášen, objednávku uložíme s jeho username
+        $sqlOrder = "INSERT INTO orders (username, name, address, city, zip, email, phone, payment_method, total_price, shipping_method, products)
+                     VALUES ('$username', '$name', '$address', '$city', '$zip', '$email', '$phone', '$payment_method', '$total_price', '$shipping_method', '$products')";
+    }
+    
 
     if ($connOrders->query($sqlOrder) === TRUE) {
-        // Po úspěšném vložení objednávky přesměrujeme na stránku s poděkováním
-        unset($_SESSION['cart']); // Vyprázdnění košíku
-        unset($_SESSION['order_details']); // Smazání údajů o objednávce
+        unset($_SESSION['cart']);
+        unset($_SESSION['order_details']);
         header("Location: thank_you.php");
         exit();
     } else {
@@ -200,9 +221,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <h1>Souhrn objednávky</h1>
 
-    <!-- Order Progress -->
     <div class="order-progress">
-        <div><a>Košík</a></div>
+        <div><a href="kosik.php">Košík</a></div>
         <div><a href="checkout.php">Kontaktní údaje, doprava, platba</a></div>
         <div class="active">Potvrzení objednávky</div>
     </div>
@@ -215,58 +235,85 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p><strong>Město:</strong> <?php echo htmlspecialchars($orderDetails['city']); ?></p>
             <p><strong>PSČ:</strong> <?php echo htmlspecialchars($orderDetails['zip']); ?></p>
             <p><strong>Email:</strong> <?php echo htmlspecialchars($orderDetails['email']); ?></p>
-            <p><strong>Telefonní číslo:</strong> <?php echo htmlspecialchars($orderDetails['phone']); ?></p>
-            <p><strong>Způsob dopravy:</strong> 
-                <?php 
-                if ($orderDetails['shipping_method'] === 'courier') {
-                    echo 'Kurýr';
-                } elseif ($orderDetails['shipping_method'] === 'pickup') {
-                    echo 'Osobní odběr';
-                }
-                ?>
-            </p>
-            <p><strong>Způsob platby:</strong> <?php echo $orderDetails['payment_method'] === 'card' ? 'Platební karta' : 'Platba na dobírku'; ?></p>
+            <p><strong>Telefon:</strong> <?php echo htmlspecialchars($orderDetails['phone']); ?></p>
+            <p><strong>Způsob platby:</strong> <?php echo htmlspecialchars($orderDetails['payment_method']); ?></p>
+            <p><strong>Způsob dopravy:</strong> <?php echo htmlspecialchars($orderDetails['shipping_method']); ?></p>
         </div>
+    </div>
 
-        <h2>Souhrn objednávky</h2>
+    <div class="section">
+        <h2>Seznam objednaných produktů</h2>
         <table>
             <tr>
                 <th>Produkt</th>
                 <th>Cena</th>
                 <th>Množství</th>
-                <th>Celkem</th>
             </tr>
-            <?php
-            $totalPrice = 0;
-            foreach ($_SESSION['cart'] as $product_id => $product) {
-                $productTotal = $product['price'] * $product['quantity'];
-                $totalPrice += $productTotal;
-            ?>
-            <tr>
-                <td><?php echo htmlspecialchars($product['name']); ?></td>
-                <td><?php echo number_format($product['price'], 0, ',', ' ') . " Kč"; ?></td>
-                <td><?php echo $product['quantity']; ?></td>
-                <td><?php echo number_format($productTotal, 0, ',', ' ') . " Kč"; ?></td>
-            </tr>
-            <?php } ?>
-        </table>
-        <p><strong>Celková cena: <?php echo number_format($totalPrice, 0, ',', ' ') . " Kč"; ?></strong></p>
+            <?php foreach ($_SESSION['cart'] as $product) { ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($product['name']); ?></td>
+                    <td><?php echo number_format($product['price'], 2, ',', ' '); ?> Kč</td>
+                    <td><?php echo htmlspecialchars($product['quantity']); ?> ks</td>
+                </tr>
+            <?php $total_price = 0; // Inicializace proměnné pro celkovou cenu
+$productsList = [];
 
-        <!-- Formulář pro odeslání objednávky -->
-        <form action="order_summary.php" method="POST">
-            <button type="submit" class="order-button">Objednat</button>
+foreach ($_SESSION['cart'] as $product_id => $product) {
+    $quantityOrdered = $product['quantity'];
+
+    // Kontrola skladových zásob
+    $checkStockSql = "SELECT skladem FROM produkty WHERE id = $product_id";
+    $result = $connProducts->query($checkStockSql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+
+        if ($row['skladem'] < $quantityOrdered) {
+            echo "Produkt " . htmlspecialchars($product['name']) . " není skladem v požadovaném množství.";
+            exit();
+        }
+    } else {
+        echo "Produkt s ID $product_id nebyl nalezen.";
+        exit();
+    }
+
+    // Aktualizace skladu
+    $updateStockSql = "UPDATE produkty SET skladem = skladem - $quantityOrdered WHERE id = $product_id";
+    if (!$connProducts->query($updateStockSql)) {
+        echo "Chyba při aktualizaci skladu pro produkt " . htmlspecialchars($product['name']) . ": " . $connProducts->error;
+        exit();
+    }
+
+    $productsList[] = $product['name'] . " (" . $product['quantity'] . " ks)";
+    $total_price += $product['price'] * $product['quantity']; // Výpočet celkové ceny
+}} ?>
+        </table>
+
+        <p><strong>Celková cena:</strong> <?php echo number_format($total_price, 2, ',', ' '); ?> Kč</p>
+        <form action="" method="POST">
+            <button class="order-button" type="submit">Potvrdit objednávku</button>
         </form>
     </div>
 
-</div>
+    <div class="footer">
+        <p>&copy; 2025 E-shop Apple. Všechna práva vyhrazena.</p>
+    </div>
+    <?php
 
-<footer class="footer">
-    <p>© 2025 | <a href="obchodnipodminky.html">Obchodní podmínky</a> | <a href="pravidla.html">Pravidla ochrany soukromí</a></p>
-    <p>Email: info@store.cz | Telefon: 777 666 555</p>
-</footer>
+
+// Zkontrolujeme, jestli je uživatel přihlášen
+if (isset($_SESSION['username'])) {
+    echo "Ahoj, " . htmlspecialchars($_SESSION['username']) . "!";
+} else {
+    echo "Nejste přihlášen.";
+}
+?>
+
+</div>
 
 </body>
 </html>
+
 
 
 

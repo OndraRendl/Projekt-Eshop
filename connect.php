@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$dbname = 'uzivatele'; // Název tvé databáze
+$dbname = 'eshop'; // Název tvé databáze
 $username = 'root';
 $password = ''; // Heslo, pokud je nastavené (výchozí pro XAMPP je prázdné)
 

@@ -1,7 +1,7 @@
 <?php
 // Nastavení připojení k databázi
 $host = 'localhost'; // Server databáze
-$dbname = 'uzivatele'; // Název vaší databáze (nahraďte skutečným názvem)
+$dbname = 'eshop'; // Název vaší databáze (nahraďte skutečným názvem)
 $username = 'root'; // Uživatelské jméno databáze (standardně "root" v XAMPP)
 $password = ''; // Heslo databáze (v XAMPP bývá prázdné)
 

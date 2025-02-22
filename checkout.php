@@ -4,16 +4,19 @@ require_once 'db_connection.php'; // Zde připojte soubor s připojením k datab
 
 // Pokud je uživatel přihlášen, načtěte jeho údaje
 $userEmail = '';
+$userFullName = ''; // Přidáme proměnnou pro jméno a příjmení
+
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
 
-    // Předpokládáme, že máte tabulku "users" v databázi
-    $stmt = $pdo->prepare("SELECT email FROM users WHERE username = :username");
+    // Načteme jméno, příjmení a email z databáze
+    $stmt = $pdo->prepare("SELECT first_name, last_name, email FROM users WHERE username = :username");
     $stmt->execute(['username' => $username]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user) {
         $userEmail = htmlspecialchars($user['email']);
+        $userFullName = htmlspecialchars($user['first_name'] . ' ' . $user['last_name']); // Spojíme jméno a příjmení
     }
 }
 
@@ -211,7 +214,8 @@ foreach ($_SESSION['cart'] as $product_id => $product) {
             <form action="checkout.php" method="POST">
                 <div class="input-field">
                     <label for="name">Jméno a příjmení</label>
-                    <input type="text" id="name" name="name" required>
+                    <input type="text" id="name" name="name" required value="<?php echo $userFullName; ?>"
+                        <?php echo isset($_SESSION['username']) ? 'readonly style="font-weight: bold;"' : ''; ?>>
                 </div>
                 <div class="input-field">
                     <label for="address">Adresa</label>
@@ -227,12 +231,15 @@ foreach ($_SESSION['cart'] as $product_id => $product) {
                 </div>
                 <div class="input-field">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required value="<?php echo $userEmail; ?>">
+                    <input type="email" id="email" name="email" required value="<?php echo $userEmail; ?>"
+                        <?php echo isset($_SESSION['username']) ? 'readonly style="font-weight: bold;"' : ''; ?>>
                 </div>
                 <div class="input-field">
                     <label for="phone">Telefonní číslo</label>
                     <input type="tel" id="phone" name="phone" required pattern="[0-9]{9}" title="Telefonní číslo musí obsahovat 9 číslic">
                 </div>
+
+
 
                 <!-- Způsob dopravy -->
                 <h2>Způsob dopravy</h2>

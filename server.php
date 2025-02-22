@@ -8,7 +8,7 @@ session_start();
 
 // Připojení k databázi
 $host = 'localhost';
-$dbname = 'uzivatele';
+$dbname = 'eshop';
 $user = 'root';
 $password = '';
 
@@ -24,21 +24,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Zpracování registrace
     if ($action === 'register') {
-        $username = $_POST['username'];
-        $email = $_POST['email'];
-        $password = $_POST['password']; // Heslo bez šifrování - pro produkci by mělo být šifrováno
+        $first_name = trim($_POST['first_name']);
+        $last_name = trim($_POST['last_name']);
+        $username = trim($_POST['username']);
+        $email = trim($_POST['email']);
+        $password = $_POST['password']; // Heslo se ukládá v čitelné podobě!
 
         // Kontrola, zda už uživatel existuje
         $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username OR email = :email");
         $stmt->execute(['username' => $username, 'email' => $email]);
+
         if ($stmt->rowCount() > 0) {
             echo "Uživatelské jméno nebo email je již zaregistrován.";
             exit;
         }
 
         // Uložení nového uživatele do databáze
-        $stmt = $pdo->prepare("INSERT INTO users (username, email, password) VALUES (:username, :email, :password)");
-        $stmt->execute(['username' => $username, 'email' => $email, 'password' => $password]);
+        $stmt = $pdo->prepare("INSERT INTO users (first_name, last_name, username, email, password) 
+                               VALUES (:first_name, :last_name, :username, :email, :password)");
+        $stmt->execute([
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'username' => $username,
+            'email' => $email,
+            'password' => $password // Ukládá se v nešifrované podobě
+        ]);
 
         // Uložení uživatele do session
         $_SESSION['username'] = $username;
@@ -50,27 +60,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Zpracování přihlášení
     if ($action === 'login') {
-        $username_or_email = $_POST['username'];
+        $username_or_email = trim($_POST['username']);
         $password = $_POST['password'];
 
-        // Kontrola, zda uživatel existuje a porovnání hesla
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE (username = :username OR email = :email) AND password = :password");
+        // Načtení uživatele z databáze
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username OR email = :email AND password = :password");
         $stmt->execute(['username' => $username_or_email, 'email' => $username_or_email, 'password' => $password]);
 
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        
         if ($user) {
+            $_SESSION['username'] = $user['username'];
+
             // Kontrola, zda je uživatel admin
-            if ($user['username'] === 'admin' && $user['password'] === 'admin') {
-                $_SESSION['username'] = $user['username'];
-                // Přesměrování na admin stránku
+            if ($user['username'] === 'admin') {
                 header('Location: admin.php');
-                exit;
             } else {
-                $_SESSION['username'] = $user['username'];
-                // Přesměrování na běžnou stránku (obchod)
                 header('Location: obchod.php');
-                exit;
             }
+            exit;
         }
 
         echo "Nesprávné uživatelské jméno nebo heslo.";

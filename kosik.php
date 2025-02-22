@@ -2,7 +2,7 @@
 session_start(); 
 
 $host = 'localhost';
-$db = 'e-shopapple';
+$db = 'eshop';
 $user = 'root';
 $pass = '';  // Pokud nemáš heslo, nech prázdné
 
