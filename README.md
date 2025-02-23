@@ -37,7 +37,45 @@
 >**Popis funkce fetch_products()**
 -  Tato funkce načte všechny produkty z databáze a vrátí je ve formě seznamu, kde každý produkt je uložen jako tuple s informacemi o id, názvu, popisu, ceně, obrázku a skladovém množství produktu.
 
+>**Popis funkce fetch_orders()**
+-  fetch_orders()
+-  Tato funkce načte všechny objednávky z databáze a vrátí je ve formě seznamu, kde každá objednávka je tuple s informacemi jako id, jméno zákazníka, adresa, telefonní číslo a detaily objednávky.
 
+>**Popis funkce insert_product()**
+-  insert_product(name, description, price, image, stock)
+-  Tato funkce slouží k vložení nového produktu do databáze.
+-  Parametry:
+
+-  name (str): Název produktu, který bude zobrazen na webu.
+-  description (str): Podrobný popis produktu.
+-  price (float): Cena produktu.
+-  image (str): Cesta k obrázku produktu, který bude zobrazen na stránce.
+-  stock (int): Počet kusů produktu, které jsou aktuálně na skladě.
+
+
+>**Popis funkce update_table()**
+-  update_table()
+-  Tato metoda načte produkty z databáze a aktualizuje tabulku v grafickém rozhraní. Nastaví počet řádků a sloupců v tabulce podle počtu produktů a naplní jednotlivé buňky daty o produktu.
+
+>**Popis funkce download_orders()**
+-  download_orders()
+-  Tato funkce umožňuje uživateli stáhnout všechny objednávky z databáze do textového souboru. Používá grafické okno pro výběr cílové složky a souboru.
+
+>**Popis funkce add_product_to_stock()**
+-  add_product_to_stock(product_id, quantity)
+-  Tato funkce přidá zadané množství kusů produktu na sklad. Pomocí SQL příkazu se aktualizuje hodnoty pro daný produkt v databázi.
+
+>**Popis funkce remove_product_from_stock()**
+-  remove_product_from_stock(product_id, quantity)
+-  Tato funkce odebere zadané množství kusů produktu ze skladu. Pokud je na skladě dostatek kusů, hodnoty se v databázi aktualizují.
+
+>**Popis funkce add_order()**
+-  add_order(customer_name, customer_email, order_details)
+-  Tato funkce slouží k přidání nové objednávky do databáze. Objednávka obsahuje informace o zákazníkovi a produktech, které objednal.
+
+>**Popis funkce generate_report()**
+-  generate_report()
+-  Tato funkce generuje report o skladových zásobách a objednávkách, který lze exportovat do souboru.
 
 **ER-diagram databáze**
 
