@@ -1,5 +1,5 @@
 # E-shop Apple
-#**Stručný popis programu, jeho funkce, ukázky použití**
+**Stručný popis programu, jeho funkce, ukázky použití**
 >**Stručný popis programu**
 - Tento e-shop zaměřený na produkty Apple umožňuje uživatelům prohlížet a vybírat produkty Apple, spravovat své objednávky a upravovat své uživatelské údaje. Uživatelé mohou zobrazit všechny své objednávky a upravovat například své jméno, příjmení či heslo. Administrátoři mají rozšířená práva, umožňující jim mazat produkty z webu a v aplikaci přidávat nové produkty, stejně jako upravovat skladové zásoby (přidávat nové kusy na sklad).
 
