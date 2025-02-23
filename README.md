@@ -1,2 +1,3 @@
-<div> Projekt - E-shop Apple </div>
+# E-shop Apple
+
 <div>Stručný popis programu, jeho funkce, ukázky použití</div>
