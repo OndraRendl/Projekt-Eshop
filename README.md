@@ -22,6 +22,7 @@
 - Autentifikace uživatelů:
   Uživatelé se přihlašují do systému pomocí e-mailu a hesla.
   Správa přístupu k různým funkcím na základě role (uživatel vs. administrátor).
+>**Ukázky použití**
 
 **Seznam použitých algoritmů a knihoven**
 
