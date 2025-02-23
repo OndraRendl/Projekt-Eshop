@@ -41,12 +41,6 @@
 
 
 
-
-
-
-
-
-
 **ER-diagram databáze**
 
 **Skripty pro tvorbu tabulek, vložení několika vzorových dat a získání vzorových dat z tabulek**
