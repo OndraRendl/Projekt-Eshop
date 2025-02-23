@@ -36,7 +36,7 @@
   >**App**
   - Třída App spravuje hlavní uživatelské rozhraní e-shopu, které umožňuje správu produktů a objednávek a vykreslení grafů o skladových zásobách.
 >**Popis funkce fetch_products()**
->**fetch_products()**
+  >**fetch_products()**
 -  Tato funkce načte všechny produkty z databáze a vrátí je ve formě seznamu, kde každý produkt je uložen jako tuple s informacemi o id, názvu, popisu, ceně, obrázku a skladovém množství produktu.
 
 
