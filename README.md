@@ -26,7 +26,8 @@
 **Seznam použitých algoritmů a knihoven**
 
 **Seznam autorů**
-- Ondřej Rendl.
+- Ondřej Rendl
+
 **Dokumentace kódu Python (minimálně dokumentace funkcí a tříd)**
 
 **ER-diagram databáze**
