@@ -33,8 +33,8 @@
 **Dokumentace kódu Python (minimálně dokumentace funkcí a tříd)**
 >**Popis třídy App**
 -  Třída App je hlavní aplikací pro správu e-shopu, která poskytuje grafické rozhraní pro interakci s databází produktů, objednávek a uživatelů. Obsahuje funkce pro zobrazení produktů v tabulce, jejich přidávání a odebírání, stejně jako zobrazení objednávek a generování grafů.
->**App**
-- Třída App spravuje hlavní uživatelské rozhraní e-shopu, které umožňuje správu produktů a objednávek a vykreslení grafů o skladových zásobách.
+  >**App**
+  - Třída App spravuje hlavní uživatelské rozhraní e-shopu, které umožňuje správu produktů a objednávek a vykreslení grafů o skladových zásobách.
 
 
 
