@@ -23,16 +23,16 @@
   Uživatelé se přihlašují do systému pomocí e-mailu a hesla.
   Správa přístupu k různým funkcím na základě role (uživatel vs. administrátor).
 
-  **Seznam použitých algoritmů a knihoven**
+**Seznam použitých algoritmů a knihoven**
 
-  **Seznam autorů**
+**Seznam autorů**
 - Ondřej Rendl
-  **Dokumentace kódu Python (minimálně dokumentace funkcí a tříd)**
+**Dokumentace kódu Python (minimálně dokumentace funkcí a tříd)**
 
-  **ER-diagram databáze**
+**ER-diagram databáze**
 
-  **Skripty pro tvorbu tabulek, vložení několika vzorových dat a získání vzorových dat z tabulek**
+**Skripty pro tvorbu tabulek, vložení několika vzorových dat a získání vzorových dat z tabulek**
 
-  **Úprava data v databázi (UPDATE, DELETE)**
+**Úprava data v databázi (UPDATE, DELETE)**
 
   
