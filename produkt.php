@@ -271,8 +271,9 @@ if (isset($_POST['add_to_cart'])) {
                 <?php if ($_SESSION['username'] === 'admin'): ?> <!-- Pokud je přihlášen admin -->
                     <a href="admin.php" class="admin-btn">Správa produktů</a> <!-- Odkaz pro správu produktů -->
                 <?php endif; ?>
+                <a href="moje_udaje.php" class="view-orders-btn">Můj účet</a>
+                <a href="orders.php" class="view-orders-btn">Moje objednávky</a>
                 <a href="server.php?action=logout" class="logout-btn">Odhlásit se</a>
-                <a href="server.php?action=delete_account" class="delete-account-btn">Odstranit účet</a>
 
             <?php else: ?>
                 <a href="login.html" class="login-btn">Přihlásit se</a>
