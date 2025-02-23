@@ -1,3 +1,2 @@
 # E-shop Apple
-
-<div>Stručný popis programu, jeho funkce, ukázky použití</div>
+##Stručný popis programu, jeho funkce, ukázky použití
