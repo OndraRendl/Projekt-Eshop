@@ -222,7 +222,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <h1>Souhrn objednávky</h1>
 
     <div class="order-progress">
-        <div><a href="kosik.php">Košík</a></div>
+        <div>Košík</a></div>
         <div><a href="checkout.php">Kontaktní údaje, doprava, platba</a></div>
         <div class="active">Potvrzení objednávky</div>
     </div>
@@ -277,12 +277,7 @@ foreach ($_SESSION['cart'] as $product_id => $product) {
         exit();
     }
 
-    // Aktualizace skladu
-    $updateStockSql = "UPDATE produkty SET skladem = skladem - $quantityOrdered WHERE id = $product_id";
-    if (!$connProducts->query($updateStockSql)) {
-        echo "Chyba při aktualizaci skladu pro produkt " . htmlspecialchars($product['name']) . ": " . $connProducts->error;
-        exit();
-    }
+    
 
     $productsList[] = $product['name'] . " (" . $product['quantity'] . " ks)";
     $total_price += $product['price'] * $product['quantity']; // Výpočet celkové ceny

@@ -260,6 +260,12 @@ if (isset($_POST['add_to_cart'])) {
             font-weight: bold;
             color: white;
         }
+        .price-small small {
+            font-size: 0.9em;
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+
     </style>
 </head>
 <body>
@@ -268,9 +274,7 @@ if (isset($_POST['add_to_cart'])) {
         <div class="auth-links">
             <?php if (isset($_SESSION['username'])): ?>
                 <span class="username">Uživatel: <?php echo htmlspecialchars($_SESSION['username']); ?></span> <!-- Zobrazení uživatelského jména -->
-                <?php if ($_SESSION['username'] === 'admin'): ?> <!-- Pokud je přihlášen admin -->
-                    <a href="admin.php" class="admin-btn">Správa produktů</a> <!-- Odkaz pro správu produktů -->
-                <?php endif; ?>
+                
                 <a href="moje_udaje.php" class="view-orders-btn">Můj účet</a>
                 <a href="orders.php" class="view-orders-btn">Moje objednávky</a>
                 <a href="server.php?action=logout" class="logout-btn">Odhlásit se</a>
@@ -307,14 +311,23 @@ if (isset($_POST['add_to_cart'])) {
                     <p><?php echo htmlspecialchars($product['popis']); ?></p><br>
 
                     <?php if ($product['skladem'] > 0): ?>
-                        <p>Na skladě: 
+                        <p>Skladem: 
                             <?php 
                                 $quantity_text = ($product['skladem'] > 10) ? ">10 ks" : $product['skladem'] . " ks";
                                 echo $quantity_text;
                             ?>
                         </p>
 
-                        <div class="price">Cena: <?php echo number_format($product['cena'], 0, ',', ' ') . ' Kč'; ?></div><br>
+                        <div class="price">
+                            Cena: <?php echo number_format($product['cena'], 0, ',', ' ') . ' Kč'; ?>
+                        </div>
+                        <?php
+                            $cenaBezDPH = round($product['cena'] / 1.21, 0, PHP_ROUND_HALF_UP);
+                        ?>
+                        <div class="price-small">
+                            <small>bez DPH: <?php echo number_format($cenaBezDPH, 0, ',', ' ') . ' Kč'; ?></small>
+                        </div><br>
+
 
                         <form method="POST">
                             <label for="quantity">Množství:</label><br>

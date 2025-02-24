@@ -136,7 +136,7 @@ $orders = $stmt->get_result();
             margin-right: 8px;
         }
         .sidebar a.active {
-            background-color:#28a745; /* Zvolte barvu pro zvýraznění */
+            background-color:#28a745; 
             color: white;
         }
     </style>
@@ -159,6 +159,11 @@ $orders = $stmt->get_result();
         <a href="orders.php" class="active">Moje objednávky</a>
         <a href="server.php?action=logout" class="logout-btn">Odhlásit se</a>
         <a href="javascript:void(0);" onclick="confirmDelete()">Odstranit účet</a>
+        
+        <?php if (isset($_SESSION['username']) && $_SESSION['username'] === 'admin'): ?>
+        <div class="divider"></div>
+        <a href="admin.php">Správa produktů</a>
+    <?php endif; ?>
     </div>
 
     <!-- Content -->
@@ -193,11 +198,9 @@ $orders = $stmt->get_result();
                     <td><?= htmlspecialchars($order['order_date']) ?></td>
                     <td>
                         <?php if ($order['shipping_method'] == 'courier'): ?>
-                            <span class="status-icon">🚚</span>
-                            Doručeno
+                            Doručeno <span class="status-icon">🚚</span>
                         <?php elseif ($order['shipping_method'] == 'pickup'): ?>
-                            <span class="status-icon">📦</span>
-                            Vyzvednuto
+                            Vyzvednuto <span class="status-icon">📦</span>
                         <?php else: ?>
                             <span>Neznámý stav</span>
                         <?php endif; ?>

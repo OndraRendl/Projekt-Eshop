@@ -228,6 +228,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <a href="orders.php">Moje objednávky</a>
         <a href="server.php?action=logout" class="logout-btn">Odhlásit se</a>
         <a href="javascript:void(0);" onclick="confirmDelete()">Odstranit účet</a>
+        <?php if (isset($_SESSION['username']) && $_SESSION['username'] === 'admin'): ?>
+        <div class="divider"></div>
+        <a href="admin.php">Správa produktů</a>
+    <?php endif; ?>
     </div>
 
     <!-- Content -->

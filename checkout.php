@@ -247,7 +247,7 @@ foreach ($_SESSION['cart'] as $product_id => $product) {
                     <label for="shipping_method">Vyberte způsob dopravy</label>
                     <select id="shipping_method" name="shipping_method" required>
                         <option value="courier">Doručení kurýrem na adresu</option>
-                        <option value="pickup">Osobní odběr</option>
+                        <option value="pickup">Osobní odběr (na adrese Milevská 2094/3, 140 00 Praha 4 - Krč)</option>
                     </select>
                 </div>
 

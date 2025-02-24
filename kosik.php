@@ -326,9 +326,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'], $_POST[
         <div class="auth-links">
             <?php if (isset($_SESSION['username'])): ?>
                 <span class="username">Uživatel: <?php echo htmlspecialchars($_SESSION['username']); ?></span>
-                <?php if ($_SESSION['username'] === 'admin'): ?>
-                    <a href="admin.php" class="admin-btn">Správa produktů</a>
-                <?php endif; ?>
+                
                 <a href="moje_udaje.php" class="view-orders-btn">Můj účet</a>
                 <a href="orders.php" class="view-orders-btn">Moje objednávky</a>
                 <a href="server.php?action=logout" class="logout-btn">Odhlásit se</a>
