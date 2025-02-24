@@ -1,13 +1,15 @@
 from PyQt5.QtCore import QTimer
 import pymysql
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QTableWidget, QTableWidgetItem, QPushButton, QLineEdit, QTabWidget, QFormLayout
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QTableWidget, QTableWidgetItem, QPushButton, QLineEdit, QTabWidget, QFormLayout, QFileDialog, QDialog, QLabel, QVBoxLayout, QMessageBox, QHBoxLayout, QComboBox
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 # Připojení k databázi pro produkty
 connection = pymysql.connect(
     host='localhost',
     user='root',  # Zadej své uživatelské jméno
     password='',  # Zadej své heslo
-    database='e-shopapple'
+    database='eshop'
 )
 
 # Připojení k databázi pro historii objednávek
@@ -15,7 +17,7 @@ order_connection = pymysql.connect(
     host='localhost',
     user='root',  # Zadej své uživatelské jméno
     password='',  # Zadej své heslo
-    database='objednavky'  # Databáze pro historii objednávek
+    database='eshop'  # Databáze pro historii objednávek
 )
 
 def fetch_products():
@@ -56,18 +58,31 @@ def fetch_orders():
     
     return orders
 
+def fetch_last_10_orders():
+    """
+    Načte posledních 10 objednávek z databáze.
+    
+    Returns:
+        list: Seznam posledních 10 objednávek, každá objednávka je uložená jako tuple.
+    """
+    with order_connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM orders ORDER BY order_date DESC LIMIT 10")
+        orders = cursor.fetchall()
+    
+    return orders
+
 class App(QWidget):
     def __init__(self):
         super().__init__()
 
         self.setWindowTitle("E-shop App")
-        self.setGeometry(100, 100, 900, 500)  # Zvýšená velikost okna pro větší rozložení
+        self.setGeometry(100, 100, 900, 700)  # Zvýšená velikost okna pro větší rozložení
 
         # Hlavní layout
         self.layout = QVBoxLayout()
 
         # Nastavení tabulky pro produkty
-        self.tabs = QTabWidget(self)  # Vytvoření widgetu pro záložky
+        self.tabs = QTabWidget(self)  
         self.layout.addWidget(self.tabs)
 
         # Vytvoření záložky pro Stav skladu
@@ -77,6 +92,11 @@ class App(QWidget):
 
         self.table = QTableWidget(self)
         self.stock_layout.addWidget(self.table)
+
+        # Tlačítko pro ruční aktualizaci dat
+        self.refresh_button = QPushButton("Obnovit data", self)
+        self.refresh_button.clicked.connect(self.update_table)
+        self.stock_layout.addWidget(self.refresh_button)
 
         # Vytvoření záložky pro Příjem produktů
         self.receiving_tab = QWidget()
@@ -112,18 +132,33 @@ class App(QWidget):
         self.orders_table = QTableWidget(self)
         self.orders_layout.addWidget(self.orders_table)
 
+        # Tlačítko pro stažení objednávek
+        self.download_button = QPushButton("Stáhnout objednávky", self)
+        self.download_button.clicked.connect(self.download_orders)
+        self.orders_layout.addWidget(self.download_button)
+
+        # Vytvoření záložky pro grafy
+        self.graphs_tab = QWidget()
+        self.tabs.addTab(self.graphs_tab, "Grafy")
+        self.graphs_layout = QVBoxLayout(self.graphs_tab)
+
+        # Vytvoření grafu pro vizualizaci
+        self.figure = plt.Figure(figsize=(5, 3), dpi=100)
+        self.canvas = FigureCanvas(self.figure)
+        self.graphs_layout.addWidget(self.canvas)
+
+        # Zisk objednávek
+        self.profit_label = QLabel("Zisk objednávek: 0", self)
+        self.graphs_layout.addWidget(self.profit_label)
+
         self.update_table()  # Inicializace tabulky pro produkty
         self.update_orders_table()  # Inicializace tabulky pro objednávky
-
-        # Nastavení timeru pro pravidelnou aktualizaci tabulky
-        self.timer = QTimer(self)
-        self.timer.timeout.connect(self.update_table)  # Funkce pro aktualizaci tabulky produktů
-        self.timer.start(10000)  # Aktualizace každých 5 sekund (5000 ms)
+        self.update_graph()  # Vykreslí graf při spuštění aplikace
 
         self.setLayout(self.layout)
 
         # Vylepšení vzhledu
-        self.setStyleSheet("""
+        self.setStyleSheet("""  
             QWidget {
                 font-family: 'Arial', sans-serif;
                 background-color: #f4f4f9;
@@ -134,7 +169,7 @@ class App(QWidget):
                 border-radius: 10px;
                 border: 1px solid #ddd;
                 padding: 5px;
-                min-height: 400px;  # Nastavení minimální výšky tabulky
+                min-height: 400px;
             }
 
             QTableWidget::item {
@@ -148,11 +183,6 @@ class App(QWidget):
                 padding: 5px;
             }
 
-            QTableWidget::horizontalHeader::section {
-                padding-left: 10px;
-                padding-right: 10px;
-            }
-
             QPushButton {
                 background-color: #4CAF50;
                 color: white;
@@ -162,19 +192,11 @@ class App(QWidget):
                 margin: 5px;
             }
 
-            QPushButton:hover {
-                background-color: #45a049;
-            }
-
             QLineEdit {
                 padding: 5px;
                 font-size: 14px;
                 border-radius: 5px;
                 border: 1px solid #ddd;
-            }
-
-            QTableWidget QTableWidget::item:selected {
-                background-color: #FFFF99;  # Žlutá barva pro výběr v tabulce
             }
         """)
 
@@ -182,35 +204,26 @@ class App(QWidget):
         """
         Načte produkty z databáze a aktualizuje tabulku.
         """
-        print("Aktualizace tabulky...")  # Přidáme logování pro ověření, zda se funkce skutečně spustí
-        products = fetch_products()  # Načtení produktů z databáze
+        print("Aktualizace tabulky...")
+        products = fetch_products()
         
         if not products:
-            print("Nebyla nalezena žádná data.")  # Kontrola, zda jsou nějaká data
+            print("Nebyla nalezena žádná data.")
             return
 
         # Nastavení počtu řádků a sloupců v tabulce pro produkty
         self.table.setRowCount(len(products))
-        self.table.setColumnCount(9)  # Sloupce pro produkty
+        self.table.setColumnCount(9)
         self.table.setHorizontalHeaderLabels(
             ["ID", "Název", "Popis", "Cena", "Obrázek", "Skladem", "Změna", "Přidat", "Odebrat"]
         )
-
-        # Nastavení šířky sloupců
-        self.table.setColumnWidth(0, 50)  # ID
-        self.table.setColumnWidth(1, 150)  # Název
-        self.table.setColumnWidth(2, 200)  # Popis
-        self.table.setColumnWidth(3, 100)  # Cena
-        self.table.setColumnWidth(4, 150)  # Obrázek
-        self.table.setColumnWidth(5, 100)  # Skladem
-        self.table.setColumnWidth(6, 100)  # Změna
-        self.table.setColumnWidth(7, 100)  # Přidat
-        self.table.setColumnWidth(8, 100)  # Odebrat
 
         # Naplnění tabulky daty z databáze produktů
         for row, product in enumerate(products):
             for col, value in enumerate(product):
                 self.table.setItem(row, col, QTableWidgetItem(str(value)))
+                
+            self.table.setRowHeight(row, 55)
 
             # Vytvoření pole pro zadání množství pro přidání/odebrání
             quantity_input = QLineEdit(self)
@@ -230,113 +243,207 @@ class App(QWidget):
         """
         Načte objednávky z databáze a aktualizuje tabulku.
         """
-        print("Aktualizace tabulky objednávek...")  # Přidáme logování pro ověření, zda se funkce skutečně spustí
-        orders = fetch_orders()  # Načtení objednávek z databáze
+        print("Aktualizace tabulky objednávek...")
+        orders = fetch_orders()
         
         if not orders:
-            print("Nebyla nalezena žádná data.")  # Kontrola, zda jsou nějaká data
+            print("Nebyla nalezena žádná data.")
             return
 
-        # Nastavení počtu řádků a sloupců v tabulce pro objednávky
         self.orders_table.setRowCount(len(orders))
-        self.orders_table.setColumnCount(12)  # Sloupce pro objednávky
+        self.orders_table.setColumnCount(12)
         self.orders_table.setHorizontalHeaderLabels(
             ["ID", "Jméno", "Adresa", "Město", "PSČ", "Email", "Telefon", "Platba", "Celková cena", "Datum", "Doprava", "Produkty"]
         )
 
-        # Naplnění tabulky daty z databáze objednávek
         for row, order in enumerate(orders):
             for col, value in enumerate(order):
                 self.orders_table.setItem(row, col, QTableWidgetItem(str(value)))
 
-        # Nastavení vzhledu tabulky
-        for row in range(len(orders)):
-            self.orders_table.setRowHeight(row, 25)  # Snížení výšky každého řádku na 25px (můžeš upravit dle potřeby)
-
-        for col in range(12):
-            self.orders_table.setColumnWidth(col, 150)  # Zvýšení šířky sloupců pro pohodlnější zobrazení
-
-    def create_add_button_function(self, row, input_field):
+    def update_graph(self):
         """
-        Funkce pro přidání kusů na sklad pro daný řádek.
+        Vykreslí graf cen posledních 10 objednávek.
         """
-        def add_to_stock():
+        print("Vykreslení grafu...")
+        orders = fetch_last_10_orders()
+        
+        if not orders:
+            print("Nebyla nalezena žádná data pro graf.")
+            return
+
+        # Získání cen posledních 10 objednávek
+        prices = [float(order[9]) for order in orders]  # Používáme index 9 pro total_price
+        order_indices = list(range(1, len(orders) + 1))  # Použijeme indexy 1 až 10
+
+        ax = self.figure.add_subplot(111)
+        ax.clear()
+        ax.bar(order_indices, prices)
+        ax.set_title("Ceny posledních 10 objednávek")
+        ax.set_xlabel("Pořadí objednávky")
+        ax.set_ylabel("Cena")
+
+        # Zobrazení zisku
+        total_price = sum(prices)
+        self.profit_label.setText(f"Zisk posledních 10 objednávek: {total_price}")
+
+        self.canvas.draw()
+
+    def download_orders(self):
+        """
+        Stáhne objednávky do textového souboru.
+        """
+        options = QFileDialog.Options()
+        file_path, _ = QFileDialog.getSaveFileName(self, "Uložit objednávky", "", "Text Files (*.txt);;All Files (*)", options=options)
+
+        if file_path:
+            orders = fetch_orders()
+
+            with open(file_path, 'w', encoding='utf-8') as file:
+                # Zápis hlavičky
+                file.write("\t".join(["ID", "Jméno", "Adresa", "Město", "PSČ", "Email", "Telefon", "Platba", "Celková cena", "Datum", "Doprava", "Produkty"]) + "\n")
+
+                # Zápis každé objednávky
+                for order in orders:
+                    file.write("\t".join(map(str, order)) + "\n")
+
+            print(f"Objednávky byly úspěšně staženy do souboru: {file_path}")
+
+    def create_add_button_function(self, row, quantity_input):
+        """
+        Vytvoří funkci pro tlačítko 'Přidat' pro specifikovaný produkt a množství.
+        """
+        def add_product():
             try:
-                quantity = int(input_field.text())  # Získání hodnoty z pole
+                quantity = int(quantity_input.text())
+                product_id = self.table.item(row, 0).text()
+
+                if quantity > 0:
+                    self.add_quantity_to_product(product_id, quantity)
+                    print(f"Přidáno {quantity} ks produktu ID {product_id}.")
+                else:
+                    QMessageBox.warning(self, "Chyba", "Zadejte platné množství.")
             except ValueError:
-                print("Zadaná hodnota není číslo.")  # Pokud není číslo
-                return
-            
-            product_id = self.table.item(row, 0).text()  # Získání ID produktu
-            query = f"UPDATE produkty SET skladem = skladem + {quantity} WHERE id = {product_id}"
+                QMessageBox.warning(self, "Chyba", "Zadejte platné číslo.")
 
-            # Provedení SQL dotazu
-            with connection.cursor() as cursor:
-                cursor.execute(query)
-                connection.commit()
+        return add_product
 
-            # Aktualizace tabulky po změně
-            self.update_table()
-
-        return add_to_stock
-
-    def create_subtract_button_function(self, row, input_field):
+    def create_subtract_button_function(self, row, quantity_input):
         """
-        Funkce pro odebrání kusů ze skladu pro daný řádek.
+        Vytvoří funkci pro tlačítko 'Odebrat' pro specifikovaný produkt a množství.
         """
-        def subtract_from_stock():
+        def subtract_product():
             try:
-                quantity = int(input_field.text())  # Získání hodnoty z pole
+                quantity = int(quantity_input.text())
+                product_id = self.table.item(row, 0).text()
+                current_stock = int(self.table.item(row, 5).text())
+
+                if quantity > 0 and current_stock - quantity >= 0:
+                    self.subtract_quantity_from_product(product_id, quantity)
+                    print(f"Odebráno {quantity} ks produktu ID {product_id}.")
+                else:
+                    QMessageBox.warning(self, "Chyba", "Nedostatečné množství na skladě nebo neplatné množství.")
             except ValueError:
-                print("Zadaná hodnota není číslo.")  # Pokud není číslo
-                return
-            
-            product_id = self.table.item(row, 0).text()  # Získání ID produktu
-            query = f"UPDATE produkty SET skladem = skladem - {quantity} WHERE id = {product_id}"
+                QMessageBox.warning(self, "Chyba", "Zadejte platné číslo.")
 
-            # Provedení SQL dotazu
-            with connection.cursor() as cursor:
-                cursor.execute(query)
-                connection.commit()
+        return subtract_product
 
-            # Aktualizace tabulky po změně
-            self.update_table()
+    def add_quantity_to_product(self, product_id, quantity):
+        """
+        Přidá množství pro daný produkt.
+        """
+        with connection.cursor() as cursor:
+            cursor.execute(f"UPDATE produkty SET skladem = skladem + {quantity} WHERE id = {product_id}")
+            connection.commit()
 
-        return subtract_from_stock
+        self.update_table()
+
+    def subtract_quantity_from_product(self, product_id, quantity):
+        """
+        Odebere množství pro daný produkt.
+        """
+        with connection.cursor() as cursor:
+            cursor.execute(f"UPDATE produkty SET skladem = skladem - {quantity} WHERE id = {product_id}")
+            connection.commit()
+
+        self.update_table()
 
     def add_product(self):
         """
-        Funkce pro přidání nového produktu.
+        Přidá nový produkt do databáze.
         """
         name = self.name_input.text()
         description = self.description_input.text()
-        try:
-            price = float(self.price_input.text())
-        except ValueError:
-            print("Cena musí být číslo.")
-            return
+        price = self.price_input.text()
         image = self.image_input.text()
+        stock = self.stock_input.text()
+
+        if name and description and price and stock:
+            try:
+                price = float(price)  # Ujistěte se, že cena je číslo
+                stock = int(stock)    # Ujistěte se, že skladem je celé číslo
+                insert_product(name, description, price, image, stock)
+                print("Produkt byl úspěšně přidán.")
+                self.name_input.clear()
+                self.description_input.clear()
+                self.price_input.clear()
+                self.image_input.clear()
+                self.stock_input.clear()
+                self.update_table()  # Obnoví tabulku po přidání produktu
+                self.tabs.setCurrentWidget(self.stock_tab)  # Přepne na záložku "Stav skladu"
+            except ValueError:
+                QMessageBox.warning(self, "Chyba", "Cena musí být číslo a skladem musí být celé číslo.")
+        else:
+            QMessageBox.warning(self, "Chyba", "Vyplňte všechna pole.")
+
+class LoginDialog(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Přihlášení")
+        self.setGeometry(100, 100, 300, 150)
+
+        self.layout = QVBoxLayout()
+
+        self.username_label = QLabel("Uživatelské jméno:")
+        self.username_input = QLineEdit(self)
+        self.password_label = QLabel("Heslo:")
+        self.password_input = QLineEdit(self)
+        self.password_input.setEchoMode(QLineEdit.Password)
+
+        self.layout.addWidget(self.username_label)
+        self.layout.addWidget(self.username_input)
+        self.layout.addWidget(self.password_label)
+        self.layout.addWidget(self.password_input)
+
+        self.login_button = QPushButton("Přihlásit se", self)
+        self.login_button.clicked.connect(self.check_credentials)
+        self.layout.addWidget(self.login_button)
+
+        self.setLayout(self.layout)
+
+    def check_credentials(self):
+        username = self.username_input.text()
+        password = self.password_input.text()
+
         try:
-            stock = int(self.stock_input.text())
-        except ValueError:
-            print("Počet na skladě musí být celé číslo.")
-            return
+            with open('appreg.txt', 'r') as file:
+                lines = file.readlines()
+                stored_username = lines[0].strip()
+                stored_password = lines[1].strip()
 
-        insert_product(name, description, price, image, stock)
+                if username == stored_username and password == stored_password:
+                    self.accept()
+                else:
+                    QMessageBox.warning(self, "Chyba", "Nesprávné uživatelské jméno nebo heslo.")
+        except FileNotFoundError:
+            QMessageBox.critical(self, "Chyba", "Soubor appreg.txt nebyl nalezen.")
+        except IndexError:
+            QMessageBox.critical(self, "Chyba", "Soubor appreg.txt je poškozený.")
 
-        # Vyčištění formuláře po úspěšném přidání produktu
-        self.name_input.clear()
-        self.description_input.clear()
-        self.price_input.clear()
-        self.image_input.clear()
-        self.stock_input.clear()
-
-        # Aktualizace tabulky produktů
-        self.update_table()
-
-# Spuštění aplikace
-if __name__ == "__main__":
+if __name__ == '__main__':
     app = QApplication([])
-    window = App()
-    window.show()
-    app.exec_()
+    login_dialog = LoginDialog()
+
+    if login_dialog.exec_() == QDialog.Accepted:
+        window = App()
+        window.show()
+        app.exec_()
