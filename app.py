@@ -93,10 +93,7 @@ class App(QWidget):
         self.table = QTableWidget(self)
         self.stock_layout.addWidget(self.table)
 
-        # Tlačítko pro ruční aktualizaci dat
-        self.refresh_button = QPushButton("Obnovit data", self)
-        self.refresh_button.clicked.connect(self.update_table)
-        self.stock_layout.addWidget(self.refresh_button)
+
 
         # Vytvoření záložky pro Příjem produktů
         self.receiving_tab = QWidget()
@@ -132,6 +129,7 @@ class App(QWidget):
         self.orders_table = QTableWidget(self)
         self.orders_layout.addWidget(self.orders_table)
 
+
         # Tlačítko pro stažení objednávek
         self.download_button = QPushButton("Stáhnout objednávky", self)
         self.download_button.clicked.connect(self.download_orders)
@@ -148,8 +146,12 @@ class App(QWidget):
         self.graphs_layout.addWidget(self.canvas)
 
         # Zisk objednávek
-        self.profit_label = QLabel("Zisk objednávek: 0", self)
+        self.profit_label = QLabel("Zisk objednávek: 0 Kč", self)
         self.graphs_layout.addWidget(self.profit_label)
+
+        # Průměrná cena objednávek
+        self.average_price_label = QLabel("Průměrná cena objednávek: 0 Kč", self)
+        self.graphs_layout.addWidget(self.average_price_label)
 
         self.update_table()  # Inicializace tabulky pro produkty
         self.update_orders_table()  # Inicializace tabulky pro objednávky
@@ -282,9 +284,11 @@ class App(QWidget):
         ax.set_xlabel("Pořadí objednávky")
         ax.set_ylabel("Cena")
 
-        # Zobrazení zisku
+        # Zobrazení zisku a průměrné ceny
         total_price = sum(prices)
-        self.profit_label.setText(f"Zisk posledních 10 objednávek: {total_price}")
+        average_price = total_price / len(prices) if prices else 0
+        self.profit_label.setText(f"Zisk posledních 10 objednávek: {total_price} Kč")
+        self.average_price_label.setText(f"Průměrná cena posledních 10 objednávek: {average_price:.2f} Kč")
 
         self.canvas.draw()
 
