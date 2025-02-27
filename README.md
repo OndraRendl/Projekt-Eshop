@@ -60,9 +60,23 @@
 -  matplotlib.pyplot: Slouží pro vytváření grafů.
 -  matplotlib.backends.backend_qt5agg.FigureCanvasQTAgg: Používá se pro vykreslování grafů do Qt aplikace.
 
+>**2. Připojení k databázi**
+-  connection: Připojení k databázi pro produkty (eshop).
+-  order_connection: Připojení k databázi pro objednávky (eshop).
 
-
-
+>**Funkce pro práci s databází**
+>**fetch_products()**
+-  Popis: Načte všechny produkty z databáze.
+-  Výstup: Seznam produktů jako tuple (id, název, popis, cena, obrázek, skladem).
+>**insert_product(name, description, price, image, stock)**
+-  Popis: Vloží nový produkt do databáze.
+-  Parametry: name, description, price, image, stock – vlastnosti nového produktu.
+>**fetch_orders()**
+-  Popis: Načte všechny objednávky z databáze.
+-  Výstup: Seznam objednávek jako tuple (id, jméno, adresa, město, PSČ, email, telefon, metoda platby, celková cena, datum objednávky, způsob dopravy, produkty).
+>**fetch_last_10_orders()**
+-  Popis: Načte posledních 10 objednávek.
+-  Výstup: Seznam posledních 10 objednávek.
 
 
 
