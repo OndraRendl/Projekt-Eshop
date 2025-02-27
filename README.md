@@ -25,7 +25,7 @@
   Správa přístupu k různým funkcím na základě role (uživatel vs. administrátor).
 >**Ukázky použití**
 ![Stránka eshopu s produkty](ukazka/ukazka1.jpg)
-**Stránka eshopu s produkty**
+**Obrázek č.1 - Stránka eshopu s produkty**
 
 
 
