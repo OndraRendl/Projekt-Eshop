@@ -1,5 +1,5 @@
 # E-shop Apple
-[Návod na spuštěné eshopu zde](navod.txt)
+[Návod na spuštění eshopu zde](navod.txt)
 
 
 **Stručný popis programu, jeho funkce, ukázky použití**
