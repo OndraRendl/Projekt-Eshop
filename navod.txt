@@ -1,6 +1,8 @@
 Návod na spuštění eshopu
 1) Vytvoření databáze
-Vytvoření databáze users
+Databáze SQL, vytvářím v phpMyAdmin, databáze vytvářím ve složce eshop 
+Ve složce eshop vytvořit následující databáze:
+1. Vytvoření databáze users
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(255) NOT NULL,
@@ -11,7 +13,7 @@ CREATE TABLE IF NOT EXISTS users (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-Vytvoření databáze produkty
+2. Vytvoření databáze produkty
 CREATE TABLE IF NOT EXISTS produkty (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nazev VARCHAR(255) NOT NULL,
@@ -21,7 +23,7 @@ CREATE TABLE IF NOT EXISTS produkty (
     skladem INT NOT NULL DEFAULT 0
 );
 
-Vytvoření databáze orders (přidávat skripty na vytvoření databáze postupně, databáze nebude jinak správně fungovat)
+3. Vytvoření databáze orders (přidávat skripty na vytvoření databáze postupně, databáze nebude jinak správně fungovat)
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL,
   `username` varchar(255) DEFAULT NULL,
@@ -46,3 +48,4 @@ ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`) ON DELETE CASCADE;
 COMMIT;
 2) Změna adresy databáze v kódu
+Pokud se složka s databázemi nebo jednotlivé databáze jmenují jinak, je potřeba to v kodech xxxxxx přepsat.
