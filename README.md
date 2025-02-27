@@ -102,7 +102,7 @@
 
 **Skripty pro tvorbu tabulek, vložení několika vzorových dat a získání vzorových dat z tabulek**
 >**Skripty pro vytvoření hlavních databází**
--  Vytvoření databáze users
+-  Vytvoření databáze **users**
 ```sql
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS users (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 ```
--  Vytvoření databáze produkty
+-  Vytvoření databáze **produkty**
 ```sql
 CREATE TABLE IF NOT EXISTS produkty (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS produkty (
     skladem INT NOT NULL DEFAULT 0
 );
 ```
--  Vytvoření databáze orders
+-  Vytvoření databáze **orders** (přidávat skripty na vytvoření databáze postupně)
 ```sql
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL,
