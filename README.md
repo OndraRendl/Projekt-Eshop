@@ -108,7 +108,14 @@
 -  Popis: Přidá nový produkt do databáze na základě údajů z formuláře.
 -  Validace: Kontroluje, zda je cena číslo a skladem celé číslo.
 
-
+>**5. Třída pro přihlášení LoginDialog(QDialog)**
+>**__init__(self)**
+-  Popis: Vytvoří okno pro přihlášení uživatele.
+-  Komponenty: Uživatelské jméno, heslo, tlačítko pro přihlášení.
+>**check_credentials(self)**
+-  Popis: Ověří uživatelské jméno a heslo podle hodnot v souboru appreg.txt.
+>**6. Spuštění aplikace**
+-  Popis: Pokud uživatel úspěšně zadá přihlašovací údaje, otevře se hlavní okno aplikace, jinak se aplikace uzavře.
 
 
 
