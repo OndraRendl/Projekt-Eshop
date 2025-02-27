@@ -24,7 +24,11 @@
   Uživatelé se přihlašují do systému pomocí e-mailu a hesla.
   Správa přístupu k různým funkcím na základě role (uživatel vs. administrátor).
 >**Ukázky použití**
-![Ukázka 1](ukazka/ukazka1.jpg)
+![Stránka eshopu s produkty](ukazka/ukazka1.jpg)
+
+
+
+
 **Seznam použitých algoritmů a knihoven**
 
 **Seznam autorů**
