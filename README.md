@@ -47,12 +47,12 @@
 
 
 
-**Seznam použitých algoritmů a knihoven**
+**2. Seznam použitých algoritmů a knihoven**
 
-**Seznam autorů**
+**3. Seznam autorů**
 - Ondřej Rendl
 
-**Dokumentace kódu Python (minimálně dokumentace funkcí a tříd)**
+**4. Dokumentace kódu Python (minimálně dokumentace funkcí a tříd)**
 >**Popis třídy App**
 -  Třída App je hlavní aplikací pro správu e-shopu, která poskytuje grafické rozhraní pro interakci s databází produktů, objednávek a uživatelů. Obsahuje funkce pro zobrazení produktů v tabulce, jejich přidávání a odebírání, stejně jako zobrazení objednávek a generování grafů.
 -  App
@@ -103,7 +103,7 @@
 
 **ER-diagram databáze**
 
-**Skripty pro tvorbu tabulek, vložení několika vzorových dat a získání vzorových dat z tabulek**
+**5. Skripty pro tvorbu tabulek, vložení několika vzorových dat a získání vzorových dat z tabulek**
 >**Skripty pro vytvoření hlavních databází**
 -  Vytvoření databáze **users**
 ```sql
@@ -163,6 +163,6 @@ COMMIT;
 
 
 
-**Úprava data v databázi (UPDATE, DELETE)**
+**6. Úprava data v databázi (UPDATE, DELETE)**
 
   
