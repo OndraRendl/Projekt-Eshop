@@ -142,14 +142,17 @@ CREATE TABLE `orders` (
   `shipping_method` varchar(100) NOT NULL,
   `products` text NOT NULL
 )
-
+```
+```sql
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
   ADD KEY `username` (`username`);
-
+```
+```sql
 ALTER TABLE `orders`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
-
+```
+```sql
 ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`) ON DELETE CASCADE;
 COMMIT;
