@@ -1,1 +1,4 @@
+Návod na spuštění eshopu
+1) Vytvoření databáze
 
+2) Změna adresy databáze v kódu
