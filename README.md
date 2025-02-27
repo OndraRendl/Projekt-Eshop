@@ -64,7 +64,7 @@
 -  connection: Připojení k databázi pro produkty (eshop).
 -  order_connection: Připojení k databázi pro objednávky (eshop).
 
->**Funkce pro práci s databází**
+>**3. Funkce pro práci s databází**
 >**fetch_products()**
 -  Popis: Načte všechny produkty z databáze.
 -  Výstup: Seznam produktů jako tuple (id, název, popis, cena, obrázek, skladem).
