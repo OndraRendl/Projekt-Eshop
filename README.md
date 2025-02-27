@@ -74,7 +74,7 @@
 >**fetch_orders()**
 -  Popis: Načte všechny objednávky z databáze.
 -  Výstup: Seznam objednávek jako tuple (id, jméno, adresa, město, PSČ, email, telefon, metoda platby, celková cena, datum objednávky, způsob dopravy, produkty).
->**fetch_last_10_orders()**
+>****fetch_last_10_orders()****
 -  Popis: Načte posledních 10 objednávek.
 -  Výstup: Seznam posledních 10 objednávek.
 
