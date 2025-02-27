@@ -102,6 +102,7 @@
 
 **Skripty pro tvorbu tabulek, vložení několika vzorových dat a získání vzorových dat z tabulek**
 >**Skripty pro vytvoření hlavních databází**
+-  Vytvoření databáze users
 ```sql
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -112,6 +113,49 @@ CREATE TABLE IF NOT EXISTS users (
     password VARCHAR(255) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+```
+-  Vytvoření databáze produkty
+```sql
+CREATE TABLE IF NOT EXISTS produkty (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nazev VARCHAR(255) NOT NULL,
+    popis TEXT,
+    cena DECIMAL(10,2) NOT NULL,
+    obrazek VARCHAR(255),
+    skladem INT NOT NULL DEFAULT 0
+);
+```
+-  Vytvoření databáze orders
+```sql
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `address` text NOT NULL,
+  `city` varchar(100) NOT NULL,
+  `zip` varchar(20) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `phone` varchar(20) NOT NULL,
+  `payment_method` varchar(50) NOT NULL,
+  `total_price` decimal(10,2) NOT NULL,
+  `order_date` datetime DEFAULT current_timestamp(),
+  `shipping_method` varchar(100) NOT NULL,
+  `products` text NOT NULL
+)
+
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `username` (`username`);
+
+ALTER TABLE `orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`) ON DELETE CASCADE;
+COMMIT;
+```
+
+
 
 **Úprava data v databázi (UPDATE, DELETE)**
 
