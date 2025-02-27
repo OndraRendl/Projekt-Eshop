@@ -101,9 +101,9 @@
 -  generate_report()
 -  Tato funkce generuje report o skladových zásobách a objednávkách, který lze exportovat do souboru.
 
-**ER-diagram databáze**
+**5. ER-diagram databáze**
 
-**5. Skripty pro tvorbu tabulek, vložení několika vzorových dat a získání vzorových dat z tabulek**
+**6. Skripty pro tvorbu tabulek, vložení několika vzorových dat a získání vzorových dat z tabulek**
 >**Skripty pro vytvoření hlavních databází**
 -  Vytvoření databáze **users**
 ```sql
@@ -163,6 +163,6 @@ COMMIT;
 
 
 
-**6. Úprava data v databázi (UPDATE, DELETE)**
+**7. Úprava data v databázi (UPDATE, DELETE)**
 
   
