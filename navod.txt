@@ -91,5 +91,17 @@ Dále je potřeba změnit připojení k databázi v kodu delete_product.php
 
 Uživatelské jméno: admin Heslo: admin; jiný uživatel nemá přístup, příhlášení čte ze souboru appreg.txt
 
+-- Co Webová stránka a Aplikace umí: --
 Webová stránka propojená s databází a aplikace funguje
-
+- WEBOVÁ STRÁNKA -
+-    Úvod - úvodní stránka, odkaz na obchod
+-    Kontakt - stránka s kontaky na fiktivní eshop
+-    Na všech stránkách na horní liště je pro nepřihlášené uživatale v levé části Příhlásit se a Registrovat se, pro přihlášené uživatele tam je Uživatel: (uživatelské jméno přihlášeného uživatele), Můj účet (osobní údaje přihlášeného uživatele), Moje objednávky (všechny objednávky přihlášeného uživatele) a Odhlasít se. V práve části mají všichni odkazy úvod, obchod, kontakt, košík.
+-    Obchod - zde jsou jednotlivé produkty, možnost filtorvání, po kliknutí na produkt přesměrování na stránku s produktem
+-    Produkty - obrázek a popis prroduktu, cena s dph a bez dph, počet ks na skladě (pokud je jich na skladě více jak 10ks = skladem: > 10ks, pokud méně, tak se píše kolik ks je na skladě), možnost přidání vice ks do košíku (nejde přidat více ks do košíku než je na skladě), tlačítko přidat do košíku
+-    Košík - možnost upravovat ks (nelze mít v košíku více ks něž je na skladě), možnost odebrání produktu, objednat
+-    -> Objednat - nepřihlášení uživatele mají všechna pole prázdná, možnost vyprání dopravy a způsobu platby, přihlášení uživatel mají vyplněné pole Jméno a Přijmení a Email (pokud by uživatele chtěli si změnit jméno a přijmení, jde to v záložce můj účet), potvrdit objednávku
+-    -> Sourhn objednávky - souhrn objednávky, tlačítko objednat -> poděkování za objednání a vrácení na úvodní stránku
+-    Pokud se přihláším jako admin, tak mě to hned přesměruje na stránku pro admina Správa produktů, kde admin může mazat produkty s eshopu (smažou se i z databáze)
+-    V části, kde si můžeme měnit své osobní udaje a nebo můžeme vidět své objednávky je i tlačítko na odstranit účet (pokud by jsme na to omylem kliknuli, objeví se hláška) a nmůžeme odstranit účet
+- APLIKACE -
