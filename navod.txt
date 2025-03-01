@@ -82,6 +82,14 @@ INSERT INTO users (first_name, last_name, username, email, password) VALUES
 ('Jana', 'Svobodová', 'jsvobodova', 'jsvobodova@gmail.com', '222');
 
 3) Změna adresy databáze v kódu
-V souboru db_connection.php je nutné změnit připojení k databází. Změnit: $host (přes XAMPP localhost), $dbname (pokud nemáte složku eshop a v ní databáze), $username (pokud pouštíte přes XAMPP tak není potřeba, $password (pokud máte XAMPP tak je prázdné)
-Dále je potřeba změnit připojení k databázi v souboru delete_product.php
+V kodu db_connection.php je nutné změnit připojení k databází. Změnit: $host (přes XAMPP localhost), $dbname (pokud nemáte složku eshop a v ní databáze), $username (pokud pouštíte přes XAMPP tak není potřeba, $password (pokud máte XAMPP tak je prázdné)
+Dále je potřeba změnit připojení k databázi v kodu delete_product.php
+
+4) Změna připojení k databázi v kodu aplikace app.py v části: # Připojení k databázi pro produkty a # Připojení k databázi pro produkty. Pokud si vytvoříte databáze s jiným názvem, je potřeba to změnit v celém kodu
+
+5) Spuštění aplikace app.py
+
+Uživatelské jméno: admin Heslo: admin; jiný uživatel nemá přístup, příhlášení čte ze souboru appreg.txt
+
+Webová stránka propojená s databází a aplikace funguje
 
