@@ -235,7 +235,10 @@ INSERT INTO produkty (nazev, popis, cena, obrazek, skladem) VALUES
 ('iMac 24" (2021)', 'All-in-one počítač s Retina displejem, chipem M1 a až 16GB RAM. Skvélé pro domácí i profesionální použití, s moderním designem a rychlým výkonem.', 28990.00, 'imac-24.jpg', 100);
 ```
 >**Skripty pro získaní vzorových dat z tabulek**
-
+>**1. Výpis všech uživatelů seřazených podle data vytvoření (od nejnovějších)**
+```sql
+SELECT * FROM users ORDER BY created_at DESC;
+```
 
 **7. Úprava data v databázi (UPDATE, DELETE)**
 
