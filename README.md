@@ -266,5 +266,9 @@ WHERE username = 'pnovak';
 UPDATE produkty
 SET price = 1099, stock = 42
 WHERE name = 'iPhone 16 Pro Max 128GB';
-
-  
+```
+>**3. Smazání uživatele s uživatelským jménem 'jsvobodova'**
+```sql
+DELETE FROM users
+WHERE username = 'jsvobodova';
+```
