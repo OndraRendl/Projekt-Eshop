@@ -194,7 +194,7 @@ CREATE TABLE IF NOT EXISTS produkty (
     skladem INT NOT NULL DEFAULT 0
 );
 ```
--  Vytvoření databáze **orders** (přidávat skripty na vytvoření databáze postupně)
+-  Vytvoření databáze **orders** (přidávat skripty na vytvoření databáze postupně, jinak nebude fungovat DELETE ON CASCADE)
 ```sql
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL,
