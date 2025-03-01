@@ -155,18 +155,6 @@ check_credentials(self)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 **5. ER-diagram databáze**
 
 **6. Skripty pro tvorbu tabulek, vložení několika vzorových dat a získání vzorových dat z tabulek**
@@ -226,7 +214,9 @@ ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`) ON DELETE CASCADE;
 COMMIT;
 ```
+>**Skripty pro vložení několik vzorových dat**
 
+>**Skripty pro získaní vzorových dat z tabulek**
 
 
 **7. Úprava data v databázi (UPDATE, DELETE)**
