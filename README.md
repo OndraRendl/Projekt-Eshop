@@ -222,6 +222,18 @@ INSERT INTO users (first_name, last_name, username, email, password) VALUES
 ('Petr', 'Novák', 'pnovak', 'pnovak@gmail.com', '111'),
 ('Jana', 'Svobodová', 'jsvobodova', 'jsvobodova@gmail.com', '222');
 ```
+-  Databáze **produkty**
+```sql
+INSERT INTO produkty (nazev, popis, cena, obrazek, skladem) VALUES
+('iPhone 16 Pro Max 128GB', 'Nejnovější vlajková loď od Apple s 48 MP fotoaparátem, ultra výkonným A17 Bionic čipem, až 2TB úložištěm a 6,7" Super Retina XDR ProMotion displejem s maximálním jasem 2000 nitů. Ideální pro fotografie, hry i multitasking.', 34990.00, 'iphone-16-pro-max.jpg', 100),
+('MacBook Pro 16" (2023)', 'Výkonný notebook s M2 Pro čipem, 16 GB RAM a 1 TB SSD úložištěm. Nabízí 16" Liquid Retina XDR displej, až 22hodinovou výdrž baterie a Thunderbolt 4 porty. Skvělý nástroj pro profesionály a kreativce.', 59990.00, 'macbook-pro-16.jpg', 100),
+('iPad Air 5. generace', '10,9" Liquid Retina displej, chip M1, ideální pro práci i zábavu. Podporuje Apple Pencil 2. generace a Magic Keyboard. Perfektní kombinace výkonu a přenosnosti pro každodenní použití.', 15990.00, 'ipad-air-5.jpg', 100),
+('Apple Watch Ultra', 'Chytré hodinky pro sportovce a outdoorové nadšence. Nabízí robustní design, 49mm titanové tělo, GPS, měření tepu, kyslíku v krvi a EKG. Podporují extrémní sportovní aktivity a vodotěsnost do 100m.', 18990.00, 'apple-watch-ultra.jpg', 100),
+('AirPods Pro 2. generace', 'Bezdrátová sluchátka s aktivním potlačením hluku, až 6 hodin přehrávání na jedno nabití, vylepšený čip H2, adaptivní ekvalizér pro optimalizaci zvuku. Skvělé pro práci i zábavu.', 6990.00, 'airpods-pro-2.jpg', 100),
+('Apple TV 4K (2022)', 'Streamovací zařízení pro 4K HDR obsah, podpora Dolby Vision a Dolby Atmos. Včetně Siri Remote s vyhledáváním hlasem a podpora široké škály aplikací pro streamování a zábavu.', 5990.00, 'apple-tv-4k.jpg', 100),
+('iPhone 14 Plus 128GB', '6,7" Super Retina XDR displej, A15 Bionic chip, vylepšený fotoaparát a skvělá výdrž baterie. Ideální pro milovníky velkých displejů a výkonu.', 24990.00, 'iphone-14-plus.jpg', 100),
+('iMac 24" (2021)', 'All-in-one počítač s Retina displejem, chipem M1 a až 16GB RAM. Skvélé pro domácí i profesionální použití, s moderním designem a rychlým výkonem.', 28990.00, 'imac-24.jpg', 100);
+```
 >**Skripty pro získaní vzorových dat z tabulek**
 
 
