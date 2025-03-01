@@ -241,7 +241,7 @@ SELECT * FROM users ORDER BY created_at DESC;
 ```
 >**2. Hledání uživatele podle části uživatelského jména nebo e-mailu**
 ```sql
-SELECT * FROM users WHERE username LIKE '%novak%' OR email LIKE '%egmail.com%';
+SELECT * FROM users WHERE username LIKE '%novak%' OR email LIKE '%gmail.com%';
 ```
 >**3. Získání všech produktů skladem nad 20 kusů**
 ```sql
