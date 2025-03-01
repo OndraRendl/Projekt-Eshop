@@ -255,5 +255,16 @@ INNER JOIN users u ON o.user_id = u.id
 ORDER BY o.created_at DESC;
 ```
 **7. Úprava data v databázi (UPDATE, DELETE)**
+>**1. Změna emailu uživatele pnovak**
+```sql
+UPDATE users
+SET email = 'novyemail@email.com'
+WHERE username = 'pnovak';
+```
+>**2. Změna cenu produktu s názvem 'iPhone 16 Pro Max 128GB' a množství skladem na 42**
+```sql
+UPDATE produkty
+SET price = 1099, stock = 42
+WHERE name = 'iPhone 16 Pro Max 128GB';
 
   
