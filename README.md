@@ -70,51 +70,81 @@ fetch_products()
 ```
 -  Popis: Načte všechny produkty z databáze.
 -  Výstup: Seznam produktů jako tuple (id, název, popis, cena, obrázek, skladem).
->**insert_product(name, description, price, image, stock)**
+```python
+insert_product(name, description, price, image, stock)
+```
 -  Popis: Vloží nový produkt do databáze.
 -  Parametry: name, description, price, image, stock – vlastnosti nového produktu.
->**fetch_orders()**
+```python
+fetch_orders()
+```
 -  Popis: Načte všechny objednávky z databáze.
 -  Výstup: Seznam objednávek jako tuple (id, jméno, adresa, město, PSČ, email, telefon, metoda platby, celková cena, datum objednávky, způsob dopravy, produkty).
->**fetch_last_10_orders()**
+```python
+fetch_last_10_orders()
+```
 -  Popis: Načte posledních 10 objednávek.
 -  Výstup: Seznam posledních 10 objednávek.
 
 >**4. Hlavní třída aplikace App(QWidget)**
->**__init__(self)**
+```python
+__init__(self)
+```
 -  Popis: Inicializuje aplikaci, nastavuje vzhled a připojuje všechny widgety a layouty.
 -  Tlačítka a layouty:
 -  Tabulky: Tři tabulky pro zobrazení produktů, objednávek a grafů.
 -  Záložky: Záložky pro "Stav skladu", "Příjem produktů", "Historii objednávek", a "Grafy".
->**update_table(self)**
+```python
+update_table(self)
+```
 -  Popis: Načte produkty z databáze a aktualizuje tabulku.
 -  Popis práce: Pro každý produkt je vytvořen řádek v tabulce s hodnotami produktů a tlačítky pro přidání nebo odebrání kusů z inventáře.
->**update_orders_table(self)**
+```python
+update_orders_table(self)
+```
 -  Popis: Načte objednávky z databáze a aktualizuje tabulku.
->**update_graph(self)**
+```python
+update_graph(self)
+```
 -  Popis: Vykreslí graf s cenami posledních 10 objednávek.
 -  Detail: Vykresluje sloupcový graf a zobrazuje zisk a průměrnou cenu objednávek.
->**download_orders(self)**
+```python
+download_orders(self)
+```
 -  Popis: Umožňuje stáhnout objednávky do textového souboru.
->**create_add_button_function(self, row, quantity_input)**
+```python
+create_add_button_function(self, row, quantity_input)
+```
 -  Popis: Vytvoří funkci pro tlačítko "Přidat" pro daný produkt.
 -  Funkčnost: Přidá zadané množství kusů na sklad.
->**create_subtract_button_function(self, row, quantity_input)**
+```python
+create_subtract_button_function(self, row, quantity_input)
+```
 -  Popis: Vytvoří funkci pro tlačítko "Odebrat" pro daný produkt.
 -  Funkčnost: Odebere zadané množství kusů ze skladu.
->**add_quantity_to_product(self, product_id, quantity)**
+```python
+add_quantity_to_product(self, product_id, quantity)
+```
 -  Popis: Přidá specifikované množství k produktu.
->**subtract_quantity_from_product(self, product_id, quantity)**
+```python
+subtract_quantity_from_product(self, product_id, quantity)
+```
 -  Popis: Odebere specifikované množství od produktu.
->**add_product(self)**
+```python
+add_product(self)
+```
 -  Popis: Přidá nový produkt do databáze na základě údajů z formuláře.
 -  Validace: Kontroluje, zda je cena číslo a skladem celé číslo.
 
 >**5. Třída pro přihlášení LoginDialog(QDialog)**
->**__init__(self)**
+```python
+__init__(self)
+```
 -  Popis: Vytvoří okno pro přihlášení uživatele.
 -  Komponenty: Uživatelské jméno, heslo, tlačítko pro přihlášení.
->**check_credentials(self)**
+```python
+check_credentials(self)
+```
 -  Popis: Ověří uživatelské jméno a heslo podle hodnot v souboru appreg.txt.
 >**6. Spuštění aplikace**
 -  Popis: Pokud uživatel úspěšně zadá přihlašovací údaje, otevře se hlavní okno aplikace, jinak se aplikace uzavře.
