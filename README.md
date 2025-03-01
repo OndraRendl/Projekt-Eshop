@@ -215,7 +215,13 @@ ALTER TABLE `orders`
 COMMIT;
 ```
 >**Skripty pro vložení několik vzorových dat**
-
+-  Databáze **users**
+```sql
+INSERT INTO users (first_name, last_name, username, email, password) VALUES
+('admin', 'admin', 'admin', 'admin@admin.com', 'admin'),
+('Petr', 'Novák', 'pnovak', 'pnovak@gmail.com', '111'),
+('Jana', 'Svobodová', 'jsvobodova', 'jsvobodova@gmail.com', '222');
+```
 >**Skripty pro získaní vzorových dat z tabulek**
 
 
