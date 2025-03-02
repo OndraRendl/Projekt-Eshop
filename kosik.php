@@ -1,12 +1,9 @@
 <?php
 session_start(); 
 
-$host = 'localhost';
-$db = 'eshop';
-$user = 'root';
-$pass = '';  // Pokud nemáš heslo, nech prázdné
+require_once 'db_connection.php'; // Zde připojte soubor s připojením k databázi
 
-$dsn = "mysql:host=$host;dbname=$db;charset=utf8mb4";  // Znakovou sadu nastavíš přímo v DSN
+$dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";  // Znakovou sadu nastavíš přímo v DSN
 
 $options = [
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
@@ -15,7 +12,7 @@ $options = [
 ];
 
 try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
+    $pdo = new PDO($dsn, $username, $password, $options);
 } catch (PDOException $e) {
     die("Chyba připojení k databázi: " . $e->getMessage());
 }

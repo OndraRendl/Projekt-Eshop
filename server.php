@@ -6,14 +6,10 @@ error_reporting(E_ALL);
 // Startování session na začátku skriptu
 session_start();
 
-// Připojení k databázi
-$host = 'localhost';
-$dbname = 'eshop';
-$user = 'root';
-$password = '';
+require_once 'db_connection.php'; // Zde připojte soubor s připojením k databázi
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $password);
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     die("Chyba připojení k databázi: " . $e->getMessage());

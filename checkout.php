@@ -12,7 +12,7 @@ if (isset($_SESSION['username'])) {
     // Načteme jméno, příjmení a email z databáze
     $stmt = $pdo->prepare("SELECT first_name, last_name, email FROM users WHERE username = :username");
     $stmt->execute(['username' => $username]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $user = $stmt->fetch(PDO::FOCETCH_ASS);
 
     if ($user) {
         $userEmail = htmlspecialchars($user['email']);

@@ -8,12 +8,12 @@ if (!isset($_SESSION['username']) || $_SESSION['username'] !== 'admin') {
 }
 
 // Připojení k databázi
-$servername = "localhost";
+$host = "localhost";
 $username = "root";
 $password = "";
 $database = "eshop";
 
-$conn = new mysqli($servername, $username, $password, $database);
+$conn = new mysqli($host, $username, $password, $database);
 
 // Kontrola připojení
 if ($conn->connect_error) {

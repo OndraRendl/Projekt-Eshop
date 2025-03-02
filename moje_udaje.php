@@ -1,13 +1,9 @@
 <?php
 session_start();
 
-// Připojení k databázi
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "eshop";
+require_once 'db_connection.php'; // Zde připojte soubor s připojením k databázi
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($host, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Připojení selhalo: " . $conn->connect_error);
 }
@@ -217,7 +213,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="sidebar">
         <h2>E-shop Apple</h2>
         <div class="divider"></div>
-        <p>Uživatelské jméno: <strong><?php echo htmlspecialchars($_SESSION['username']); ?></strong></p>
+        <p>Uživatel: <strong><?php echo htmlspecialchars($_SESSION['username']); ?></strong></p>
         <div class="divider"></div>
         <a href="uvod.php">Úvod</a>
         <a href="obchod.php">Obchod</a>

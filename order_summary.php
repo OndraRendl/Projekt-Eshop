@@ -286,7 +286,7 @@ foreach ($_SESSION['cart'] as $product_id => $product) {
 
         <p><strong>Celková cena:</strong> <?php echo number_format($total_price, 2, ',', ' '); ?> Kč</p>
         <form action="" method="POST">
-            <button class="order-button" type="submit">Potvrdit objednávku</button>
+            <button class="order-button" type="submit">Objednat</button>
         </form>
     </div>
 

@@ -13,5 +13,3 @@ try {
     // Pokud připojení selže, zobrazí se chybová zpráva
     die('Chyba při připojení k databázi: ' . $e->getMessage());
 }
-
-

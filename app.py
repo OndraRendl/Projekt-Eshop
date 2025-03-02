@@ -12,7 +12,7 @@ connection = pymysql.connect(
     database='eshop'
 )
 
-# Připojení k databázi pro historii objednávek
+# Připojení k databázi pro produkty
 order_connection = pymysql.connect(
     host='localhost',
     user='root',  # Zadej své uživatelské jméno
@@ -137,7 +137,7 @@ class App(QWidget):
 
         # Vytvoření záložky pro grafy
         self.graphs_tab = QWidget()
-        self.tabs.addTab(self.graphs_tab, "Grafy")
+        self.tabs.addTab(self.graphs_tab, "Graf")
         self.graphs_layout = QVBoxLayout(self.graphs_tab)
 
         # Vytvoření grafu pro vizualizaci

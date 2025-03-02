@@ -1,13 +1,9 @@
 <?php
 session_start(); // Start session, abychom mohli pracovat s proměnnými session
 
-// Připojení k databázi
-$servername = "localhost";
-$username = "root"; // Výchozí uživatelské jméno pro XAMPP
-$password = ""; // Výchozí heslo pro XAMPP (prázdné)
-$database = "eshop"; // Název vaší databáze
+require_once 'db_connection.php'; // Zde připojte soubor s připojením k databázi
 
-$conn = new mysqli($servername, $username, $password, $database);
+$conn = new mysqli($host, $username, $password, $dbname);
 
 // Kontrola připojení
 if ($conn->connect_error) {
