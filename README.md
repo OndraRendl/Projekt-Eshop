@@ -29,25 +29,18 @@
 >**Ukázky použití**
 ![obr1](ukazka/ukazka1.jpg)
 **Obrázek č. 1 - Stránka eshopu s produkty (produkty se načítají z databáze)**
-
 ![obr2](ukazka/ukazka2.jpg)
 **Obrázek č. 2 - Stránka s produktem**
-
 ![obr3](ukazka/ukazka3.jpg)
 **Obrázek č. 3 - Košík s produktem**
-
 ![obr4](ukazka/ukazka4.jpg)
 **Obrázek č. 4 - Stránka se souhrnem objednávky**
-
 ![obr5](ukazka/ukazka5.jpg)
 **Obrázek č. 5 - Uživatelská část - objednávky uživatele**
-
 ![obr6](ukazka/ukazka6.jpg)
 **Obrázek č. 6 - Uživatelská část - osobbní údaje uživatele + možnost změny některých údajů**
-
 ![obr7](ukazka/ukazka7.jpg)
 **Obrázek č. 7 - Webová stránka pro admina, kde může mazat zboží (z databáze), které je na eshopu**
-
 ![obr8](ukazka/ukazka8.jpg)
 **Obrázek č. 8 - Aplikace, možnost přidání nebo odebrání kusů na skladě (komunikace s databází)**
 
