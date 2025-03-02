@@ -49,6 +49,15 @@
 
 **2. Seznam použitých algoritmů a knihoven**
 
+
+
+
+>**Použité knihovny**
+-  PyQt – Pro vytvoření grafického uživatelského rozhraní.
+-  MySQL Connector (mysql-connector-python) – Pro komunikaci s databází MySQL.
+-  Matplotlib – Pro vizualizaci dat (např. grafy o prodejnosti nebo skladových zásobách).
+
+
 **3. Seznam autorů**
 - Ondřej Rendl
 
