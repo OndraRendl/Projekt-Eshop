@@ -50,7 +50,7 @@
 **2. Seznam použitých algoritmů a knihoven**
 
 >**ER diagram**
-![erdiagram](ukazka/erdiagram.jpg)
+![erdiagram](ukazka/erdiagram.JPG)
 >**Vývojový diagram**
 
 >**Použité knihovny**
