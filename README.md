@@ -53,8 +53,8 @@
 
 
 >**Použité knihovny**
--  PyQt – Pro vytvoření grafického uživatelského rozhraní.
--  MySQL Connector (mysql-connector-python) – Pro komunikaci s databází MySQL.
+-  PyQt5 – Pro vytvoření grafického uživatelského rozhraní.
+-  pymysql – Pro komunikaci s databází MySQL.
 -  Matplotlib – Pro vizualizaci dat (např. grafy o prodejnosti nebo skladových zásobách).
 
 
