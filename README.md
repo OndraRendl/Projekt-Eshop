@@ -49,13 +49,29 @@
 
 **2. Seznam použitých algoritmů a knihoven**
 
+>**ER diagram**
 
-
+>**Vývojový diagram**
 
 >**Použité knihovny**
 -  PyQt5 – Pro vytvoření grafického uživatelského rozhraní.
 -  pymysql – Pro komunikaci s databází MySQL.
 -  Matplotlib – Pro vizualizaci dat (např. grafy o prodejnosti nebo skladových zásobách).
+
+>**Pseudokód pro hlavní funkce**
+
+1. Přihlášení uživatele
+```txt
+vstup: email, heslo
+ulozene_heslo, username = SELECT password, username FROM users WHERE email = email
+pokud heslo == ulozene_heslo:
+    return "Přihlášení úspěšné", username
+jinak:
+    return "Nesprávný email nebo heslo"
+```
+
+
+
 
 
 **3. Seznam autorů**
