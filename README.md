@@ -210,9 +210,9 @@ check_credentials(self)
 
 
 
-**5. ER-diagram databáze**
 
-**6. Skripty pro tvorbu tabulek, vložení několika vzorových dat a získání vzorových dat z tabulek**
+
+**5. Skripty pro tvorbu tabulek, vložení několika vzorových dat a získání vzorových dat z tabulek**
 >**Skripty pro vytvoření hlavních databází**
 -  Vytvoření databáze **users**
 ```sql
@@ -312,7 +312,7 @@ FROM orders o
 INNER JOIN users u ON o.user_id = u.id
 ORDER BY o.created_at DESC;
 ```
-**7. Úprava data v databázi (UPDATE, DELETE)**
+**6. Úprava data v databázi (UPDATE, DELETE)**
 >**1. Změna emailu uživatele pnovak**
 ```sql
 UPDATE users
