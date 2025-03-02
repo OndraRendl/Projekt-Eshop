@@ -108,7 +108,6 @@ return graf
 
 **4. Dokumentace kódu Python (minimálně dokumentace funkcí a tříd)**
 >**1. Importy**
--  PyQt5.QtCore.QTimer: Slouží k časování.
 -  pymysql: Používá se pro připojení a práci s MySQL databází.
 -  PyQt5.QtWidgets: Obsahuje widgety jako QVBoxLayout, QPushButton, QTableWidget, atd.
 -  matplotlib.pyplot: Slouží pro vytváření grafů.
