@@ -113,7 +113,7 @@ Webová stránka propojená s databází a aplikace funguje
 -    V části, kde si můžeme měnit své osobní udaje a nebo můžeme vidět své objednávky je i tlačítko na odstranit účet (pokud by jsme na to omylem kliknuli, objeví se hláška) a nmůžeme odstranit účet
 - APLIKACE -
 -    Po přihlášení jako admin admin co se objeví apliakce
--    Stav skladu - můžu přidávat a odebírat ks ze skladové zásoby (nemůžu do mínusu)
+-    Stav skladu - můžu přidávat a odebírat ks ze skladové zásoby (nelze mít na skladě mínusové hodnoty)
 -    Příjem produktu - jednoduchý formulář na přidání nové produktu na sklad
 -    Historie objednávek - všechny objednávky, možnost stáhnutí objednávek do txt souboru
 -    Graf - graf na posledních 10 objednávek (podle ceny), pdo grafem zisk posledních 10 objednávek a průměrná hodnota posledních 10 objednávek
