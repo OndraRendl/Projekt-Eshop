@@ -88,8 +88,15 @@ Dále je potřeba změnit připojení k databázi v kodu delete_product.php
 4) Změna připojení k databázi v kodu aplikace app.py v části: # Připojení k databázi pro produkty a # Připojení k databázi pro produkty. Pokud si vytvoříte databáze s jiným názvem, je potřeba to změnit v celém kodu
 
 5) Spuštění aplikace app.py
+Nainstalujte do Visual Studio Code
+pip install PyQt5==5.15.9
+pip install pymysql==1.1.0
+pip install matplotlib==3.7.1
 
-Uživatelské jméno: admin Heslo: admin; jiný uživatel nemá přístup, příhlášení čte ze souboru appreg.txt
+Spuštění aplikace
+python app.py
+
+Přihlášení do aplikace: Uživatelské jméno: admin Heslo: admin; jiný uživatel nemá přístup, příhlášení čte ze souboru appreg.txt
 
 -- Co Webová stránka a Aplikace umí: --
 Webová stránka propojená s databází a aplikace funguje
