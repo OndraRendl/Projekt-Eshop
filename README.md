@@ -69,9 +69,38 @@ pokud heslo == ulozene_heslo:
 jinak:
     return "Nesprávný email nebo heslo"
 ```
-
-
-
+2. Načtení seznamu produktů
+```txt
+vstup: žádný
+výstup: seznam produktů
+produkty = SELECT * FROM produkty
+return produkty
+```
+3. Přidání produktu do objednávky
+```txt
+vstup: username, produkt_id, mnozstvi
+test = SELECT skladem FROM produkty WHERE id = produkt_id
+pokud test >= mnozstvi:
+    INSERT INTO orders (username, produkt_id, mnozstvi, datum_objednavky) VALUES (...)
+    UPDATE produkty SET skladem = skladem - mnozstvi WHERE id = produkt_id
+    return "Objednávka úspěšně vytvořena"
+jinak:
+    return "Nedostatečné zásoby"
+```
+4. Aktualizace skladu
+```txt
+vstup: produkt_id, pridané_mnozství
+UPDATE produkty SET skladem = skladem + pridané_mnozství WHERE id = produkt_id
+return "Sklad aktualizován"
+```
+5. Zobrazení statistik prodejnosti
+```txt
+vstup: žádný
+výstup: graf s prodejností produktů
+data = SELECT produkt_id, SUM(mnozstvi) FROM orders GROUP BY produkt_id
+vykreslit sloupcový graf(data)
+return graf
+```
 
 
 **3. Seznam autorů**
