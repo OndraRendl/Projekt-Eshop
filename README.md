@@ -50,13 +50,12 @@
 **2. Seznam použitých algoritmů a knihoven**
 
 >**Vývojový diagram**
+
 >**![Vývojový diagram](ukazka/Diagram.jpg)**
 
 >**ER diagram**
 
 >**![erdiagram](ukazka/erdiagram.JPG)**
-
-
 
 >**Použité knihovny**
 -  PyQt5 – Pro vytvoření grafického uživatelského rozhraní.
