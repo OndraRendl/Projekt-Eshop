@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Přihlášení</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 24px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        input {
+            margin-bottom: 15px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        button {
+            padding: 12px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .toggle {
+            margin-top: 15px;
+        }
+        .toggle a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .toggle a:hover {
+            text-decoration: underline;
+        }
+        .back-button {
+            display: block;
+            margin-top: 20px;
+            padding: 12px;
+            background: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        .back-button:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Přihlášení</h2>
+        <form method="POST" action="server.php">
+            <input type="text" name="username" placeholder="Uživatelské jméno nebo Email" required>
+            <input type="password" name="password" placeholder="Heslo" required>
+            <button type="submit" name="action" value="login">Přihlásit</button>
+        </form>
+        <div class="toggle">
+            <span>Nemáte účet? <a href="register.html">Registrujte se</a></span>
+        </div>
+        <a href="uvod.php" class="back-button">Zpět do obchodu</a>
+    </div>
+</body>
+</html>
+
+
