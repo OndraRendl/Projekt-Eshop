@@ -1,4 +1,5 @@
 Návod na spuštění eshopu
+-- Zapnutí XAMPPu: Apache, MySQL, FileZilla -> start --
 1) Vytvoření databáze
 Databáze SQL, vytváření v phpMyAdmin, v phpMyAdmin vytvořit složku eshop kde se budou vytvářet jednotlivé databáze
 
