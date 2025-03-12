@@ -27,9 +27,9 @@
   Uživatelé se přihlašují do systému pomocí e-mailu a hesla.
   Správa přístupu k různým funkcím na základě role (uživatel vs. administrátor).
 >**Ukázky použití**
-![obr1](ukazka/ukazka1.jpg)
+![obr1](ukazka/ukazka1.JPG)
 **Obrázek č. 1 - Stránka eshopu s produkty (produkty se načítají z databáze)**
-![obr2](ukazka/ukazka2.jpg)
+![obr2](ukazka/ukazka2.JPG)
 **Obrázek č. 2 - Stránka s produktem**
 ![obr3](ukazka/ukazka3.jpg)
 **Obrázek č. 3 - Košík s produktem**
