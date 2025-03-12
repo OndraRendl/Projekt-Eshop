@@ -85,6 +85,7 @@ INSERT INTO users (first_name, last_name, username, email, password) VALUES
 3) Změna adresy databáze v kódu
 V kodu db_connection.php je nutné změnit připojení k databází. Změnit: $host (přes XAMPP localhost), $dbname (pokud nemáte složku eshop a v ní databáze), $username (pokud pouštíte přes XAMPP tak není potřeba, $password (pokud máte XAMPP tak je prázdné)
 Dále je potřeba změnit připojení k databázi v kodu delete_product.php
+V kodu order_summary.php zmena adresy databaze na radku 33 - 35, 37 a 42
 
 4) Změna připojení k databázi v kodu aplikace app.py v části: # Připojení k databázi pro produkty a # Připojení k databázi pro produkty. Pokud si vytvoříte databáze s jiným názvem, je potřeba to změnit v celém kodu
 
