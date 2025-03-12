@@ -13,13 +13,24 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-// Získání objednávek podle username
-$username = $_SESSION['username'];
-$query = "SELECT * FROM orders WHERE username = ? ORDER BY order_date DESC";
+// Získání ID objednávky z URL
+$order_id = isset($_GET['id']) ? $_GET['id'] : 0;
+
+if ($order_id == 0) {
+    die("Neplatné ID objednávky.");
+}
+
+// Získání detailů objednávky
+$query = "SELECT * FROM orders WHERE id = ? AND username = ?";
 $stmt = $conn->prepare($query);
-$stmt->bind_param("s", $username);
+$stmt->bind_param("is", $order_id, $_SESSION['username']);
 $stmt->execute();
-$orders = $stmt->get_result();
+$order = $stmt->get_result()->fetch_assoc();
+
+if (!$order) {
+    die("Objednávka nenalezena.");
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +38,7 @@ $orders = $stmt->get_result();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moje objednávky</title>
+    <title>Detail objednávky</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <style>
         body {
@@ -79,48 +90,25 @@ $orders = $stmt->get_result();
             padding: 20px;
         }
 
-        table {
-            width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
+        .order-details {
             background-color: white;
+            padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            cursor: pointer; /* Přidá kurzor na celý řádek */
         }
 
-        th, td {
-            padding: 12px;
-            border: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #f4f4f4;
-            font-weight: 500;
-            text-align: left;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-
-        tr a {
-            text-decoration: none; /* Zamezí podtržení odkazu */
-            color: inherit; /* Odkaz bude mít barvu textu řádku */
-        }
-
-        tr:hover a {
-            color: inherit; /* Udržuje barvu odkazu při najetí na řádek */
-        }
-
-        .status-icon {
+        .order-details h2 {
+            margin-bottom: 20px;
             font-size: 1.5em;
-            vertical-align: middle;
-            margin-right: 8px;
+            color: #333;
+        }
+
+        .order-details .detail-row {
+            margin-bottom: 10px;
+        }
+
+        .order-details .detail-row span {
+            font-weight: bold;
         }
 
         footer {
@@ -145,7 +133,6 @@ $orders = $stmt->get_result();
             background-color:#28a745; /* Zvolte barvu pro zvýraznění */
             color: white;
         }
-
     </style>
 </head>
 <body>
@@ -175,47 +162,51 @@ $orders = $stmt->get_result();
 
     <!-- Content -->
     <div class="content">
-        <h2>Moje objednávky</h2>
-        <table>
-            <tr>
-                <th>Uživatelské jméno</th>
-                <th>Jméno a příjmení</th>
-                <th>Adresa</th>
-                <th>Město</th>
-                <th>PSČ</th>
-                <th>Email</th>
-                <th>Telefon</th>
-                <th>Způsob platby</th>
-                <th>Celková cena</th>
-                <th>Datum objednávky</th>
-                <th>Stav</th>
-                <th>Produkty</th>
-            </tr>
-            <?php while ($order = $orders->fetch_assoc()): ?>
-                <tr onclick="window.location.href='order_detail.php?id=<?= $order['id'] ?>'">
-                    <td><?= htmlspecialchars($order['username']) ?></td>
-                    <td><?= htmlspecialchars($order['name']) ?></td>
-                    <td><?= htmlspecialchars($order['address']) ?></td>
-                    <td><?= htmlspecialchars($order['city']) ?></td>
-                    <td><?= htmlspecialchars($order['zip']) ?></td>
-                    <td><?= htmlspecialchars($order['email']) ?></td>
-                    <td><?= htmlspecialchars($order['phone']) ?></td>
-                    <td><?= htmlspecialchars($order['payment_method']) ?></td>
-                    <td><?= htmlspecialchars($order['total_price']) ?> Kč</td>
-                    <td><?= htmlspecialchars($order['order_date']) ?></td>
-                    <td>
-                        <?php if ($order['shipping_method'] == 'courier'): ?>
-                            Doručeno <span class="status-icon">🚚</span>
-                        <?php elseif ($order['shipping_method'] == 'pickup'): ?>
-                            Vyzvednuto <span class="status-icon">📦</span>
-                        <?php else: ?>
-                            <span>Neznámý stav</span>
-                        <?php endif; ?>
-                    </td>
-                    <td><?= htmlspecialchars($order['products']) ?></td>
-                </tr>
-            <?php endwhile; ?>
-        </table>
+        <h2>Detail objednávky</h2>
+        <div class="order-details">
+            <h2>Objednávka č. <?php echo htmlspecialchars($order['id']); ?></h2>
+
+            <div class="detail-row">
+                <span>Jméno a příjmení: </span><?php echo htmlspecialchars($order['name']); ?>
+            </div>
+            <div class="detail-row">
+                <span>Adresa: </span><?php echo htmlspecialchars($order['address']); ?>
+            </div>
+            <div class="detail-row">
+                <span>Město: </span><?php echo htmlspecialchars($order['city']); ?>
+            </div>
+            <div class="detail-row">
+                <span>PSČ: </span><?php echo htmlspecialchars($order['zip']); ?>
+            </div>
+            <div class="detail-row">
+                <span>Email: </span><?php echo htmlspecialchars($order['email']); ?>
+            </div>
+            <div class="detail-row">
+                <span>Telefon: </span><?php echo htmlspecialchars($order['phone']); ?>
+            </div>
+            <div class="detail-row">
+                <span>Způsob platby: </span><?php echo htmlspecialchars($order['payment_method']); ?>
+            </div>
+            <div class="detail-row">
+                <span>Celková cena: </span><?php echo htmlspecialchars($order['total_price']); ?> Kč
+            </div>
+            <div class="detail-row">
+                <span>Datum objednávky: </span><?php echo htmlspecialchars($order['order_date']); ?>
+            </div>
+            <div class="detail-row">
+                <span>Stav: </span>
+                <?php if ($order['shipping_method'] == 'courier'): ?>
+                    Doručeno 🚚
+                <?php elseif ($order['shipping_method'] == 'pickup'): ?>
+                    Vyzvednuto 📦
+                <?php else: ?>
+                    Neznámý stav
+                <?php endif; ?>
+            </div>
+            <div class="detail-row">
+                <span>Produkty: </span><?php echo htmlspecialchars($order['products']); ?>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -224,7 +215,6 @@ $orders = $stmt->get_result();
     <p>Email: info@store.cz | Telefon: 777 666 555</p>
 </footer>
 
-<!-- JavaScript pro potvrzení smazání účtu -->
 <script>
     function confirmDelete() {
         if (confirm("Opravdu chcete smazat svůj účet? Tuto akci nelze vrátit!")) {

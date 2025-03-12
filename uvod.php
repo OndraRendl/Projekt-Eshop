@@ -38,6 +38,11 @@ session_start(); // Start session, abychom mohli pracovat s proměnnými session
             flex-direction: column;
             padding: 20px;
         }
+        .overlay {
+        padding: 20px;
+        padding-top: 50px;
+        box-sizing: border-box;
+    }
 
         nav {
             position: absolute;
@@ -124,6 +129,43 @@ session_start(); // Start session, abychom mohli pracovat s proměnnými session
             border-radius: 5px;
         }
 
+        .benefits {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .benefit {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 25px;
+            width: 250px;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            color: white;
+            margin: 0 10px;
+        }
+
+        .benefit:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .benefit h3 {
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            color:rgb(255, 255, 255);
+        }
+
+        .benefit p {
+            font-size: 1.1em;
+            color: #ddd;
+        }
+
         footer {
             display: flex;
             flex-direction: column;
@@ -173,7 +215,27 @@ session_start(); // Start session, abychom mohli pracovat s proměnnými session
     <div class="overlay">
         <h1>E-SHOP S PRODUKTY FIRMY APPLE</h1>
         <p>Vítejte na našem e-shopu, kde najdete špičkové produkty od společnosti Apple. Objevte nejnovější modely iPhone, iPad, MacBook a Apple Watch, které kombinují elegantní design s nejmodernějšími technologiemi. Ať už hledáte výkon pro práci, zábavu, nebo stylové příslušenství, u nás si vyberete. Nabízíme také širokou škálu originálního příslušenství a doplňků, které dokonale doplní vaše zařízení Apple. Využijte naše akční nabídky a užijte si rychlé a bezpečné doručení zdarma!</p>
-        <a href="obchod.php" class="button">Obchod</a>
+        <a href="obchod.php" class="button">Obchod</a><br>
+
+        <!-- Čtyři obdélníky důvody proč nakupovat -->
+        <div class="benefits">
+            <div class="benefit">
+                <h3>Rychlé doručení</h3>
+                <p>Objednejte dnes a získejte rychlé a bezpečné doručení zdarma.</p>
+            </div>
+            <div class="benefit">
+                <h3>Široký výběr</h3>
+                <p>Naše nabídka zahrnuje všechny nejnovější modely Apple a příslušenství.</p>
+            </div>
+            <div class="benefit">
+                <h3>Oficiální produkty</h3>
+                <p>U nás nakoupíte pouze originální produkty Apple s plnou zárukou.</p>
+            </div>
+            <div class="benefit">
+                <h3>Skvělé nabídky</h3>
+                <p>Nabízíme dopravu zdarma na adresu nebo vyzvednutí na naší pobočce.</p></p>
+            </div>
+        </div>
     </div>
 </div>
 

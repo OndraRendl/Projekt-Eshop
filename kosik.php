@@ -395,7 +395,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'], $_POST[
                     <a href="checkout.php" class="order-button">Objednat</a>
                 </div>
             <?php else: ?>
-                <p>Košík je zatím prázdný.</p>
+                <p>Váš košík je prázdný.</p>
+                <p>Vyto ale můžete změnit. Vyberte si z naší nabídky.</p><br>
                 <a href="obchod.php" class="order-button continue-shopping">Pokračovat v nákupu</a>
             <?php endif; ?>
         </div>

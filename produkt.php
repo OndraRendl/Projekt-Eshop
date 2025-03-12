@@ -170,12 +170,12 @@ if (isset($_POST['add_to_cart'])) {
             height: auto;
             border-radius: 10px;
             margin-bottom: 20px;
-            max-height: 200px;
+            max-height: 500px;
             object-fit: contain;
         }
 
         .product-info {
-            width: 300px;
+            width: 500px;
             text-align: left;
         }
 
@@ -261,6 +261,7 @@ if (isset($_POST['add_to_cart'])) {
             color: #ccc;
             margin-bottom: 10px;
         }
+        
 
     </style>
 </head>
@@ -314,6 +315,79 @@ if (isset($_POST['add_to_cart'])) {
                             ?>
                         </p>
 
+                       
+                <!-- Informace o doručení -->
+                    <div class="delivery-info">
+                        <div class="delivery-options">
+                            <div class="option">
+                                <!-- Emoji pro prodejnu -->
+                                <span style="font-size: 24px;">🏬</span>
+                                <span>Prodejna:</span>
+                                <?php 
+                                    $current_hour = (int)date('H');
+                                    $current_day = date('l');
+                                    $current_date = date('d.m.Y');
+                                    $next_day = date('d.m.Y', strtotime('+1 day'));
+                                    $next_two_days = date('d.m.Y', strtotime('+2 days'));
+
+                                    // Prodejna - Pondělí až Pátek
+                                    if ($current_day == "Monday" || $current_day == "Tuesday" || $current_day == "Wednesday" || $current_day == "Thursday" || $current_day == "Friday") {
+                                        if ($current_hour < 16) {
+                                            echo "<span> Ihned k vyzvednutí do 16:00</span>";
+                                        } else {
+                                            echo "<span> Zítra k vyzvednutí " . $next_day . "</span>";
+                                        }
+                                    }
+                                    // Prodejna - Sobota (do 13:00 -> ihned, po 13:00 -> v pondělí)
+                                    elseif ($current_day == "Saturday") {
+                                        if ($current_hour < 13) {
+                                            echo "<span> Ihned k vyzvednutí</span>";
+                                        } else {
+                                            echo "<span> V pondělí k vyzvednutí " . date('d.m.Y', strtotime('+2 days')) . "</span>";
+                                        }
+                                    }
+                                    // Prodejna - Neděle
+                                    elseif ($current_day == "Sunday") {
+                                        echo "<span> Zítra k vyzvednutí " . date('d.m.Y', strtotime('+1 day')) . "</span>";
+                                    }
+                                ?>
+                            </div>
+                            <div class="option">
+                                <!-- Emoji pro doručení domů -->
+                                <span style="font-size: 24px;">🚚</span>
+                                <span>Doručení k Vám domů:</span>
+                                <?php 
+                                    // Doručení domů - Pondělí až Čtvrtek
+                                    if ($current_day == "Monday" || $current_day == "Tuesday" || $current_day == "Wednesday" || $current_day == "Thursday") {
+                                        if ($current_hour < 15) {
+                                            echo "<span> Zítra " . $next_day . "</span>";
+                                        } else {
+                                            echo "<span> Pozítří " . $next_two_days . "</span>";
+                                        }
+                                    }
+                                    // Doručení domů - Pátek
+                                    elseif ($current_day == "Friday") {
+                                        if ($current_hour < 15) {
+                                            echo "<span> Zítra " . $next_day . "</span>";
+                                        } else {
+                                            echo "<span> Úterý " . date('d.m.Y', strtotime('next Tuesday')) . "</span>";
+                                        }
+                                    }
+                                    // Doručení domů - Sobota a Neděle
+                                    elseif ($current_day == "Saturday" || $current_day == "Sunday") {
+                                        echo "<span> Úterý " . date('d.m.Y', strtotime('next Tuesday')) . "</span>";
+                                    }
+                                    // Doručení domů - Pondělí
+                                    elseif ($current_day == "Monday") {
+                                        if ($current_hour < 15) {
+                                            echo "<span> Zítra " . $next_day . "</span>";
+                                        } else {
+                                            echo "<span> Pozítří " . $next_two_days . "</span>";
+                                        }
+                                    }
+                                ?>
+                            </div>
+                        </div><br>
                         <div class="price">
                             Cena: <?php echo number_format($product['cena'], 0, ',', ' ') . ' Kč'; ?>
                         </div>
@@ -330,6 +404,8 @@ if (isset($_POST['add_to_cart'])) {
                             <input type="number" id="quantity" name="quantity" value="1" min="1" max="<?php echo $product['skladem']; ?>" required>
                             <button type="submit" name="add_to_cart" class="button">Přidat do košíku</button>
                         </form>
+                    </div>
+            </div>
                     <?php else: ?>
                         <p><strong style="color: red;" >Vyprodáno</strong></p>
                     <?php endif; ?>
