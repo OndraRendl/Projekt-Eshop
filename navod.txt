@@ -1,7 +1,7 @@
 Návod na spuštění eshopu
 
 Možnost A: ve školní databázi už jsou vytvořené databáze na student 1
-stačí změnit adresu databáze v kodu db_connection.php, delete_product.php a order_summary.php zmena adresy databaze na radku 33 - 35, 37 a 42
+stačí změnit adresu databáze v kodu db_connection.php, delete_product.php a order_summary.php zmena adresy databaze na radku 33 - 35, 37 a 42 a ještě v souboru app.py
 
 
 Možnost B: Databáze a spuštění přes XAMP 
