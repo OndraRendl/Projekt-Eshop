@@ -1,5 +1,12 @@
 Návod na spuštění eshopu
+
+Možnost A: ve školní databázi už jsou vytvořené databáze na student 1
+stačí změnit adresu databáze v kodu db_connection.php, delete_product.php a rder_summary.php zmena adresy databaze na radku 33 - 35, 37 a 42
+
+
+Možnost B: Databáze a spuštění přes XAMP 
 -- Zapnutí XAMPPu: Apache, MySQL, FileZilla -> start --
+
 1) Vytvoření databáze
 Databáze SQL, vytváření v phpMyAdmin, v phpMyAdmin vytvořit složku eshop kde se budou vytvářet jednotlivé databáze
 
@@ -111,7 +118,7 @@ Webová stránka propojená s databází a aplikace funguje
 -    Košík - možnost upravovat ks (nelze mít v košíku více ks něž je na skladě), možnost odebrání produktu, objednat
 -    -> Objednat - nepřihlášení uživatele mají všechna pole prázdná, možnost vyprání dopravy a způsobu platby, přihlášení uživatel mají vyplněné pole Jméno a Přijmení a Email (pokud by uživatele chtěli si změnit jméno a přijmení, jde to v záložce můj účet), potvrdit objednávku
 -    -> Sourhn objednávky - souhrn objednávky, tlačítko objednat -> poděkování za objednání a vrácení na úvodní stránku
--    Pokud se přihláším jako admin, tak mě to hned přesměruje na stránku pro admina Správa produktů, kde admin může mazat produkty s eshopu (smažou se i z databáze)
+-    Pokud se přihlásím jako admin, tak mě to hned přesměruje na stránku pro admina Správa produktů, kde admin může mazat produkty s eshopu (smažou se i z databáze)
 -    V části, kde si můžeme měnit své osobní udaje a nebo můžeme vidět své objednávky je i tlačítko na odstranit účet (pokud by jsme na to omylem kliknuli, objeví se hláška) a nmůžeme odstranit účet
 - APLIKACE -
 -    Po přihlášení jako admin admin co se objeví apliakce
