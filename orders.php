@@ -27,7 +27,7 @@ $orders = $stmt->get_result();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moje objednávky</title>
+    <title>E-shop - Moje objednávky</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <style>
         body {
@@ -178,14 +178,12 @@ $orders = $stmt->get_result();
         <h2>Moje objednávky</h2>
         <table>
             <tr>
-                <th>Uživatelské jméno</th>
                 <th>Jméno a příjmení</th>
                 <th>Adresa</th>
                 <th>Město</th>
                 <th>PSČ</th>
                 <th>Email</th>
                 <th>Telefon</th>
-                <th>Způsob platby</th>
                 <th>Celková cena</th>
                 <th>Datum objednávky</th>
                 <th>Stav</th>
@@ -193,14 +191,12 @@ $orders = $stmt->get_result();
             </tr>
             <?php while ($order = $orders->fetch_assoc()): ?>
                 <tr onclick="window.location.href='order_detail.php?id=<?= $order['id'] ?>'">
-                    <td><?= htmlspecialchars($order['username']) ?></td>
                     <td><?= htmlspecialchars($order['name']) ?></td>
                     <td><?= htmlspecialchars($order['address']) ?></td>
                     <td><?= htmlspecialchars($order['city']) ?></td>
                     <td><?= htmlspecialchars($order['zip']) ?></td>
                     <td><?= htmlspecialchars($order['email']) ?></td>
                     <td><?= htmlspecialchars($order['phone']) ?></td>
-                    <td><?= htmlspecialchars($order['payment_method']) ?></td>
                     <td><?= htmlspecialchars($order['total_price']) ?> Kč</td>
                     <td><?= htmlspecialchars($order['order_date']) ?></td>
                     <td>

@@ -333,14 +333,14 @@ if (isset($_POST['add_to_cart'])) {
                                     // Prodejna - Pondělí až Pátek
                                     if ($current_day == "Monday" || $current_day == "Tuesday" || $current_day == "Wednesday" || $current_day == "Thursday" || $current_day == "Friday") {
                                         if ($current_hour < 16) {
-                                            echo "<span> Ihned k vyzvednutí do 16:00</span>";
+                                            echo "<span> Ihned k vyzvednutí</span>";
                                         } else {
                                             echo "<span> Zítra k vyzvednutí " . $next_day . "</span>";
                                         }
                                     }
-                                    // Prodejna - Sobota (do 13:00 -> ihned, po 13:00 -> v pondělí)
+                                    // Prodejna - Sobota (do 14:00 -> ihned, po 14:00 -> v pondělí)
                                     elseif ($current_day == "Saturday") {
-                                        if ($current_hour < 13) {
+                                        if ($current_hour < 14) {
                                             echo "<span> Ihned k vyzvednutí</span>";
                                         } else {
                                             echo "<span> V pondělí k vyzvednutí " . date('d.m.Y', strtotime('+2 days')) . "</span>";
@@ -368,7 +368,7 @@ if (isset($_POST['add_to_cart'])) {
                                     // Doručení domů - Pátek
                                     elseif ($current_day == "Friday") {
                                         if ($current_hour < 15) {
-                                            echo "<span> Zítra " . $next_day . "</span>";
+                                            echo "<span> Pondělí " . date('d.m.Y', strtotime('next Monday')) . "</span>";
                                         } else {
                                             echo "<span> Úterý " . date('d.m.Y', strtotime('next Tuesday')) . "</span>";
                                         }

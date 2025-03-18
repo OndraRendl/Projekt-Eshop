@@ -387,7 +387,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'], $_POST[
                 </div>
 
                 <div class="cart-summary">
-                    <p>Včetně DPH: <?php echo number_format($totalPrice, 2, ',', ' ') . " Kč"; ?></p>
                     <p>Bez DPH: <?php echo number_format($totalWithoutVAT, 2, ',', ' ') . " Kč"; ?></p>
                     <p>DPH 21 %: <?php echo number_format($totalVAT, 2, ',', ' ') . " Kč"; ?></p>
                     <p><strong>CELKEM: <?php echo number_format($totalPrice, 2, ',', ' ') . " Kč"; ?></strong></p><br>
