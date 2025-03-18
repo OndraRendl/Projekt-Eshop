@@ -6,18 +6,18 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 # Připojení k databázi pro produkty
 connection = pymysql.connect(
-    host='localhost',
-    user='root',  # Zadej své uživatelské jméno
-    password='',  # Zadej své heslo
-    database='eshop'
+    host='dbs.spskladno.cz',
+    user='student1',  # Zadej své uživatelské jméno
+    password='spsnet',  # Zadej své heslo
+    database='vyuka1'
 )
 
 # Připojení k databázi pro produkty
 order_connection = pymysql.connect(
-    host='localhost',
-    user='root',  # Zadej své uživatelské jméno
-    password='',  # Zadej své heslo
-    database='eshop'  # Databáze pro historii objednávek
+    host='dbs.spskladno.cz',
+    user='student1',  # Zadej své uživatelské jméno
+    password='spsnet',  # Zadej své heslo
+    database='vyuka1'  # Databáze pro historii objednávek
 )
 
 def fetch_products():
