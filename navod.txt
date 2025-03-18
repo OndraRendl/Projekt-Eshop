@@ -1,7 +1,7 @@
 Návod na spuštění eshopu
 
 Možnost A: ve školní databázi už jsou vytvořené databáze na student 1
-ve složce škola je cely kod nastavený na vytvořenou databázi na student 1
+ve složce škola je cely kod nastavený na vytvořenou databázi na student 1, stačí stáhnout
 
 
 Možnost B: Databáze a spuštění přes XAMP 
